@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import LandingNavbar from "@/components/LandingNavbar";
 import HowToPlayModal from "@/components/HowToPlayModal";
 import Footer from "@/components/Footer";
@@ -10,15 +9,11 @@ import {
   Compass,
   ArrowRight,
   Globe,
-  Eye,
   MapPin,
-  Sparkles,
-  Shield,
-  Layers,
   Crosshair,
-  Navigation,
+  Sparkles,
+  ShieldCheck,
   CheckCircle2,
-  Terminal,
 } from "lucide-react";
 
 export default function LandingPage() {
@@ -33,13 +28,13 @@ export default function LandingPage() {
       flag: "🇯🇵",
       coords: "35.0163° N, 135.6713° E",
       image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1600&q=80",
-      clue: "Left-hand traffic • Kanji & Kana markers",
+      clue: "Left-hand traffic • Japanese flora & signage",
     },
     {
       title: "Southern Alps Glacial Pass",
       country: "New Zealand",
       flag: "🇳🇿",
-      coords: "45.0312° S, 168.6626° E",
+      coords: "44.9858° S, 168.8524° E",
       image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1600&q=80",
       clue: "Sun in the north • Alpine tussock grassland",
     },
@@ -49,7 +44,7 @@ export default function LandingPage() {
       flag: "🇮🇸",
       coords: "63.4186° N, 19.0060° W",
       image: "https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&w=1600&q=80",
-      clue: "Treeless volcanic tundra • Yellow bollards",
+      clue: "Treeless volcanic tundra • Distinctive road markers",
     },
   ];
 
@@ -62,14 +57,6 @@ export default function LandingPage() {
         {/* Hero Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-8 pt-16 sm:pt-24 pb-16 sm:pb-20">
           <div className="flex flex-col items-start max-w-4xl space-y-6">
-            {/* Status Chip */}
-            {/* <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-signal-lime/25 border border-signal-lime/60 text-xs font-mono text-carbon">
-              <span className="w-2 h-2 rounded-full bg-signal-lime inline-block animate-pulse" />
-              <span className="uppercase tracking-wider font-semibold">Geo Reconnaissance MVP</span>
-              <span className="text-terrain/60">•</span>
-              <span className="font-playwrite lowercase text-sm">guess the country</span>
-            </div> */}
-
             {/* Main Headline */}
             <h1 className="text-5xl sm:text-7xl lg:text-8xl font-thin tracking-tight leading-[1.02] text-carbon">
               Drop into the unknown. <br />
@@ -80,7 +67,7 @@ export default function LandingPage() {
 
             {/* Subtitle */}
             <p className="text-lg sm:text-xl text-carbon/80 max-w-2xl font-light leading-relaxed pt-2">
-              An artisanal, minimalist <strong className="font-medium text-carbon">GeoGuessr alternative</strong> designed for pure cartographic instinct. Survey 360° panoramas, calculate solar azimuth, inspect linguistic scripts, and lock your target.
+              An artisanal, minimalist <strong className="font-medium text-carbon font-space">GeoGuessr alternative</strong> designed for pure cartographic instinct. Survey real Google Street View panoramas, calculate solar azimuth, inspect landscape biomes, and lock your target.
             </p>
 
             {/* Dual CTAs */}
@@ -98,11 +85,11 @@ export default function LandingPage() {
                 className="cursor-pointer border border-terrain/40 hover:border-carbon text-carbon font-normal text-base px-7 py-4 rounded-full hover:bg-black/5 transition-all flex items-center gap-2"
               >
                 <Compass className="w-4 h-4 text-terrain" />
-                <span>Field Manual &amp; Rules</span>
+                <span>Expedition Rules</span>
               </button>
 
               <span className="text-xs font-mono text-terrain pl-2 hidden sm:inline">
-                Strict Light Mode • Zero Generic AI
+                Strict Light Mode • Real Google Street View
               </span>
             </div>
 
@@ -110,7 +97,7 @@ export default function LandingPage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 w-full pt-8 border-t border-terrain/25">
               <div className="p-4 rounded-2xl bg-white/40 border border-terrain/20">
                 <span className="text-[11px] font-mono text-terrain uppercase block">Territories</span>
-                <span className="text-2xl font-light font-mono text-carbon">5 / Game</span>
+                <span className="text-2xl font-light font-mono text-carbon">10 / Game</span>
               </div>
               <div className="p-4 rounded-2xl bg-white/40 border border-terrain/20">
                 <span className="text-[11px] font-mono text-terrain uppercase block">View Angle</span>
@@ -118,11 +105,11 @@ export default function LandingPage() {
               </div>
               <div className="p-4 rounded-2xl bg-white/40 border border-terrain/20">
                 <span className="text-[11px] font-mono text-terrain uppercase block">Target Ceiling</span>
-                <span className="text-2xl font-light font-mono text-carbon">25,000 Pts</span>
+                <span className="text-2xl font-light font-mono text-carbon">10 Points Max</span>
               </div>
               <div className="p-4 rounded-2xl bg-white/40 border border-terrain/20">
-                <span className="text-[11px] font-mono text-terrain uppercase block">Clue Protocol</span>
-                <span className="text-2xl font-light font-mono text-carbon">3 Tiers</span>
+                <span className="text-[11px] font-mono text-terrain uppercase block">Scoring Rule</span>
+                <span className="text-2xl font-light font-mono text-carbon">1 Pt / Match</span>
               </div>
             </div>
           </div>
@@ -136,7 +123,7 @@ export default function LandingPage() {
                 <span className="text-xs font-mono uppercase tracking-widest text-terrain">
                   Interactive Observation Viewport
                 </span>
-                <h2 className="text-2xl sm:text-3xl font-light tracking-tight text-carbon mt-0.5">
+                <h2 className="text-2xl sm:text-3xl font-space font-medium tracking-tight text-carbon mt-0.5">
                   Reconnaissance in Pure Paper &amp; Carbon Clarity
                 </h2>
               </div>
@@ -210,7 +197,7 @@ export default function LandingPage() {
             <span className="text-xs font-mono uppercase tracking-widest text-terrain">
               Tactical Workflow
             </span>
-            <h2 className="text-3xl sm:text-5xl font-light tracking-tight text-carbon mt-1">
+            <h2 className="text-3xl sm:text-5xl font-space font-medium tracking-tight text-carbon mt-1">
               Engineered for Geographical Instinct
             </h2>
           </div>
@@ -220,12 +207,12 @@ export default function LandingPage() {
               <div className="w-10 h-10 rounded-2xl bg-signal-lime/30 border border-signal-lime/60 flex items-center justify-center font-mono font-semibold text-carbon">
                 01
               </div>
-              <h3 className="text-2xl font-light text-carbon">Spherical Recon</h3>
+              <h3 className="text-2xl font-space font-medium text-carbon">Real Street View</h3>
               <p className="text-sm text-carbon/80 leading-relaxed font-normal">
-                Inspect 360° panoramas. Observe sun angles for hemispheric bearing, vegetation biomes, asphalt color, utility pole transformers, and license plate styles.
+                Inspect 360° spherical panoramas powered by Google Maps JavaScript API. Observe solar azimuth, road line markings, utility poles, and flora.
               </p>
               <div className="pt-2 text-xs font-mono text-terrain">
-                Bearing HUD • North Compass • Optical Zoom
+                Interactive Pan &amp; Tilt • North Reset • Fullscreen
               </div>
             </div>
 
@@ -233,12 +220,12 @@ export default function LandingPage() {
               <div className="w-10 h-10 rounded-2xl bg-mist/35 border border-mist/70 flex items-center justify-center font-mono font-semibold text-carbon">
                 02
               </div>
-              <h3 className="text-2xl font-light text-carbon">Field Intelligence</h3>
+              <h3 className="text-2xl font-space font-medium text-carbon">Searchable Guesser</h3>
               <p className="text-sm text-carbon/80 leading-relaxed font-normal">
-                Fog of terrain too dense? Access 3 tactical intel tiers: free hemisphere/climate, driving side verification (-250 pts), or native linguistic scripts (-500 pts).
+                Quickly search by country name, ISO code, or continent. Keyboard-friendly navigation with arrow keys and instant selection confirmation.
               </p>
               <div className="pt-2 text-xs font-mono text-terrain">
-                Tactical Clues • Script Hint in Playwrite
+                Fuzzy Search • Keyboard Accessible • Dropdown Popover
               </div>
             </div>
 
@@ -246,54 +233,54 @@ export default function LandingPage() {
               <div className="w-10 h-10 rounded-2xl bg-carbon text-paper flex items-center justify-center font-mono font-semibold">
                 03
               </div>
-              <h3 className="text-2xl font-light text-carbon">Target Lockdown</h3>
+              <h3 className="text-2xl font-space font-medium text-carbon">Expedition Audit</h3>
               <p className="text-sm text-carbon/80 leading-relaxed font-normal">
-                Filter by continent or quick-search from hundreds of world sovereign territories. Lock in your deduction and score up to 5,000 points with streak multipliers.
+                Answers are validated securely on the server and revealed round by round. Complete 10 rounds to unlock your full territory audit report.
               </p>
               <div className="pt-2 text-xs font-mono text-terrain">
-                Fuzzy Filter • Continental Categorization
+                Server-side Validation • 10-Round Debrief • Firestore Sync
               </div>
             </div>
           </div>
         </section>
 
-        {/* Tactical Intel Showcase */}
+        {/* Global Coverage & Security Section */}
         <section id="intel" className="max-w-7xl mx-auto px-4 sm:px-8 py-12">
           <div className="border border-carbon rounded-3xl p-8 sm:p-12 bg-carbon text-paper space-y-8">
             <div className="max-w-2xl space-y-3">
               <span className="text-xs font-mono uppercase tracking-widest text-signal-lime">
-                Field Intel System
+                Verified Global Coordinates
               </span>
-              <h2 className="text-3xl sm:text-4xl font-light tracking-tight text-paper">
-                Progressive clues when the horizon is unkn.
+              <h2 className="text-3xl sm:text-4xl font-space font-medium tracking-tight text-paper">
+                Authentic Street View. Zero Spoilers.
               </h2>
               <p className="text-sm text-terrain font-light leading-relaxed">
-                We believe in fair, high-stakes exploration. Clues are available, but they require tactical decision making against your round score.
+                Every round selects from verified Street View locations across all continents. The server keeps target country answers strictly hidden until you submit your deduction.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
               <div className="p-5 rounded-2xl bg-white/5 border border-terrain/30 space-y-2">
-                <span className="text-signal-lime text-[10px] block">TIER 1 • FREE</span>
-                <h4 className="text-base text-paper font-sans font-medium">Hemisphere &amp; Climate</h4>
+                <span className="text-signal-lime text-[10px] block">SECURITY FIRST</span>
+                <h4 className="text-base text-paper font-space font-medium">Server-Side Validation</h4>
                 <p className="text-terrain text-[11px] leading-relaxed">
-                  Reveals North vs South hemisphere and predominant Köppen climate classification.
+                  Answers and country coordinates are never broadcast to the browser beforehand. Inspecting client memory reveals nothing.
                 </p>
               </div>
 
               <div className="p-5 rounded-2xl bg-white/5 border border-terrain/30 space-y-2">
-                <span className="text-terrain text-[10px] block">TIER 2 • -250 PTS</span>
-                <h4 className="text-base text-paper font-sans font-medium">Driving Side &amp; Flow</h4>
+                <span className="text-terrain text-[10px] block">TEN ROUNDS</span>
+                <h4 className="text-base text-paper font-space font-medium">Discrete Scoring</h4>
                 <p className="text-terrain text-[11px] leading-relaxed">
-                  Confirms Left-Hand Drive vs Right-Hand Drive traffic infrastructure.
+                  Earn 1 point for every sovereign nation correctly identified. Maximum expedition score is 10 points.
                 </p>
               </div>
 
               <div className="p-5 rounded-2xl bg-white/5 border border-terrain/30 space-y-2">
-                <span className="text-mist text-[10px] block">TIER 3 • -500 PTS</span>
-                <h4 className="text-base text-paper font-sans font-medium">Native Language Script</h4>
+                <span className="text-mist text-[10px] block">CLOUD PERSISTENCE</span>
+                <h4 className="text-base text-paper font-space font-medium">Firebase Integration</h4>
                 <p className="text-terrain text-[11px] leading-relaxed">
-                  Handwritten script sample rendered in Playwrite Deutschland Grundschrift.
+                  Play as a guest or sign in with Google or Email to archive your full ten-round history to Cloud Firestore.
                 </p>
               </div>
             </div>
@@ -306,7 +293,7 @@ export default function LandingPage() {
             <span className="text-xs font-mono uppercase tracking-widest text-terrain">
               Architecture &amp; Theme Tokens
             </span>
-            <h2 className="text-3xl font-light text-carbon mt-1">
+            <h2 className="text-3xl font-space font-medium text-carbon mt-1">
               Built on Pure Brand Tokens in Light Mode
             </h2>
           </div>
@@ -347,11 +334,11 @@ export default function LandingPage() {
         {/* Final CTA Banner */}
         <section className="max-w-7xl mx-auto px-4 sm:px-8 py-16">
           <div className="border border-terrain/35 rounded-3xl p-8 sm:p-14 bg-signal-lime/20 text-center space-y-6">
-            <h2 className="text-4xl sm:text-6xl font-thin tracking-tight text-carbon">
+            <h2 className="text-4xl sm:text-6xl font-space font-light tracking-tight text-carbon">
               Ready to test your instincts?
             </h2>
             <p className="font-playwrite text-2xl sm:text-3xl text-terrain max-w-xl mx-auto">
-              survey five unkn territories now.
+              survey ten unkn territories now.
             </p>
             <div className="pt-2">
               <Link
@@ -374,7 +361,7 @@ export default function LandingPage() {
       <Footer
         soundEnabled={soundEnabled}
         onToggleSound={() => setSoundEnabled((prev) => !prev)}
-        onOpenHowToPlay={() => setIsHowToPlayOpen(true)}
+        onOpenHowToPlay={() => {}}
       />
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { X, Compass, Globe, Sparkles, CheckCircle2 } from "lucide-react";
+import { X, Compass, Globe, Award, CheckCircle2 } from "lucide-react";
 
 interface HowToPlayModalProps {
   isOpen: boolean;
@@ -19,8 +19,8 @@ export default function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps)
               <Compass className="w-5 h-5 text-carbon" />
             </div>
             <div>
-              <h3 className="text-xl font-medium tracking-tight">How to Play unkn</h3>
-              <p className="text-xs text-terrain">Cartographic intelligence field guide</p>
+              <h3 className="text-xl font-space font-medium tracking-tight">How to Play UNKN</h3>
+              <p className="text-xs text-terrain">Field Reconnaissance Expedition Manual</p>
             </div>
           </div>
 
@@ -38,9 +38,9 @@ export default function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps)
               1
             </div>
             <div>
-              <h4 className="font-semibold text-carbon">Analyze the 360° Panorama</h4>
+              <h4 className="font-semibold text-carbon font-space">Inspect the 360° Street View</h4>
               <p className="text-xs text-terrain mt-0.5 leading-relaxed">
-                Pan, tilt, and zoom around the viewport. Check the position of the sun, road surface markings, driving side, architecture, and vegetation biomes.
+                Pan, tilt, and zoom around the viewport. Observe solar azimuth, road surface markings, vehicle driving side (LHD vs RHD), landscape biomes, and architectural vernacular.
               </p>
             </div>
           </div>
@@ -50,9 +50,9 @@ export default function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps)
               2
             </div>
             <div>
-              <h4 className="font-semibold text-carbon">Inspect Field Intel</h4>
+              <h4 className="font-semibold text-carbon font-space">Deduce Sovereign Country</h4>
               <p className="text-xs text-terrain mt-0.5 leading-relaxed">
-                Stuck? Open the Intel drawer. Review free atmospheric hemisphere data, or spend score points to reveal vehicle driving side and native linguistic scripts.
+                Use the searchable country selector dropdown. Filter by name or code and select the country you believe you are in.
               </p>
             </div>
           </div>
@@ -62,9 +62,9 @@ export default function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps)
               3
             </div>
             <div>
-              <h4 className="font-semibold text-carbon">Guess the Country</h4>
+              <h4 className="font-semibold text-carbon font-space">10 Rounds &amp; Scoring</h4>
               <p className="text-xs text-terrain mt-0.5 leading-relaxed">
-                Filter by continent or search by name. Click &quot;Confirm Guess&quot; to lock in your calculation. A perfect match earns up to 5,000 points!
+                Each expedition consists of exactly 10 rounds. You earn 1 point for a correct answer and 0 points for a miss. The maximum score is 10. Complete all ten rounds to receive your expedition audit report.
               </p>
             </div>
           </div>
@@ -73,9 +73,9 @@ export default function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps)
         <div className="p-4 border-t border-terrain/25 bg-paper flex justify-end">
           <button
             onClick={onClose}
-            className="cursor-pointer px-6 py-2.5 rounded-xl bg-signal-lime text-carbon font-semibold text-xs hover:brightness-105 transition-all shadow-xs"
+            className="cursor-pointer px-6 py-2.5 rounded-xl bg-signal-lime text-carbon font-semibold text-xs font-mono uppercase tracking-wider hover:brightness-105 transition-all shadow-xs"
           >
-            Ready to Explore
+            Ready for Recon
           </button>
         </div>
       </div>
