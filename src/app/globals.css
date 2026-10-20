@@ -1,0 +1,151 @@
+@import url("https://fonts.googleapis.com/css2?family=Playwrite+DE+Grund:wght@100..400&display=swap");
+@import "tailwindcss";
+
+:root {
+  /* Core Brand Palette Tokens */
+  --carbon: #171815;
+  --paper: #f0efe6;
+  --signal-lime: #d7f36a;
+  --terrain: #858779;
+  --mist: #b7a7d9;
+
+  /* Global Semantic Theme Variables (Forced Light Mode) */
+  --background: var(--paper);
+  --foreground: var(--carbon);
+  --surface: var(--paper);
+  --surface-contrast: var(--carbon);
+
+  --primary: var(--signal-lime);
+  --primary-foreground: var(--carbon);
+
+  --secondary: var(--terrain);
+  --secondary-foreground: var(--paper);
+
+  --accent: var(--mist);
+  --accent-foreground: var(--carbon);
+
+  --border: var(--terrain);
+  --muted: var(--terrain);
+
+  /* Typography Variables */
+  --font-geist: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-playwrite: "Playwrite DE Grund", cursive;
+}
+
+@theme {
+  /* Brand Palette Color Tokens */
+  --color-carbon: #171815;
+  --color-paper: #f0efe6;
+  --color-signal-lime: #d7f36a;
+  --color-terrain: #858779;
+  --color-mist: #b7a7d9;
+
+  /* Semantic Theme Colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-contrast: var(--surface-contrast);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+
+  /* Font Families */
+  --font-geist: var(--font-geist);
+  --font-playwrite: var(--font-playwrite);
+}
+
+/* Light mode lock */
+html {
+  color-scheme: light;
+  background-color: var(--paper);
+  color: var(--carbon);
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--carbon);
+  font-family: var(--font-geist);
+  font-weight: 380;
+  line-height: 1.5;
+  letter-spacing: -0.012em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Specific Font Utility Classes */
+.font-geist-thin {
+  font-family: var(--font-geist);
+  font-weight: 100;
+}
+
+.font-geist-light {
+  font-family: var(--font-geist);
+  font-weight: 300;
+}
+
+.font-geist-normal {
+  font-family: var(--font-geist);
+  font-weight: 400;
+}
+
+.font-geist-medium {
+  font-family: var(--font-geist);
+  font-weight: 500;
+}
+
+.font-geist-semibold {
+  font-family: var(--font-geist);
+  font-weight: 600;
+}
+
+.font-playwrite {
+  font-family: var(--font-playwrite);
+}
+
+/* Custom Selection Highlight */
+::selection {
+  background-color: var(--signal-lime);
+  color: var(--carbon);
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--terrain);
+  border-radius: 9999px;
+  opacity: 0.5;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--carbon);
+}
+
+/* Radar scan animation for compass / street view HUD */
+@keyframes radar-pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.animate-radar {
+  animation: radar-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
