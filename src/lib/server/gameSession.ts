@@ -37,7 +37,6 @@ export interface ClientRoundPayload {
 
 // Cache for game sessions attached to globalThis to survive Next.js Fast Refresh & dev server recompilations
 declare global {
-  // eslint-disable-next-line no-var
   var __unkn_game_sessions: Map<string, GameSession> | undefined;
 }
 

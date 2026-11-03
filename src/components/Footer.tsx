@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
-import { Terminal, Globe, Compass, Radio, Volume2, VolumeX, Shield, Code2 } from "lucide-react";
+import { Terminal, Radio, Volume2, VolumeX, ArrowLeft } from "lucide-react";
 
 interface FooterProps {
   soundEnabled: boolean;
@@ -90,7 +91,11 @@ export default function Footer({
             </div>
 
             <p className="text-sm font-light text-carbon/80 max-w-md leading-relaxed">
-              A minimalist GeoGuessr alternative built for pure geographical instinct. No clutter, no dark patterns — just high-resolution street reconnaissance, topography, and editorial clarity.
+              A minimalist GeoGuessr alternative built for pure geographical instinct. Created by{" "}
+              <Link href="/" className="underline text-carbon font-medium hover:text-black">
+                Vicky Raja / Xweet Studio
+              </Link>
+              . No clutter, no dark patterns — just high-resolution street reconnaissance and editorial clarity.
             </p>
 
             <div className="pt-2">
@@ -136,7 +141,7 @@ export default function Footer({
           <div className="lg:col-span-4 border-y lg:border-y-0 lg:border-x border-terrain/25 py-8 lg:py-0 lg:px-8 space-y-4">
             <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-carbon">
               <Terminal className="w-4 h-4 text-terrain" />
-              <span>Tactical Keybindings</span>
+              <span>Keyboard Shortcuts</span>
             </div>
 
             <div className="space-y-2.5 text-xs font-mono">
@@ -151,13 +156,6 @@ export default function Footer({
                 <span className="text-terrain">Reset Camera to North</span>
                 <kbd className="px-2 py-1 rounded bg-paper border border-terrain/40 text-carbon shadow-2xs text-[11px]">
                   R
-                </kbd>
-              </div>
-
-              <div className="flex items-center justify-between p-2 rounded-xl bg-white/40 border border-terrain/20">
-                <span className="text-terrain">Toggle Field Intelligence</span>
-                <kbd className="px-2 py-1 rounded bg-paper border border-terrain/40 text-carbon shadow-2xs text-[11px]">
-                  I
                 </kbd>
               </div>
 
@@ -183,7 +181,7 @@ export default function Footer({
             </div>
 
             <p className="text-[11px] text-terrain font-light pt-2">
-              Pro-tip: Inspect sunlight angle and road bollard colors to deduce latitude in seconds.
+              Pro-tip: Observe sun direction and road bollard colors to deduce country and hemisphere quickly.
             </p>
           </div>
 
@@ -192,7 +190,7 @@ export default function Footer({
             <div>
               <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-carbon mb-3">
                 <Radio className="w-4 h-4 text-terrain" />
-                <span>Recon Specs</span>
+                <span>Specs &amp; Links</span>
               </div>
 
               <ul className="space-y-2 text-xs font-mono text-terrain">
@@ -212,20 +210,24 @@ export default function Footer({
                   <span>Mode:</span>
                   <span className="text-carbon font-semibold">Strict Light Mode</span>
                 </li>
-                <li className="flex justify-between border-b border-terrain/15 pb-1">
-                  <span>Typography:</span>
-                  <span className="text-carbon">Geist + Playwrite</span>
-                </li>
               </ul>
             </div>
 
-            <div className="pt-4">
+            <div className="pt-4 space-y-2">
               <button
                 onClick={onOpenHowToPlay}
                 className="cursor-pointer w-full py-2.5 px-4 rounded-xl border border-terrain/40 hover:border-carbon text-xs font-medium text-carbon hover:bg-white/50 transition-all text-center block"
               >
-                Read Field Manual →
+                How to Play →
               </button>
+
+              <Link
+                href="/"
+                className="w-full py-2.5 px-4 rounded-xl bg-carbon text-paper hover:bg-carbon/90 text-xs font-medium transition-all text-center flex items-center justify-center gap-1.5"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>Return to Studio Portfolio</span>
+              </Link>
             </div>
           </div>
         </div>
@@ -235,11 +237,11 @@ export default function Footer({
           <div className="flex items-center gap-3">
             <span className="font-playwrite text-base text-carbon">unkn</span>
             <span>•</span>
-            <span>© 2026 unkn reconnaissance studio</span>
+            <span>© 2026 Xweet Studio • Vicky Raja</span>
           </div>
 
           <div className="flex items-center gap-6">
-            <span className="text-[11px] text-terrain">GEO-01 // MVP RELEASE</span>
+            <span className="text-[11px] text-terrain">GEO-01 // PRODUCTION</span>
             <span className="w-1.5 h-1.5 rounded-full bg-signal-lime" />
             <span className="text-[11px] text-carbon">PAPER #F0EFE6 &amp; CARBON #171815</span>
           </div>

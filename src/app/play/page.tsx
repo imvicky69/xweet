@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import Link from "next/link";
 import GameHeader from "@/components/play/GameHeader";
 import StreetViewExplorer from "@/components/play/StreetViewExplorer";
 import CountryGuessPanel from "@/components/play/CountryGuessPanel";
@@ -15,13 +14,7 @@ import { saveExpeditionToFirestore } from "@/lib/firebase/firestore";
 import {
   Compass,
   ArrowRight,
-  Globe,
-  RotateCcw,
-  Shield,
-  Layers,
   AlertTriangle,
-  Sparkles,
-  KeyRound,
 } from "lucide-react";
 
 export type GameStatus =
@@ -70,7 +63,7 @@ function PlayController() {
 
   const totalRounds = 10;
 
-  // 1. Start a New Expedition
+  // 1. Start a New Game
   const startExpedition = useCallback(async () => {
     setStatus("loading-location");
     setErrorMessage(null);
@@ -87,7 +80,7 @@ function PlayController() {
       const data = await res.json();
 
       if (!data.success || !data.gameId || !data.initialRound) {
-        throw new Error(data.error || "Failed to initialize expedition.");
+        throw new Error(data.error || "Failed to initialize game.");
       }
 
       setGameId(data.gameId);
@@ -95,7 +88,7 @@ function PlayController() {
       setCurrentLocation(data.initialRound.location);
       setStatus("playing");
     } catch (err: unknown) {
-      console.error("Expedition initialization error:", err);
+      console.error("Game initialization error:", err);
       setStatus("error");
       setErrorMessage(err instanceof Error ? err.message : "Failed to contact game server.");
     }
@@ -151,7 +144,7 @@ function PlayController() {
         },
       ]);
 
-      // Cache next location; will transition only when player clicks "Next Territory"
+      // Cache next location; will transition only when player clicks "Next Round"
       if (data.nextRound) {
         setNextLocation(data.nextRound.location);
       }
@@ -164,7 +157,7 @@ function PlayController() {
     }
   };
 
-  // 3. Advance to Next Round or Complete Expedition
+  // 3. Advance to Next Round or Complete Game
   const handleNextRound = () => {
     if (currentRoundIndex + 1 < totalRounds) {
       setCurrentRoundIndex((prev) => prev + 1);
@@ -230,7 +223,7 @@ function PlayController() {
               onClick={startExpedition}
               className="cursor-pointer px-3 py-1 rounded-lg bg-red-100 hover:bg-red-200 font-mono text-[11px] text-red-900 transition-colors"
             >
-              Restart
+              Try Again
             </button>
           </div>
         )}
@@ -243,14 +236,14 @@ function PlayController() {
             </div>
 
             <div className="space-y-2">
-              <span className="text-xs font-mono uppercase tracking-widest text-terrain">
-                Phase 1 Expedition Protocol
+              <span className="text-xs font-mono uppercase tracking-widest text-signal-lime bg-carbon px-2.5 py-0.5 rounded-full inline-block">
+                10-Round Geography Challenge
               </span>
-              <h1 className="text-4xl sm:text-5xl font-space font-medium text-carbon">
-                Global Reconnaissance
+              <h1 className="text-4xl sm:text-5xl font-space font-medium text-carbon pt-1">
+                Guess the Country
               </h1>
               <p className="text-sm sm:text-base text-terrain font-light max-w-lg mx-auto leading-relaxed">
-                You will be dropped into <strong className="text-carbon font-medium">10 verified sovereign locations</strong> via real Google Street View. Explore the terrain, deduce the border, and submit your country deduction.
+                You will be dropped into <strong className="text-carbon font-medium">10 real Google Street View locations</strong>. Explore the roads, read clues from the surroundings, and guess which country you are in.
               </p>
             </div>
 
@@ -258,25 +251,25 @@ function PlayController() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left font-mono text-xs max-w-lg mx-auto">
               <div className="p-3.5 rounded-2xl bg-paper border border-terrain/30 space-y-1">
                 <span className="text-signal-lime text-[10px] block font-semibold">RULE 01</span>
-                <span className="text-carbon font-medium block">10 Territories</span>
+                <span className="text-carbon font-medium block">10 Locations</span>
                 <span className="text-terrain text-[11px] leading-tight block">
-                  Curated worldwide Street View locations.
+                  Curated 360° panoramas worldwide.
                 </span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-paper border border-terrain/30 space-y-1">
                 <span className="text-signal-lime text-[10px] block font-semibold">RULE 02</span>
-                <span className="text-carbon font-medium block">Exact Match</span>
+                <span className="text-carbon font-medium block">1 Point / Match</span>
                 <span className="text-terrain text-[11px] leading-tight block">
-                  1 pt for correct sovereign country, 0 for miss.
+                  1 pt for correct country, 0 for miss.
                 </span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-paper border border-terrain/30 space-y-1">
                 <span className="text-signal-lime text-[10px] block font-semibold">RULE 03</span>
-                <span className="text-carbon font-medium block">Pure Instinct</span>
+                <span className="text-carbon font-medium block">Pure Clues</span>
                 <span className="text-terrain text-[11px] leading-tight block">
-                  No distance cheats or progressive spoilers.
+                  Look at signs, road lines &amp; sun direction.
                 </span>
               </div>
             </div>
@@ -286,7 +279,7 @@ function PlayController() {
                 onClick={startExpedition}
                 className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-base px-10 py-4 rounded-full transition-all duration-200 shadow-md inline-flex items-center gap-3 hover:scale-105 active:scale-95 border border-signal-lime/90"
               >
-                <span>Start Expedition</span>
+                <span>Start Game</span>
                 <ArrowRight className="w-5 h-5 text-carbon" />
               </button>
             </div>
@@ -299,16 +292,16 @@ function PlayController() {
           status === "submitting-guess" ||
           status === "result") && (
           <div className="space-y-4">
-            {/* Real Street View Panorama Explorer */}
+            {/* Real Street View Panorama Explorer (stable key preserves WebGL context across rounds) */}
             {currentLocation ? (
               <StreetViewExplorer
-                key={currentLocation.id}
+                key="street-view-main-explorer"
                 location={currentLocation}
                 onError={(msg) => setErrorMessage(msg)}
               />
             ) : (
               <div className="h-[480px] rounded-3xl bg-carbon/5 border border-terrain/30 flex items-center justify-center text-terrain text-xs font-mono">
-                Initializing target coordinates...
+                Loading Street View location...
               </div>
             )}
 

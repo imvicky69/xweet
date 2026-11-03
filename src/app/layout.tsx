@@ -21,37 +21,43 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://unkn.vercel.app"),
-  title: "unkn — Guess the Country | Minimalist Geo Game",
+  metadataBase: new URL("https://xweet.in"),
+  title: "Xweet Studio — Custom App & Website Development",
   description:
-    "An artisanal, minimalist GeoGuessr alternative. Drop into unmapped coordinates, read geographical clues, and guess the country in pure light-mode clarity.",
+    "Bespoke web applications, cross-platform mobile apps, and real-time software systems. Direct engineer collaboration, 100% code ownership, and zero agency bloat.",
   keywords: [
-    "geoguessr alternative",
-    "guess the country",
-    "geography game",
+    "Xweet Studio",
+    "xweet.in",
+    "App Development",
+    "Website Development",
+    "Mobile Apps",
+    "Next.js Development",
+    "Flutter Development",
+    "React Native",
+    "Full Stack Development",
     "unkn",
-    "world exploration",
-    "street view game",
+    "geoguessr alternative",
   ],
-  authors: [{ name: "unkn studio" }],
+  authors: [{ name: "Xweet Studio", url: "https://xweet.in" }],
   icons: {
     icon: [
-      { url: "/icon.png", type: "image/png" },
-      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.ico?v=3", sizes: "any" },
+      { url: "/favicon.png?v=3", type: "image/png" },
     ],
-    apple: "/icon.png",
+    apple: "/favicon.png?v=3",
+    shortcut: "/favicon.ico?v=3",
   },
   openGraph: {
-    title: "unkn — Guess the Country",
-    description: "Drop into unknown coordinates. Read the terrain. Guess the country.",
-    url: "https://unkn.vercel.app",
-    siteName: "unkn",
+    title: "Xweet Studio — Custom App & Website Development",
+    description: "High-performance web platforms and mobile apps engineered with precision.",
+    url: "https://xweet.in",
+    siteName: "Xweet Studio",
     images: [
       {
-        url: "/icon.png",
-        width: 512,
-        height: 512,
-        alt: "unkn emblem",
+        url: "/logo-clear.png",
+        width: 1381,
+        height: 1139,
+        alt: "Xweet Studio",
       },
     ],
     locale: "en_US",
@@ -78,8 +84,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico?v=3" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=3" />
+        <link rel="apple-touch-icon" href="/favicon.png?v=3" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
           href="https://fonts.googleapis.com/css2?family=Playwrite+DE+Grund:wght@100..400&display=swap"
           rel="stylesheet"

@@ -82,7 +82,7 @@ export default function CountryGuessPanel({
       {/* Searchable Dropdown Container */}
       <div ref={dropdownRef} className="relative w-full sm:flex-1">
         <label className="block text-[11px] font-mono uppercase tracking-wider text-terrain mb-1.5">
-          Select Target Country
+          Select Country
         </label>
 
         {/* Selected Display Trigger */}
@@ -115,7 +115,7 @@ export default function CountryGuessPanel({
                 <span className="text-xs font-mono text-terrain">({selectedCountry.code})</span>
               </span>
             ) : (
-              <span className="text-sm text-terrain font-normal">Choose sovereign country...</span>
+              <span className="text-sm text-terrain font-normal">Choose or search a country...</span>
             )}
           </div>
           <ChevronDown
@@ -208,7 +208,7 @@ export default function CountryGuessPanel({
           {isSubmitting ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin text-carbon" />
-              <span>Verifying Guess...</span>
+              <span>Checking...</span>
             </>
           ) : (
             <>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, Lock, Mail, AlertCircle, LogOut, Check, Info } from "lucide-react";
+import { X, AlertCircle, LogOut, Info } from "lucide-react";
 import { useAuth } from "@/lib/firebase/authContext";
 
 interface AuthModalProps {

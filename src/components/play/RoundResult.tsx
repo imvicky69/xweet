@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2, XCircle, ArrowRight, Award } from "lucide-react";
+import { CheckCircle2, XCircle, ArrowRight } from "lucide-react";
 import { Country } from "@/data/countries";
 
 interface RoundResultProps {
@@ -45,16 +45,16 @@ export default function RoundResult({
         <div>
           <div className="flex items-center gap-2">
             <span
-              className={`text-xs font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded-full ${
+              className={`text-xs font-mono font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full ${
                 isCorrect
                   ? "bg-signal-lime text-carbon"
                   : "bg-terrain/20 text-terrain"
               }`}
             >
-              {isCorrect ? "CORRECT" : "INCORRECT"}
+              {isCorrect ? "Correct!" : "Incorrect"}
             </span>
             <span className="text-xs font-mono text-terrain">
-              +{pointsEarned} {pointsEarned === 1 ? "POINT" : "POINTS"}
+              +{pointsEarned} {pointsEarned === 1 ? "Point" : "Points"}
             </span>
           </div>
 
@@ -67,7 +67,7 @@ export default function RoundResult({
       {/* Center: Comparison pill */}
       <div className="flex items-center gap-3 text-xs font-mono w-full md:w-auto justify-start md:justify-center p-3 rounded-2xl bg-white/40 border border-terrain/20">
         <div className="space-y-0.5">
-          <span className="text-terrain text-[10px] block">YOUR GUESS:</span>
+          <span className="text-terrain text-[10px] uppercase block">Your Guess</span>
           <span className="font-semibold text-carbon inline-flex items-center gap-1.5">
             <span>{selectedCountry.flag}</span>
             <span>{selectedCountry.name}</span>
@@ -77,7 +77,7 @@ export default function RoundResult({
         <div className="h-6 w-px bg-terrain/30 mx-2" />
 
         <div className="space-y-0.5">
-          <span className="text-terrain text-[10px] block">TARGET:</span>
+          <span className="text-terrain text-[10px] uppercase block">Actual Country</span>
           <span className="font-semibold text-carbon inline-flex items-center gap-1.5">
             <span>{actualCountry.flag}</span>
             <span>{actualCountry.name}</span>
@@ -89,9 +89,9 @@ export default function RoundResult({
       <div className="w-full md:w-auto">
         <button
           onClick={onNextRound}
-          className="w-full md:w-auto px-7 py-3.5 rounded-2xl bg-carbon hover:bg-carbon/90 text-paper font-semibold text-xs sm:text-sm font-mono tracking-wider uppercase transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer hover:scale-102 active:scale-98"
+          className="w-full md:w-auto px-7 py-3.5 rounded-2xl bg-carbon hover:bg-carbon/90 text-paper font-semibold text-xs sm:text-sm font-mono tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer hover:scale-102 active:scale-98"
         >
-          <span>{isFinal ? "View Expedition Report" : `Next Territory (${currentRound + 1}/10)`}</span>
+          <span>{isFinal ? "See Final Results →" : `Next Round (${currentRound + 1}/10) →`}</span>
           <ArrowRight className="w-4 h-4 text-signal-lime" />
         </button>
       </div>

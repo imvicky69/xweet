@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Award, RotateCcw, Home, Check, X, ShieldCheck, User } from "lucide-react";
+import { RotateCcw, Compass, Check, X, ShieldCheck, User } from "lucide-react";
 import { useAuth } from "@/lib/firebase/authContext";
 
 export interface SummaryRoundItem {
@@ -36,20 +36,26 @@ export default function ExpeditionSummary({
 }: ExpeditionSummaryProps) {
   const { user, isConfigured } = useAuth();
 
+  const getRatingTitle = (score: number) => {
+    if (score >= 8) return "Geography Master";
+    if (score >= 5) return "Seasoned Explorer";
+    return "Curious Traveler";
+  };
+
   return (
     <div className="w-full max-w-4xl mx-auto space-y-8 animate-in fade-in duration-300 text-carbon py-4">
       {/* Top Header Card */}
       <div className="border border-terrain/35 rounded-3xl p-8 sm:p-10 bg-white/60 backdrop-blur-md shadow-lg space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-terrain/25 pb-6">
           <div className="space-y-1">
-            <span className="text-xs font-mono uppercase tracking-widest text-terrain">
-              Expedition Completed • Reconnaissance Debrief
+            <span className="text-xs font-mono uppercase tracking-widest text-signal-lime bg-carbon px-2.5 py-0.5 rounded-full inline-block">
+              Game Complete
             </span>
-            <h1 className="text-3xl sm:text-4xl font-space font-medium text-carbon">
-              Global Cartography Assessment
+            <h1 className="text-3xl sm:text-4xl font-space font-medium text-carbon pt-1">
+              Your Expedition Results
             </h1>
             <p className="text-xs sm:text-sm text-terrain font-light">
-              Official ten-round reconnaissance mission evaluation across world sovereign borders.
+              Here is how you performed across 10 random global locations.
             </p>
           </div>
 
@@ -57,7 +63,7 @@ export default function ExpeditionSummary({
             {isSaved ? (
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono bg-signal-lime/25 text-carbon border border-signal-lime/60">
                 <ShieldCheck className="w-4 h-4 text-carbon" />
-                <span>Expedition Saved</span>
+                <span>Score Saved</span>
               </span>
             ) : user ? (
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono bg-terrain/15 text-terrain">
@@ -69,7 +75,7 @@ export default function ExpeditionSummary({
                 className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono border border-terrain/40 hover:border-carbon text-terrain hover:text-carbon transition-colors bg-white/50"
               >
                 <User className="w-3.5 h-3.5" />
-                <span>Sign in to save record</span>
+                <span>Sign in to save score</span>
               </button>
             ) : null}
           </div>
@@ -86,7 +92,7 @@ export default function ExpeditionSummary({
               <span className="text-sm font-mono text-terrain">/ {totalRounds}</span>
             </div>
             <span className="text-[11px] font-mono text-terrain block pt-1">
-              1 point awarded per exact sovereign match
+              1 point awarded per correct country
             </span>
           </div>
 
@@ -98,17 +104,17 @@ export default function ExpeditionSummary({
               </span>
             </div>
             <span className="text-[11px] font-mono text-terrain block pt-1">
-              {correctCount} correct out of {totalRounds} territories
+              {correctCount} correct out of {totalRounds} rounds
             </span>
           </div>
 
           <div className="p-5 rounded-2xl bg-paper border border-terrain/30 space-y-1">
-            <span className="text-[11px] font-mono text-terrain uppercase block">Status Rating</span>
+            <span className="text-[11px] font-mono text-terrain uppercase block">Explorer Rank</span>
             <div className="text-2xl sm:text-3xl font-space font-medium text-carbon pt-1">
-              {finalScore >= 8 ? "Master Navigator" : finalScore >= 5 ? "Senior Scout" : "Cadet Observer"}
+              {getRatingTitle(finalScore)}
             </div>
             <span className="text-[11px] font-mono text-terrain block pt-1">
-              Calculated on verified coordinates
+              Based on 10-round accuracy
             </span>
           </div>
         </div>
@@ -117,8 +123,8 @@ export default function ExpeditionSummary({
       {/* Round-by-Round Expeditions Log */}
       <div className="border border-terrain/35 rounded-3xl p-6 sm:p-8 bg-paper shadow-sm space-y-4">
         <div className="flex items-center justify-between border-b border-terrain/20 pb-3">
-          <h3 className="text-lg font-space font-medium text-carbon">Ten-Round Territory Log</h3>
-          <span className="text-xs font-mono text-terrain uppercase">Audit Trail</span>
+          <h3 className="text-lg font-space font-medium text-carbon">10-Round Round Breakdown</h3>
+          <span className="text-xs font-mono text-terrain uppercase">History</span>
         </div>
 
         <div className="divide-y divide-terrain/15">
@@ -147,7 +153,7 @@ export default function ExpeditionSummary({
 
               <div className="flex items-center gap-4 self-end sm:self-center">
                 <div className="text-right">
-                  <span className="text-[10px] text-terrain block">GUESSED</span>
+                  <span className="text-[10px] text-terrain block">YOUR GUESS</span>
                   <span className="text-carbon font-medium inline-flex items-center gap-1">
                     <span>{r.selectedCountry.flag}</span>
                     <span>{r.selectedCountry.name}</span>
@@ -172,19 +178,19 @@ export default function ExpeditionSummary({
       {/* Action Footer */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
         <Link
-          href="/"
+          href="/games"
           className="cursor-pointer w-full sm:w-auto px-6 py-3.5 rounded-2xl border border-terrain/40 hover:border-carbon text-carbon font-medium text-xs sm:text-sm font-mono tracking-wider transition-colors flex items-center justify-center gap-2"
         >
-          <Home className="w-4 h-4" />
-          <span>Return to Base Station</span>
+          <Compass className="w-4 h-4" />
+          <span>Back to Games</span>
         </Link>
 
         <button
           onClick={onPlayAgain}
-          className="cursor-pointer w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs sm:text-sm font-mono tracking-wider uppercase transition-all shadow-md flex items-center justify-center gap-2 hover:scale-102 active:scale-98 border border-signal-lime/80"
+          className="cursor-pointer w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs sm:text-sm font-mono tracking-wider transition-all shadow-md flex items-center justify-center gap-2 hover:scale-102 active:scale-98 border border-signal-lime/80"
         >
           <RotateCcw className="w-4 h-4" />
-          <span>Launch New Expedition</span>
+          <span>Play Again</span>
         </button>
       </div>
     </div>

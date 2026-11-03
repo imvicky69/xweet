@@ -9,7 +9,7 @@ import {
   AlertTriangle,
   KeyRound,
   RefreshCw,
-  Navigation,
+  RotateCw,
 } from "lucide-react";
 
 interface StreetViewExplorerProps {
@@ -41,7 +41,84 @@ export default function StreetViewExplorer({
 
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "";
 
-  // Initialize or update Street View Panorama
+  // Mount or update the Street View Panorama
+  const mountPanorama = useCallback(
+    (panoId: string, panoPosition: google.maps.LatLng) => {
+      if (!panoMountRef.current || !window.google?.maps) return;
+
+      try {
+        if (!panoramaRef.current) {
+          // Initialize fresh panorama instance
+          const pano = new window.google.maps.StreetViewPanorama(panoMountRef.current, {
+            pano: panoId,
+            position: panoPosition,
+            pov: { heading: location.heading || 0, pitch: location.pitch || 0 },
+            zoom: 1,
+            clickToGo: true,
+            linksControl: true,
+            panControl: true,
+            zoomControl: true,
+            scrollwheel: true,
+            enableCloseButton: false,
+            addressControl: false,
+            showRoadLabels: false,
+            motionTracking: false,
+            motionTrackingControl: false,
+            fullscreenControl: false,
+          });
+
+          pano.addListener("pov_changed", () => {
+            const currentPov = pano.getPov();
+            setHeading(Math.round(currentPov.heading % 360));
+          });
+
+          pano.addListener("status_changed", () => {
+            const st = pano.getStatus();
+            if (st && st !== "OK") {
+              console.warn("StreetView status changed to:", st);
+              setErrorType("load-failed");
+              setErrorMessage(
+                "Panorama imagery could not be streamed for this position. Click Reload to re-fetch."
+              );
+              setIsLoading(false);
+            } else if (st === "OK") {
+              setIsLoading(false);
+              setErrorType(null);
+            }
+          });
+
+          panoramaRef.current = pano;
+        } else {
+          // Re-use existing panorama instance (preserves WebGL context and prevents black screen)
+          panoramaRef.current.setVisible(true);
+          panoramaRef.current.setPano(panoId);
+          panoramaRef.current.setPov({
+            heading: location.heading || 0,
+            pitch: location.pitch || 0,
+          });
+          panoramaRef.current.setZoom(1);
+
+          // Trigger resize to force WebGL canvas repaint
+          setTimeout(() => {
+            if (panoramaRef.current && window.google?.maps?.event) {
+              window.google.maps.event.trigger(panoramaRef.current, "resize");
+            }
+          }, 60);
+        }
+
+        setIsLoading(false);
+        if (onPanoramaReady) onPanoramaReady();
+      } catch (err: unknown) {
+        console.error("Error mounting Street View panorama:", err);
+        setErrorType("load-failed");
+        setErrorMessage("WebGL rendering error. Click Reload View to retry.");
+        setIsLoading(false);
+      }
+    },
+    [location.heading, location.pitch, onPanoramaReady]
+  );
+
+  // Initialize or fetch location Street View
   const initStreetView = useCallback(async () => {
     if (!apiKey) {
       setIsLoading(false);
@@ -71,13 +148,13 @@ export default function StreetViewExplorer({
       if (!panoMountRef.current || !window.google?.maps) return;
 
       const position = { lat: location.lat, lng: location.lng };
-
-      // Search for panorama with preference BEST and ensure links > 0 (road movement arrows)
       const svService = new window.google.maps.StreetViewService();
-      const searchRadii = [100, 500, 2500, 10000];
+
       let foundData: google.maps.StreetViewPanoramaData | null = null;
 
-      for (const radius of searchRadii) {
+      // 1. Try finding official OUTDOOR road captures first (avoids corrupted/black user photospheres)
+      const outdoorRadii = [100, 500, 2500, 8000];
+      for (const radius of outdoorRadii) {
         const res = await new Promise<{
           data: google.maps.StreetViewPanoramaData | null;
           status: string;
@@ -87,25 +164,46 @@ export default function StreetViewExplorer({
               location: position,
               radius,
               preference: window.google.maps.StreetViewPreference.BEST,
+              sources: [window.google.maps.StreetViewSource.OUTDOOR],
             },
             (data, status) => resolve({ data, status: String(status) })
           );
         });
 
-        if (res.status === "OK" && res.data?.location?.latLng) {
-          // If this capture has road links, use it immediately!
+        if (res.status === "OK" && res.data?.location?.pano && res.data.location.latLng) {
+          foundData = res.data;
           if (res.data.links && res.data.links.length > 0) {
-            foundData = res.data;
-            break;
-          }
-          // If no links yet, keep as fallback while checking wider radii
-          if (!foundData) {
-            foundData = res.data;
+            break; // Ideal road capture with movement links!
           }
         }
       }
 
-      if (!foundData?.location?.latLng) {
+      // 2. Fallback to default source if outdoor specific was not found
+      if (!foundData) {
+        const fallbackRadii = [500, 3000, 15000];
+        for (const radius of fallbackRadii) {
+          const res = await new Promise<{
+            data: google.maps.StreetViewPanoramaData | null;
+            status: string;
+          }>((resolve) => {
+            svService.getPanorama(
+              {
+                location: position,
+                radius,
+                preference: window.google.maps.StreetViewPreference.BEST,
+              },
+              (data, status) => resolve({ data, status: String(status) })
+            );
+          });
+
+          if (res.status === "OK" && res.data?.location?.pano && res.data.location.latLng) {
+            foundData = res.data;
+            break;
+          }
+        }
+      }
+
+      if (!foundData?.location?.pano || !foundData.location.latLng) {
         setIsLoading(false);
         setErrorType("zero-results");
         setErrorMessage(
@@ -114,7 +212,7 @@ export default function StreetViewExplorer({
         return;
       }
 
-      mountPanorama(foundData.location.latLng);
+      mountPanorama(foundData.location.pano, foundData.location.latLng);
     } catch (err: unknown) {
       console.error("Google Street View initialization error:", err);
       setIsLoading(false);
@@ -123,51 +221,24 @@ export default function StreetViewExplorer({
       setErrorMessage(msg);
       if (onError) onError(msg);
     }
-  }, [apiKey, location, onError]);
-
-  const mountPanorama = (panoPosition: google.maps.LatLng) => {
-    if (!panoMountRef.current || !window.google?.maps) return;
-
-    if (!panoramaRef.current) {
-      const pano = new window.google.maps.StreetViewPanorama(panoMountRef.current, {
-        position: panoPosition,
-        pov: { heading: location.heading || 0, pitch: location.pitch || 0 },
-        zoom: 1,
-        // GeoGuessr Road Movement Options:
-        clickToGo: true, // Click anywhere on the road to MOVE forward/backward!
-        linksControl: true, // Displays road navigation chevrons/arrows
-        panControl: true, // Camera pan
-        zoomControl: true, // Zoom controls
-        scrollwheel: true, // Scroll to zoom
-        enableCloseButton: false,
-        addressControl: false, // Hide street address so country isn't spoiled
-        showRoadLabels: false, // Hide road labels
-        motionTracking: false,
-        motionTrackingControl: false,
-        fullscreenControl: false, // Handled via UNKN bespoke control
-      });
-
-      pano.addListener("pov_changed", () => {
-        const currentPov = pano.getPov();
-        setHeading(Math.round(currentPov.heading % 360));
-      });
-
-      panoramaRef.current = pano;
-    } else {
-      panoramaRef.current.setPosition(panoPosition);
-      panoramaRef.current.setPov({
-        heading: location.heading || 0,
-        pitch: location.pitch || 0,
-      });
-      panoramaRef.current.setZoom(1);
-    }
-
-    setIsLoading(false);
-    if (onPanoramaReady) onPanoramaReady();
-  };
+  }, [apiKey, location, onError, mountPanorama]);
 
   useEffect(() => {
-    initStreetView();
+    let active = true;
+    const timer = setTimeout(() => {
+      if (active) {
+        initStreetView();
+      }
+    }, 0);
+
+    return () => {
+      active = false;
+      clearTimeout(timer);
+      // Clean up visibility on unmount to conserve WebGL contexts
+      if (panoramaRef.current) {
+        panoramaRef.current.setVisible(false);
+      }
+    };
   }, [initStreetView]);
 
   const toggleFullscreen = () => {
@@ -187,6 +258,13 @@ export default function StreetViewExplorer({
       });
       panoramaRef.current.setZoom(1);
     }
+  };
+
+  const handleManualReload = () => {
+    if (panoramaRef.current && window.google?.maps?.event) {
+      window.google.maps.event.trigger(panoramaRef.current, "resize");
+    }
+    initStreetView();
   };
 
   return (
@@ -213,7 +291,7 @@ export default function StreetViewExplorer({
             <span className="text-xs font-mono text-signal-lime uppercase tracking-widest block">
               Google Street View
             </span>
-            <p className="text-sm font-space text-paper">Streaming interactive road panorama...</p>
+            <p className="text-sm font-space text-paper">Streaming 360° road panorama...</p>
           </div>
         </div>
       )}
@@ -231,12 +309,12 @@ export default function StreetViewExplorer({
 
           <div className="max-w-md space-y-2">
             <span className="text-xs font-mono uppercase tracking-widest text-terrain">
-              {errorType === "missing-key" ? "Setup Required" : "Street View Error"}
+              {errorType === "missing-key" ? "Setup Required" : "Street View Notice"}
             </span>
             <h3 className="text-2xl font-space font-medium text-carbon">
               {errorType === "missing-key"
                 ? "Google Maps API Key Missing"
-                : "Unable to Load Panorama"}
+                : "Unable to Stream Panorama"}
             </h3>
             <p className="text-xs sm:text-sm text-terrain leading-relaxed">
               {errorMessage}
@@ -259,11 +337,11 @@ export default function StreetViewExplorer({
 
           <div className="pt-2">
             <button
-              onClick={initStreetView}
-              className="cursor-pointer px-6 py-2.5 rounded-xl bg-carbon text-paper hover:bg-carbon/90 text-xs font-mono transition-colors inline-flex items-center gap-2"
+              onClick={handleManualReload}
+              className="cursor-pointer px-6 py-2.5 rounded-xl bg-carbon text-paper hover:bg-carbon/90 text-xs font-mono transition-colors inline-flex items-center gap-2 shadow-sm"
             >
               <RefreshCw className="w-3.5 h-3.5" />
-              <span>Retry Connection</span>
+              <span>Retry Panorama</span>
             </button>
           </div>
         </div>
@@ -284,16 +362,28 @@ export default function StreetViewExplorer({
         </div>
       )}
 
-      {/* Top Right: Bespoke Compass Reset & Fullscreen Controls */}
+      {/* Top Right: Compass Reset, Manual Reload & Fullscreen Controls */}
       {!errorType && (
         <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex items-center gap-2 z-10 pointer-events-auto">
+          {/* Quick Reload Camera in case of WebGL glitch */}
+          <button
+            onClick={handleManualReload}
+            className="cursor-pointer w-11 h-11 rounded-2xl bg-carbon/85 hover:bg-carbon text-paper border border-terrain/50 shadow-md flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+            title="Reload Panorama View"
+          >
+            <RotateCw className="w-4 h-4 text-signal-lime" />
+          </button>
+
+          {/* Compass Reset */}
           <button
             onClick={resetCamera}
             className="cursor-pointer w-11 h-11 rounded-2xl bg-carbon/85 hover:bg-carbon text-paper border border-terrain/50 shadow-md flex items-center justify-center transition-all hover:scale-105 active:scale-95"
-            title="Reset North orientation"
+            title="Reset to North (0°)"
           >
             <Compass className="w-5 h-5 text-signal-lime" />
           </button>
+
+          {/* Fullscreen Toggle */}
           <button
             onClick={toggleFullscreen}
             className="cursor-pointer w-11 h-11 rounded-2xl bg-carbon/85 hover:bg-carbon text-paper border border-terrain/50 shadow-md flex items-center justify-center transition-all hover:scale-105 active:scale-95"

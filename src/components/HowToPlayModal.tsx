@@ -1,6 +1,6 @@
 "use client";
 
-import { X, Compass, Globe, Award, CheckCircle2 } from "lucide-react";
+import { X, Compass } from "lucide-react";
 
 interface HowToPlayModalProps {
   isOpen: boolean;
@@ -19,8 +19,8 @@ export default function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps)
               <Compass className="w-5 h-5 text-carbon" />
             </div>
             <div>
-              <h3 className="text-xl font-space font-medium tracking-tight">How to Play UNKN</h3>
-              <p className="text-xs text-terrain">Field Reconnaissance Expedition Manual</p>
+              <h3 className="text-xl font-space font-medium tracking-tight">How to Play</h3>
+              <p className="text-xs text-terrain">Quick 3-step guide</p>
             </div>
           </div>
 
@@ -38,9 +38,9 @@ export default function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps)
               1
             </div>
             <div>
-              <h4 className="font-semibold text-carbon font-space">Inspect the 360° Street View</h4>
+              <h4 className="font-semibold text-carbon font-space">Explore the 360° Street View</h4>
               <p className="text-xs text-terrain mt-0.5 leading-relaxed">
-                Pan, tilt, and zoom around the viewport. Observe solar azimuth, road surface markings, vehicle driving side (LHD vs RHD), landscape biomes, and architectural vernacular.
+                Pan, tilt, zoom, and click along roads. Observe road markings, driving side (left vs right), sun angle, vegetation, and language signs.
               </p>
             </div>
           </div>
@@ -50,9 +50,9 @@ export default function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps)
               2
             </div>
             <div>
-              <h4 className="font-semibold text-carbon font-space">Deduce Sovereign Country</h4>
+              <h4 className="font-semibold text-carbon font-space">Search &amp; Pick a Country</h4>
               <p className="text-xs text-terrain mt-0.5 leading-relaxed">
-                Use the searchable country selector dropdown. Filter by name or code and select the country you believe you are in.
+                Open the dropdown and type any country name or code. Use arrow keys or click to select, then click &ldquo;Submit Guess&rdquo;.
               </p>
             </div>
           </div>
@@ -64,7 +64,7 @@ export default function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps)
             <div>
               <h4 className="font-semibold text-carbon font-space">10 Rounds &amp; Scoring</h4>
               <p className="text-xs text-terrain mt-0.5 leading-relaxed">
-                Each expedition consists of exactly 10 rounds. You earn 1 point for a correct answer and 0 points for a miss. The maximum score is 10. Complete all ten rounds to receive your expedition audit report.
+                Each game has 10 rounds. You earn 1 point for every correct country (max 10 points). At the end, you will receive a full breakdown of all your guesses.
               </p>
             </div>
           </div>
@@ -75,7 +75,7 @@ export default function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps)
             onClick={onClose}
             className="cursor-pointer px-6 py-2.5 rounded-xl bg-signal-lime text-carbon font-semibold text-xs font-mono uppercase tracking-wider hover:brightness-105 transition-all shadow-xs"
           >
-            Ready for Recon
+            Got It, Let&apos;s Play
           </button>
         </div>
       </div>
