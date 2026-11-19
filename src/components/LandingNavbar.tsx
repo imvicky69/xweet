@@ -54,6 +54,13 @@ export default function LandingNavbar({ onOpenHowToPlay }: LandingNavbarProps) {
 
         {/* Center Nav Links */}
         <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-normal text-carbon/80">
+          <Link
+            href="/apps"
+            className="hover:text-carbon transition-colors text-xs uppercase tracking-wider font-mono text-terrain hover:text-black flex items-center gap-1.5"
+          >
+            <span>All Apps</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-signal-lime" />
+          </Link>
           <a
             href="#preview"
             className="hover:text-carbon transition-colors text-xs uppercase tracking-wider font-mono text-terrain hover:text-black"

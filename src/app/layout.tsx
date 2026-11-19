@@ -22,21 +22,22 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://xweet.in"),
-  title: "Xweet Studio — Custom App & Website Development",
+  title: "Xweet — Independent Software Studio",
   description:
-    "Bespoke web applications, cross-platform mobile apps, and real-time software systems. Direct engineer collaboration, 100% code ownership, and zero agency bloat.",
+  "An independent software studio crafting sovereign web tools, tactile mobile applications, and cartographic games. Built with precision, restraint, and obsessive detail.",
   keywords: [
-    "Xweet Studio",
-    "xweet.in",
-    "App Development",
-    "Website Development",
-    "Mobile Apps",
-    "Next.js Development",
-    "Flutter Development",
-    "React Native",
-    "Full Stack Development",
+    "Xweet",
+    "Independent Software Studio",
+    "Independent Developer",
     "unkn",
+    "Geo-01",
     "geoguessr alternative",
+    "Infyn",
+    "Smiley PDF",
+    "Indivio",
+    "Tactile Web Apps",
+    "Next.js",
+    "Flutter",
   ],
   authors: [{ name: "Xweet Studio", url: "https://xweet.in" }],
   icons: {
@@ -48,16 +49,17 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico?v=3",
   },
   openGraph: {
-    title: "Xweet Studio — Custom App & Website Development",
-    description: "High-performance web platforms and mobile apps engineered with precision.",
+    title: "Xweet — Independent Software Studio",
+    description:
+      "Crafting sovereign digital tools, tactile web experiences, and cartographic games.",
     url: "https://xweet.in",
-    siteName: "Xweet Studio",
+    siteName: "Xweet",
     images: [
       {
         url: "/logo-clear.png",
         width: 1381,
         height: 1139,
-        alt: "Xweet Studio",
+        alt: "Xweet",
       },
     ],
     locale: "en_US",

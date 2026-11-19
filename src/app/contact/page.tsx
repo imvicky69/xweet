@@ -17,7 +17,7 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    projectType: "Web Application",
+     projectType: "Web Application",
     budget: "$3,000 – $10,000",
     timeline: "1 - 2 Months",
     message: "",
@@ -62,19 +62,19 @@ export default function ContactPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/60 border border-terrain/35 text-xs font-mono text-carbon">
             <span className="w-2 h-2 rounded-full bg-signal-lime animate-pulse" />
             <span className="uppercase tracking-wider font-semibold">
-              START A PROJECT · DIRECT ARCHITECT CONSULTATION
+              COMMISSIONS &amp; COLLABORATION · DIRECT BUILDER DIALOGUE
             </span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-space font-light tracking-tight text-carbon">
-            Let&apos;s build your <br />
+            Inquire about a <br />
             <span className="font-playwrite text-3xl sm:text-5xl text-terrain block mt-1">
-              app or website.
+              commission or project.
             </span>
           </h1>
 
           <p className="text-base sm:text-lg text-carbon/80 font-light leading-relaxed">
-            Have a product vision, technical specification, or redesign ready to execute? Share your requirements below. You will speak directly with an experienced builder—no sales friction, no outsourced handoffs.
+            Have a high-conviction product idea, technical architecture, or system to engineer? Share your vision below. You speak directly with an experienced independent developer—zero sales bureaucracy, zero outsourced handoffs.
           </p>
         </div>
 
@@ -269,10 +269,10 @@ export default function ContactPage() {
                 <div className="pt-2 flex items-center justify-between">
                   <span className="text-terrain">DIRECT EMAIL</span>
                   <a
-                    href="mailto:hello@xweet.in"
+                    href="mailto:contact@xweet.in"
                     className="text-signal-lime hover:underline font-semibold"
                   >
-                    hello@xweet.in
+                    contact@xweet.in
                   </a>
                 </div>
 

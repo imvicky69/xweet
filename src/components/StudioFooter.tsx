@@ -7,12 +7,14 @@ import { ArrowUp, ExternalLink, ArrowRight } from "lucide-react";
 
 export default function StudioFooter() {
   const [utcTime, setUtcTime] = useState<string>("");
+  const [currentYear, setCurrentYear] = useState<number>(2026);
   const [copiedHex, setCopiedHex] = useState<string | null>(null);
 
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
       setUtcTime(now.toUTCString().slice(17, 25) + " UTC");
+      setCurrentYear(now.getFullYear());
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
@@ -45,16 +47,16 @@ export default function StudioFooter() {
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-signal-lime animate-pulse" />
             <span className="text-carbon font-medium uppercase tracking-wider">
-              Studio Operations: Active · Booking Q1/Q2 Sprints
+              Studio Operations: Active · Sovereign Software &amp; Experiments
             </span>
             <span className="text-terrain/50">•</span>
-            <span>Worldwide Client Delivery</span>
+            <span>Available for Select Commissions</span>
           </div>
 
           <div className="flex items-center gap-4">
             <span className="text-carbon font-medium">{utcTime || "00:00:00 UTC"}</span>
             <span className="text-terrain/50 hidden sm:inline">•</span>
-            <span className="hidden sm:inline">Clean Code &amp; 100% IP Ownership</span>
+            <span className="hidden sm:inline">100% On-Device Respect &amp; Clean Code</span>
           </div>
         </div>
       </div>
@@ -78,7 +80,7 @@ export default function StudioFooter() {
             </div>
 
             <p className="text-sm font-light text-carbon/80 max-w-md leading-relaxed">
-              We design and engineer bespoke web applications, cross-platform mobile apps, and high-performance digital platforms. Direct builder collaboration with zero agency bloat.
+              An independent software studio crafting sovereign web utilities, 120 FPS mobile apps, and cartographic games. Built with precision, restraint, and zero synthetic bloat.
             </p>
 
             <div className="pt-2">
@@ -86,7 +88,7 @@ export default function StudioFooter() {
                 href="/contact"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-signal-lime hover:bg-[#cbf056] text-carbon text-xs font-semibold transition-all border border-signal-lime/90 shadow-2xs"
               >
-                <span>Start a Project</span>
+                <span>Inquire About Commissions</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -124,70 +126,116 @@ export default function StudioFooter() {
             </div>
           </div>
 
-          {/* Development Services (3 cols) */}
+          {/* Software Releases (3 cols) */}
           <div className="lg:col-span-3 space-y-4">
             <h4 className="text-xs font-mono uppercase tracking-wider text-carbon font-semibold">
-              Services
+              Releases &amp; Apps
             </h4>
             <ul className="space-y-2 text-xs font-mono">
               <li>
-                <Link href="/#services" className="hover:text-carbon text-terrain transition-colors block">
-                  Web Applications (Next.js)
-                </Link>
+                <a
+                  href="https://wallpaper.xweet.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-carbon text-terrain transition-colors flex items-center justify-between group"
+                >
+                  <span>Wallpapers (4K/5K)</span>
+                  <span className="text-[9px] bg-black/5 text-terrain px-1.5 py-0.2 rounded border border-terrain/20">
+                    UHD
+                  </span>
+                </a>
               </li>
               <li>
-                <Link href="/#services" className="hover:text-carbon text-terrain transition-colors block">
-                  Mobile Apps (Flutter &amp; React Native)
-                </Link>
+                <a
+                  href="https://infyn.software"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-carbon text-terrain transition-colors flex items-center justify-between group"
+                >
+                  <span>Infyn DL &amp; Suite</span>
+                  <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
+                </a>
               </li>
               <li>
-                <Link href="/#services" className="hover:text-carbon text-terrain transition-colors block">
-                  Real-time Systems &amp; APIs
-                </Link>
-              </li>
-              <li>
-                <Link href="/#services" className="hover:text-carbon text-terrain transition-colors block">
-                  UI/UX Product Design Systems
-                </Link>
-              </li>
-              <li>
-                <Link href="/#services" className="hover:text-carbon text-terrain transition-colors block">
-                  Performance &amp; Code Audits
-                </Link>
+                <a
+                  href="https://smiley.xweet.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-carbon text-terrain transition-colors flex items-center justify-between group"
+                >
+                  <span>Smiley PDF (Android)</span>
+                  <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
+                </a>
               </li>
               <li>
                 <Link
-                  href="/games"
-                  className="hover:text-carbon text-carbon font-medium transition-colors flex items-center justify-between group pt-1"
+                  href="/play"
+                  className="hover:text-carbon text-carbon font-medium transition-colors flex items-center justify-between group"
                 >
-                  <span>Interactive Games (unkn)</span>
+                  <span>unkn (Geo-01 Game)</span>
                   <span className="text-[10px] bg-signal-lime text-carbon px-1.5 py-0.2 rounded font-semibold">
                     PLAY
                   </span>
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/games/xwordle"
+                  className="hover:text-carbon text-carbon font-medium transition-colors flex items-center justify-between group"
+                >
+                  <span>xwordle (Word-01)</span>
+                  <span className="text-[10px] bg-mist/70 text-carbon px-1.5 py-0.2 rounded font-semibold">
+                    PLAY
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="https://indivio.xweet.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-carbon text-terrain transition-colors flex items-center justify-between group"
+                >
+                  <span>Indivio Logistics</span>
+                  <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
+                </a>
+              </li>
+              <li>
+                <Link
+                  href="/apps"
+                  className="hover:text-carbon text-carbon font-semibold transition-colors block pt-1.5 border-t border-terrain/15"
+                >
+                  View All Apps &amp; Catalog →
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Navigation / Studio (2 cols) */}
+          {/* Studio Navigation (2 cols) */}
           <div className="lg:col-span-2 space-y-4">
             <h4 className="text-xs font-mono uppercase tracking-wider text-carbon font-semibold">
               Studio
             </h4>
             <ul className="space-y-2 text-xs font-mono">
               <li>
-                <Link href="/#services" className="text-terrain hover:text-carbon transition-colors">
-                  Services
+                <Link href="/apps" className="text-carbon font-medium hover:text-black transition-colors flex items-center gap-1.5">
+                  <span>Apps Catalog</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime" />
                 </Link>
               </li>
               <li>
-                <Link href="/#work" className="text-terrain hover:text-carbon transition-colors">
-                  Work / Projects
+                <Link href="/#releases" className="text-terrain hover:text-carbon transition-colors">
+                  Software Releases
                 </Link>
               </li>
               <li>
-                <Link href="/#about" className="text-terrain hover:text-carbon transition-colors">
-                  About Us &amp; Journey
+                <Link href="/#ethos" className="text-terrain hover:text-carbon transition-colors">
+                  Studio Ethos
+                </Link>
+              </li>
+              <li>
+                <Link href="/#commissions" className="text-terrain hover:text-carbon transition-colors">
+                  Select Commissions
                 </Link>
               </li>
               <li>
@@ -197,16 +245,16 @@ export default function StudioFooter() {
               </li>
               <li>
                 <Link href="/contact" className="text-carbon font-semibold hover:underline transition-colors">
-                  Contact Now
+                  Inquire
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact & Legal (2 cols) */}
+          {/* Contact & Network (2 cols) */}
           <div className="lg:col-span-2 space-y-4">
             <h4 className="text-xs font-mono uppercase tracking-wider text-carbon font-semibold">
-              Contact
+              Connect
             </h4>
             <ul className="space-y-2 text-xs font-mono">
               <li>
@@ -244,35 +292,33 @@ export default function StudioFooter() {
                   href="/contact"
                   className="text-terrain hover:text-carbon transition-colors flex items-center gap-1"
                 >
-                  <span>Start Project Form</span>
+                  <span>Inquiry Form</span>
                 </Link>
               </li>
             </ul>
+          </div>
+        </div>
 
-            <div className="pt-2">
-              <button
-                onClick={scrollToTop}
-                className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon text-xs font-mono transition-colors"
-              >
-                <ArrowUp className="w-3 h-3" />
-                <span>Top ↑</span>
-              </button>
+            {/* Bottom Colophon Bar */}
+            <div className="pt-10 mt-10 border-t border-terrain/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-terrain">
+              <div className="flex items-center gap-2">
+                <span>© {currentYear} Xweet Studio.</span>
+                <span>Crafted with precision &amp; restraint.</span>
+              </div>
+
+                <div className="flex items-center gap-6">
+                  <span className="hidden sm:inline">Strict Light Mode • Sovereign Architecture</span>
+                  <button
+                    onClick={scrollToTop}
+                    className="hover:text-carbon flex items-center gap-1 cursor-pointer transition-colors"
+                    aria-label="Scroll back to top"
+                  >
+                    <span>Back to Top</span>
+                    <ArrowUp className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        {/* Bottom Colophon */}
-        <div className="mt-12 pt-6 border-t border-terrain/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-terrain">
-          <div>
-            © 2026 Xweet Studio. Custom App &amp; Website Development. All rights reserved.
-          </div>
-          <div className="flex items-center gap-3">
-            <span>xweet.in</span>
-            <span>•</span>
-            <span>Fast, Reliable &amp; Sovereign Software</span>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
+          </footer>
+          );
 }

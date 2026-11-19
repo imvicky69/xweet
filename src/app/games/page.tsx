@@ -2,20 +2,26 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import LandingNavbar from "@/components/LandingNavbar";
+import Image from "next/image";
+import StudioNavbar from "@/components/StudioNavbar";
+import StudioFooter from "@/components/StudioFooter";
 import HowToPlayModal from "@/components/HowToPlayModal";
-import Footer from "@/components/Footer";
 import {
   Compass,
   ArrowRight,
+  Sparkles,
   MapPin,
   Crosshair,
-  ArrowLeft,
+  ArrowUpRight,
+  RotateCcw,
+  ShieldCheck,
+  Zap,
+  EyeOff,
+  HelpCircle,
 } from "lucide-react";
 
-export default function GamesLandingPage() {
+export default function GamesHubPage() {
   const [isHowToPlayOpen, setIsHowToPlayOpen] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(true);
   const [activePreviewLocation, setActivePreviewLocation] = useState(0);
 
   const PREVIEWS = [
@@ -47,334 +53,354 @@ export default function GamesLandingPage() {
 
   return (
     <div className="min-h-screen bg-paper text-carbon font-geist selection:bg-signal-lime selection:text-carbon flex flex-col justify-between">
-      {/* Top Game Navbar */}
-      <LandingNavbar onOpenHowToPlay={() => setIsHowToPlayOpen(true)} />
+      {/* Universal Studio Navigation: ONLY Games, Apps, About + 1 CTA */}
+      <StudioNavbar />
 
-      <main className="flex-1 w-full">
-        {/* Hero Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-8 pt-12 sm:pt-20 pb-16 sm:pb-20">
-          <div className="flex flex-col items-start max-w-4xl space-y-6">
-            {/* Context breadcrumb */}
-            <div className="flex items-center gap-2 text-xs font-mono text-terrain">
-              <Link href="/" className="hover:text-carbon transition-colors flex items-center gap-1">
-                <ArrowLeft className="w-3 h-3" />
-                <span>Xweet Studio</span>
-              </Link>
-              <span>/</span>
-              <span className="text-carbon font-medium">Games</span>
-              <span>/</span>
-              <span className="text-signal-lime bg-carbon px-2 py-0.5 rounded-full font-semibold">
-                GEO-01
-              </span>
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 py-8 sm:py-16 space-y-12 sm:space-y-16">
+        {/* ========================================================================= */}
+        {/* GAMES HUB HERO */}
+        {/* ========================================================================= */}
+        <section className="space-y-6 max-w-4xl">
+          <div className="flex items-center gap-2 text-xs font-mono text-terrain">
+            <Link href="/" className="hover:text-carbon transition-colors">
+              Xweet Studio
+            </Link>
+            <span>/</span>
+            <span className="text-carbon font-semibold uppercase tracking-wider">
+              Games &amp; Interactive Lab
+            </span>
+          </div>
+
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-thin tracking-tight leading-[1.02] text-carbon">
+            Tactile Games &amp; Deductive Puzzles. <br />
+            <span className="font-playwrite text-3xl sm:text-5xl lg:text-6xl text-terrain block mt-2">
+              designed for pure instinct.
+            </span>
+          </h1>
+
+          <p className="text-base sm:text-lg text-carbon/80 font-light leading-relaxed max-w-3xl">
+            Sovereign browser games crafted with ruthless minimalism. Survey real 360° global Street View panoramas in <strong className="text-carbon font-medium font-space">unkn</strong> or deduce daily 5-letter vocabulary puzzles in <strong className="text-carbon font-medium font-space">xwordle</strong>. Zero synthetic ads, zero paywalls, zero distraction.
+          </p>
+
+          {/* Quick Telemetry Pill Bar */}
+          <div className="flex flex-wrap items-center gap-3 pt-2 text-xs font-mono text-terrain border-t border-terrain/20">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-signal-lime animate-pulse" />
+              <span className="text-carbon font-semibold">2 Games Live</span>
+            </div>
+            <span>•</span>
+            <span>Real Google Street View &amp; Wasm Logic</span>
+            <span>•</span>
+            <span>100% Free Public Access</span>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* THE GAMES ROSTER (unkn & xwordle) */}
+        {/* ========================================================================= */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          {/* GAME 01: unkn (Geo-01) */}
+          <article className="border border-carbon rounded-3xl p-6 sm:p-10 bg-white/70 shadow-sm ring-1 ring-carbon/10 flex flex-col justify-between space-y-6">
+            <div className="space-y-5">
+              {/* Header row */}
+              <div className="flex items-center justify-between border-b border-terrain/20 pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-signal-lime/25 border border-signal-lime/60 flex items-center justify-center text-carbon">
+                    <Compass className="w-5 h-5 text-carbon" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-terrain block">
+                      GEOGRAPHY DEDUCTION
+                    </span>
+                    <span className="text-xs font-mono text-carbon font-semibold">
+                      GEO-01 · 10 ROUNDS
+                    </span>
+                  </div>
+                </div>
+
+                <span className="text-xs font-mono text-carbon font-semibold bg-signal-lime/30 border border-signal-lime px-2.5 py-1 rounded-full">
+                  Flagship · Live
+                </span>
+              </div>
+
+              <div>
+                <h2 className="text-3xl sm:text-4xl font-space font-medium text-carbon tracking-tight">
+                  unkn (Geo-01)
+                </h2>
+                <p className="text-sm sm:text-base font-medium text-carbon/90 mt-1 leading-snug">
+                  Artisanal, minimalist GeoGuessr alternative with real Google 360° Street View panoramas.
+                </p>
+              </div>
+
+              <p className="text-xs sm:text-sm text-carbon/80 font-light leading-relaxed">
+                Drop into mystery coordinates across the globe. Inspect landscape biomes, road infrastructure, sun angle, and architectural language to deduce the secret country with a keyboard-driven search interface.
+              </p>
+
+              {/* Key Highlights */}
+              <div className="space-y-2 pt-2 border-t border-terrain/15 font-mono text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span>Real Google Maps JS SDK Street View (showRoadLabels: false)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span>Server-side secret country secrecy &amp; validation</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span>Complete 10-round expedition audit &amp; accuracy debrief</span>
+                </div>
+              </div>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-thin tracking-tight leading-[1.02] text-carbon">
-              Drop into the unknown. <br />
-              <span className="font-playwrite text-4xl sm:text-6xl lg:text-7xl text-terrain block mt-2">
-                guess the country.
-              </span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-lg sm:text-xl text-carbon/80 max-w-2xl font-light leading-relaxed pt-2">
-              An artisanal, minimalist <strong className="font-medium text-carbon font-space">GeoGuessr alternative</strong> designed for pure cartographic instinct. Survey real Google Street View panoramas, look at sun angles and road markings, and guess where you are in the world.
-            </p>
-
-            {/* Dual CTAs */}
-            <div className="flex flex-wrap items-center gap-4 pt-4">
+            {/* CTAs */}
+            <div className="pt-4 border-t border-terrain/20 flex flex-wrap items-center gap-3">
               <Link
                 href="/play"
-                className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-base px-8 py-4 rounded-full transition-all duration-200 shadow-md flex items-center gap-3 hover:scale-105 active:scale-95 border border-signal-lime/90 group"
+                className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs sm:text-sm px-6 py-3.5 rounded-2xl transition-all shadow-sm flex items-center gap-2 hover:scale-102 active:scale-98 border border-signal-lime/90 group"
               >
-                <span>Play unkn (10 Rounds)</span>
-                <ArrowRight className="w-5 h-5 text-carbon group-hover:translate-x-1 transition-transform" />
+                <Compass className="w-4 h-4 text-carbon" />
+                <span>Play Expedition (10 Rounds)</span>
+                <ArrowRight className="w-4 h-4 text-carbon group-hover:translate-x-1 transition-transform" />
               </Link>
 
               <button
                 onClick={() => setIsHowToPlayOpen(true)}
-                className="cursor-pointer border border-terrain/40 hover:border-carbon text-carbon font-normal text-base px-7 py-4 rounded-full hover:bg-black/5 transition-all flex items-center gap-2"
+                className="cursor-pointer border border-terrain/35 hover:border-carbon text-carbon font-mono text-xs px-4 py-3.5 rounded-2xl bg-white/50 hover:bg-white transition-colors inline-flex items-center gap-1.5"
               >
-                <Compass className="w-4 h-4 text-terrain" />
+                <HelpCircle className="w-3.5 h-3.5 text-terrain" />
                 <span>How to Play</span>
               </button>
-
-              <span className="text-xs font-mono text-terrain pl-2 hidden sm:inline">
-                Strict Light Mode • Real Google Street View
-              </span>
             </div>
+          </article>
 
-            {/* Telemetry Metric Badges */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 w-full pt-8 border-t border-terrain/25">
-              <div className="p-4 rounded-2xl bg-white/40 border border-terrain/20">
-                <span className="text-[11px] font-mono text-terrain uppercase block">Rounds</span>
-                <span className="text-2xl font-light font-mono text-carbon">10 / Game</span>
-              </div>
-              <div className="p-4 rounded-2xl bg-white/40 border border-terrain/20">
-                <span className="text-[11px] font-mono text-terrain uppercase block">Street View</span>
-                <span className="text-2xl font-light font-mono text-carbon">360° Spherical</span>
-              </div>
-              <div className="p-4 rounded-2xl bg-white/40 border border-terrain/20">
-                <span className="text-[11px] font-mono text-terrain uppercase block">Max Score</span>
-                <span className="text-2xl font-light font-mono text-carbon">10 Points</span>
-              </div>
-              <div className="p-4 rounded-2xl bg-white/40 border border-terrain/20">
-                <span className="text-[11px] font-mono text-terrain uppercase block">Scoring</span>
-                <span className="text-2xl font-light font-mono text-carbon">1 Pt / Match</span>
-              </div>
-            </div>
-          </div>
-        </section>
+          {/* GAME 02: xwordle (Word-01) */}
+          <article className="border border-terrain/35 rounded-3xl p-6 sm:p-10 bg-white/50 hover:bg-white/70 hover:border-carbon/70 transition-all shadow-2xs flex flex-col justify-between space-y-6">
+            <div className="space-y-5">
+              {/* Header row */}
+              <div className="flex items-center justify-between border-b border-terrain/20 pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-mist/30 border border-mist flex items-center justify-center text-carbon">
+                    <Sparkles className="w-5 h-5 text-carbon" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-terrain block">
+                      WORD DEDUCTION
+                    </span>
+                    <span className="text-xs font-mono text-carbon font-semibold">
+                      WORD-01 · 6 ATTEMPTS
+                    </span>
+                  </div>
+                </div>
 
-        {/* Viewport Preview Showcase Section */}
-        <section id="preview" className="max-w-7xl mx-auto px-4 sm:px-8 py-12">
-          <div className="border border-terrain/30 rounded-3xl p-6 sm:p-8 bg-white/30 backdrop-blur-xs space-y-6 shadow-sm">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-terrain/20 pb-4">
-              <div>
-                <span className="text-xs font-mono uppercase tracking-widest text-terrain">
-                  Interactive Observation Viewport
+                <span className="text-xs font-mono text-carbon font-semibold bg-mist/30 border border-mist px-2.5 py-1 rounded-full">
+                  New Release · Free
                 </span>
-                <h2 className="text-2xl sm:text-3xl font-space font-medium tracking-tight text-carbon mt-0.5">
-                  Reconnaissance in Pure Paper &amp; Carbon Clarity
+              </div>
+
+              <div>
+                <h2 className="text-3xl sm:text-4xl font-space font-medium text-carbon tracking-tight flex items-center gap-2">
+                  <span className="font-playwrite">xwordle</span>
                 </h2>
+                <p className="text-sm sm:text-base font-medium text-carbon/90 mt-1 leading-snug">
+                  Minimalist, tactile daily 5-letter vocabulary deduction puzzle.
+                </p>
               </div>
 
-              {/* Territory Switcher Chips */}
-              <div className="flex items-center gap-2">
-                {PREVIEWS.map((p, idx) => (
-                  <button
-                    key={p.country}
-                    onClick={() => setActivePreviewLocation(idx)}
-                    className={`cursor-pointer px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 ${
-                      activePreviewLocation === idx
-                        ? "bg-carbon text-paper font-medium shadow-xs"
-                        : "bg-paper text-terrain hover:text-carbon border border-terrain/30"
-                    }`}
-                  >
-                    <span>{p.flag}</span>
-                    <span className="hidden sm:inline">{p.country}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+              <p className="text-xs sm:text-sm text-carbon/80 font-light leading-relaxed">
+                A clean, distraction-free Wordle alternative engineered in strict light mode. 6 attempts to deduce the secret word, accompanied by responsive physical &amp; touch keyboard input, shareable emoji results, and persistent win streaks.
+              </p>
 
-            {/* Viewport Frame */}
-            <div className="relative h-[420px] sm:h-[500px] rounded-2xl overflow-hidden border border-terrain/40 shadow-inner group">
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out"
-                style={{
-                  backgroundImage: `url(${PREVIEWS[activePreviewLocation].image})`,
-                }}
-              >
-                <div className="absolute inset-0 bg-black/20" />
+              {/* Sample Tiles Visual */}
+              <div className="pt-2 border-t border-terrain/15 space-y-2">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-terrain block">
+                  Tactile Palette Feedback:
+                </span>
+                <div className="flex items-center gap-1.5 font-mono text-xs font-bold">
+                  <div className="w-8 h-8 rounded-lg bg-signal-lime text-carbon flex items-center justify-center border border-signal-lime">
+                    W
+                  </div>
+                  <div className="w-8 h-8 rounded-lg bg-mist/80 text-carbon flex items-center justify-center border border-mist">
+                    O
+                  </div>
+                  <div className="w-8 h-8 rounded-lg bg-terrain/20 text-terrain/70 flex items-center justify-center border border-terrain/30">
+                    R
+                  </div>
+                  <div className="w-8 h-8 rounded-lg bg-signal-lime text-carbon flex items-center justify-center border border-signal-lime">
+                    D
+                  </div>
+                  <div className="w-8 h-8 rounded-lg bg-white/70 text-carbon border border-carbon flex items-center justify-center">
+                    S
+                  </div>
+                </div>
               </div>
 
-              {/* Viewport Center Crosshair */}
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-40">
-                <Crosshair className="w-12 h-12 text-paper stroke-[1]" />
-              </div>
-
-              {/* Telemetry Overlays */}
-              <div className="absolute top-4 left-4 sm:top-6 sm:left-6 bg-carbon/80 backdrop-blur-md px-3.5 py-2.5 rounded-2xl border border-terrain/40 text-[11px] font-mono text-paper space-y-1">
+              <div className="space-y-2 pt-2 border-t border-terrain/15 font-mono text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-signal-lime animate-pulse" />
-                  <span className="text-signal-lime font-semibold">LOCATION SAMPLE</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span>Sub-100ms keyboard interaction on phone and desktop</span>
                 </div>
-                <div className="text-terrain text-[10px]">
-                  COORDINATES: <span className="text-paper">{PREVIEWS[activePreviewLocation].coords}</span>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span>Win streak telemetry stored locally on your device</span>
                 </div>
-                <div className="text-terrain text-[10px]">
-                  CLUES: <span className="text-paper">{PREVIEWS[activePreviewLocation].clue}</span>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span>One-click clipboard score sharing (🟩🟪⬛)</span>
                 </div>
-              </div>
-
-              {/* Bottom Right CTA to Play */}
-              <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6">
-                <Link
-                  href="/play"
-                  className="bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs sm:text-sm px-6 py-3 rounded-2xl shadow-xl flex items-center gap-2 transition-all hover:scale-105 active:scale-95"
-                >
-                  <MapPin className="w-4 h-4 text-carbon" />
-                  <span>Start Game Now →</span>
-                </Link>
               </div>
             </div>
-          </div>
+
+            {/* CTAs */}
+            <div className="pt-4 border-t border-terrain/20 flex flex-wrap items-center gap-3">
+              <Link
+                href="/games/xwordle"
+                className="cursor-pointer bg-carbon hover:bg-carbon/85 text-paper font-semibold text-xs sm:text-sm px-6 py-3.5 rounded-2xl transition-all shadow-sm flex items-center gap-2 hover:scale-102 active:scale-98 group"
+              >
+                <span>Play xwordle Now</span>
+                <ArrowRight className="w-4 h-4 text-signal-lime group-hover:translate-x-1 transition-transform" />
+              </Link>
+
+              <Link
+                href="/games/xwordle"
+                className="cursor-pointer border border-terrain/35 hover:border-carbon text-carbon font-mono text-xs px-4 py-3.5 rounded-2xl bg-white/40 hover:bg-white transition-colors"
+              >
+                <span>Quick Play</span>
+              </Link>
+            </div>
+          </article>
         </section>
 
-        {/* Field Mechanics Section */}
-        <section id="mechanics" className="max-w-7xl mx-auto px-4 sm:px-8 py-16 sm:py-24">
-          <div className="mb-12">
-            <span className="text-xs font-mono uppercase tracking-widest text-terrain">
-              How It Works
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-space font-medium tracking-tight text-carbon mt-1">
-              Simple, Fast, and Focused
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="border border-terrain/30 rounded-3xl p-8 bg-white/35 space-y-4 hover:border-carbon transition-colors">
-              <div className="w-10 h-10 rounded-2xl bg-signal-lime/30 border border-signal-lime/60 flex items-center justify-center font-mono font-semibold text-carbon">
-                01
-              </div>
-              <h3 className="text-2xl font-space font-medium text-carbon">Real Street View</h3>
-              <p className="text-sm text-carbon/80 leading-relaxed font-normal">
-                Inspect 360° spherical panoramas powered by Google Maps JavaScript API. Move along roads, look at signs, vegetation, and road markings.
-              </p>
-              <div className="pt-2 text-xs font-mono text-terrain">
-                Pan &amp; Tilt • Move Along Roads • Fullscreen Mode
-              </div>
-            </div>
-
-            <div className="border border-terrain/30 rounded-3xl p-8 bg-white/35 space-y-4 hover:border-carbon transition-colors">
-              <div className="w-10 h-10 rounded-2xl bg-mist/35 border border-mist/70 flex items-center justify-center font-mono font-semibold text-carbon">
-                02
-              </div>
-              <h3 className="text-2xl font-space font-medium text-carbon">Quick Country Search</h3>
-              <p className="text-sm text-carbon/80 leading-relaxed font-normal">
-                Quickly type to search countries by name, code, or continent. Full keyboard support with arrow keys and instant selection.
-              </p>
-              <div className="pt-2 text-xs font-mono text-terrain">
-                Fuzzy Search • Fast Keyboard Support • Instant Flags
-              </div>
-            </div>
-
-            <div className="border border-terrain/30 rounded-3xl p-8 bg-white/35 space-y-4 hover:border-carbon transition-colors">
-              <div className="w-10 h-10 rounded-2xl bg-carbon text-paper flex items-center justify-center font-mono font-semibold">
-                03
-              </div>
-              <h3 className="text-2xl font-space font-medium text-carbon">10-Round Results</h3>
-              <p className="text-sm text-carbon/80 leading-relaxed font-normal">
-                Answers are validated securely on the server and revealed immediately. Complete all 10 rounds to view your complete final score.
-              </p>
-              <div className="pt-2 text-xs font-mono text-terrain">
-                Server-Side Validation • 10-Round Debrief • Firestore Sync
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Global Coverage & Security Section */}
-        <section id="intel" className="max-w-7xl mx-auto px-4 sm:px-8 py-12">
-          <div className="border border-carbon rounded-3xl p-8 sm:p-12 bg-carbon text-paper space-y-8">
-            <div className="max-w-2xl space-y-3">
-              <span className="text-xs font-mono uppercase tracking-widest text-signal-lime">
-                Verified Global Coordinates
+        {/* ========================================================================= */}
+        {/* INTERACTIVE RECONNAISSANCE VIEWPORT (for unkn) */}
+        {/* ========================================================================= */}
+        <section id="preview" className="border border-terrain/30 rounded-3xl p-6 sm:p-10 bg-white/40 backdrop-blur-xs space-y-8 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-terrain/20 pb-4">
+            <div>
+              <span className="text-xs font-mono uppercase tracking-widest text-terrain">
+                Field Intel &amp; Reconnaissance
               </span>
-              <h2 className="text-3xl sm:text-4xl font-space font-medium tracking-tight text-paper">
-                Authentic Street View. Zero Spoilers.
-              </h2>
-              <p className="text-sm text-terrain font-light leading-relaxed">
-                Every round selects from verified Street View locations across all continents. The server keeps target country answers strictly hidden until you submit your guess.
-              </p>
+              <h3 className="text-2xl sm:text-3xl font-space font-medium tracking-tight text-carbon mt-0.5">
+                Observation Viewport Preview
+              </h3>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
-              <div className="p-5 rounded-2xl bg-white/5 border border-terrain/30 space-y-2">
-                <span className="text-signal-lime text-[10px] block">SECURITY FIRST</span>
-                <h4 className="text-base text-paper font-space font-medium">Server-Side Validation</h4>
-                <p className="text-terrain text-[11px] leading-relaxed">
-                  Answers and country coordinates are never revealed to the browser beforehand. Inspecting client memory reveals nothing.
+            {/* Territory Switcher Chips */}
+            <div className="flex items-center gap-2">
+              {PREVIEWS.map((p, idx) => (
+                <button
+                  key={p.country}
+                  onClick={() => setActivePreviewLocation(idx)}
+                  className={`cursor-pointer px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 ${activePreviewLocation === idx
+                      ? "bg-carbon text-paper font-medium shadow-xs"
+                      : "bg-paper text-terrain hover:text-carbon border border-terrain/30"
+                    }`}
+                >
+                  <span>{p.flag}</span>
+                  <span className="hidden sm:inline">{p.country}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Active Preview Viewport */}
+          <div className="relative rounded-2xl overflow-hidden border border-terrain/40 aspect-video max-h-[460px] w-full bg-carbon">
+            {/* Background Image */}
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-all duration-700 scale-100 hover:scale-105"
+              style={{
+                backgroundImage: `url('${PREVIEWS[activePreviewLocation].image}')`,
+              }}
+            />
+
+            {/* Viewport UI Overlays */}
+            <div className="absolute inset-0 bg-gradient-to-t from-carbon/80 via-transparent to-carbon/40 pointer-events-none" />
+
+            {/* Top Bar Telemetry */}
+            <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
+              <div className="px-3 py-1 rounded-lg bg-carbon/75 backdrop-blur-md border border-white/20 text-paper font-mono text-xs flex items-center gap-2">
+                <MapPin className="w-3.5 h-3.5 text-signal-lime" />
+                <span>{PREVIEWS[activePreviewLocation].coords}</span>
+              </div>
+
+              <div className="px-3 py-1 rounded-lg bg-carbon/75 backdrop-blur-md border border-white/20 text-signal-lime font-mono text-xs font-semibold">
+                TARGET TERRITORY: UNKNOWN
+              </div>
+            </div>
+
+            {/* Bottom Intel Card */}
+            <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-paper/95 backdrop-blur-md border border-terrain/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-carbon pointer-events-auto">
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                  <span className="font-space font-medium text-base">
+                    {PREVIEWS[activePreviewLocation].title}
+                  </span>
+                  <span className="text-xs font-mono text-terrain">
+                    ({PREVIEWS[activePreviewLocation].flag} {PREVIEWS[activePreviewLocation].country})
+                  </span>
+                </div>
+                <p className="text-xs font-mono text-terrain">
+                  Clue: {PREVIEWS[activePreviewLocation].clue}
                 </p>
               </div>
 
-              <div className="p-5 rounded-2xl bg-white/5 border border-terrain/30 space-y-2">
-                <span className="text-terrain text-[10px] block">TEN ROUNDS</span>
-                <h4 className="text-base text-paper font-space font-medium">Simple Scoring</h4>
-                <p className="text-terrain text-[11px] leading-relaxed">
-                  Earn 1 point for every country correctly identified. Maximum game score is 10 points.
-                </p>
-              </div>
-
-              <div className="p-5 rounded-2xl bg-white/5 border border-terrain/30 space-y-2">
-                <span className="text-mist text-[10px] block">CLOUD SAVE</span>
-                <h4 className="text-base text-paper font-space font-medium">Firebase Integration</h4>
-                <p className="text-terrain text-[11px] leading-relaxed">
-                  Play as a guest or sign in with Google or Email to archive your game history to Cloud Firestore.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Design System & Palette Tokens Anchor */}
-        <section id="tokens" className="max-w-7xl mx-auto px-4 sm:px-8 py-16">
-          <div className="mb-8">
-            <span className="text-xs font-mono uppercase tracking-widest text-terrain">
-              Design System &amp; Color Palette
-            </span>
-            <h2 className="text-3xl font-space font-medium text-carbon mt-1">
-              Built with Pure Editorial Tokens in Light Mode
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-            <div className="p-4 rounded-2xl border border-terrain/30 bg-carbon text-paper">
-              <div className="w-full h-12 rounded-lg bg-carbon border border-white/20 mb-2" />
-              <span className="font-medium text-sm block">Carbon</span>
-              <span className="font-mono text-xs text-terrain">#171815</span>
-            </div>
-
-            <div className="p-4 rounded-2xl border border-terrain/30 bg-paper text-carbon">
-              <div className="w-full h-12 rounded-lg bg-[#F0EFE6] border border-black/10 mb-2" />
-              <span className="font-medium text-sm block">Paper</span>
-              <span className="font-mono text-xs text-terrain">#F0EFE6</span>
-            </div>
-
-            <div className="p-4 rounded-2xl border border-terrain/30 bg-paper text-carbon">
-              <div className="w-full h-12 rounded-lg bg-[#D7F36A] border border-black/10 mb-2" />
-              <span className="font-medium text-sm block">Signal Lime</span>
-              <span className="font-mono text-xs text-terrain">#D7F36A</span>
-            </div>
-
-            <div className="p-4 rounded-2xl border border-terrain/30 bg-paper text-carbon">
-              <div className="w-full h-12 rounded-lg bg-[#858779] border border-black/10 mb-2" />
-              <span className="font-medium text-sm block">Terrain</span>
-              <span className="font-mono text-xs text-terrain">#858779</span>
-            </div>
-
-            <div className="p-4 rounded-2xl border border-terrain/30 bg-paper text-carbon col-span-2 sm:col-span-1">
-              <div className="w-full h-12 rounded-lg bg-[#B7A7D9] border border-black/10 mb-2" />
-              <span className="font-medium text-sm block">Mist</span>
-              <span className="font-mono text-xs text-terrain">#B7A7D9</span>
-            </div>
-          </div>
-        </section>
-
-        {/* Final CTA Banner */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-8 py-16">
-          <div className="border border-terrain/35 rounded-3xl p-8 sm:p-14 bg-signal-lime/20 text-center space-y-6">
-            <h2 className="text-4xl sm:text-6xl font-space font-light tracking-tight text-carbon">
-              Ready to test your geography instinct?
-            </h2>
-            <p className="font-playwrite text-2xl sm:text-3xl text-terrain max-w-xl mx-auto">
-              explore ten locations now.
-            </p>
-            <div className="pt-2">
               <Link
                 href="/play"
-                className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-base px-10 py-4 rounded-full transition-all duration-200 shadow-md inline-flex items-center gap-2 hover:scale-105 active:scale-95 border border-signal-lime/90"
+                className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs px-5 py-2.5 rounded-full transition-all shrink-0 flex items-center justify-center gap-1.5 shadow-2xs border border-signal-lime"
               >
-                <span>Play Now →</span>
-                <ArrowRight className="w-4 h-4 text-carbon" />
+                <span>Launch Live Session</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* STUDIO GAMING MANIFESTO */}
+        {/* ========================================================================= */}
+        <section className="border border-carbon rounded-3xl p-8 sm:p-12 bg-carbon text-paper space-y-8">
+          <div className="space-y-2">
+            <span className="text-xs font-mono uppercase tracking-widest text-signal-lime">
+              Studio Standards
+            </span>
+            <h3 className="text-2xl sm:text-4xl font-space font-light text-paper">
+              How We Engineer Games at Xweet
+            </h3>
+            <p className="text-sm font-light text-terrain max-w-2xl leading-relaxed">
+              We build games the way games used to be made: instant, responsive, respectful of your time, and free of corporate monetization tricks.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs pt-4 border-t border-white/10">
+            <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+              <span className="text-signal-lime font-bold block">01. ZERO ADS OR PAYWALLS</span>
+              <p className="text-terrain text-[11px] leading-relaxed font-light">
+                No 30-second video ads before you can make a guess. No energy meters telling you to wait 4 hours. Play as much as you want.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+              <span className="text-signal-lime font-bold block">02. SUB-100MS RESPONSIVENESS</span>
+              <p className="text-terrain text-[11px] leading-relaxed font-light">
+                Instant keyboard typing, fast Street View panorama loads, and smooth 60–120 FPS animations on mobile phones and desktop.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+              <span className="text-signal-lime font-bold block">03. SERVER-SIDE SECRECY</span>
+              <p className="text-terrain text-[11px] leading-relaxed font-light">
+                Answers are validated on the server with cryptographic integrity. Inspection tools cannot cheat the target solution.
+              </p>
             </div>
           </div>
         </section>
       </main>
 
-      <HowToPlayModal
-        isOpen={isHowToPlayOpen}
-        onClose={() => setIsHowToPlayOpen(false)}
-      />
+      {/* How to Play Modal for unkn */}
+      <HowToPlayModal isOpen={isHowToPlayOpen} onClose={() => setIsHowToPlayOpen(false)} />
 
-      <Footer
-        soundEnabled={soundEnabled}
-        onToggleSound={() => setSoundEnabled((prev) => !prev)}
-        onOpenHowToPlay={() => setIsHowToPlayOpen(true)}
-      />
+      {/* Studio Architectural Footer */}
+      <StudioFooter />
     </div>
   );
 }
-
