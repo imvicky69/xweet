@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     "Independent Software Studio",
     "Independent Developer",
     "unkn",
-    "Geo-01",
+    "Geography Games",
     "geoguessr alternative",
     "Infyn",
     "Smiley PDF",

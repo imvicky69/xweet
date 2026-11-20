@@ -237,8 +237,8 @@ export default function XwordlePage() {
             <span className="font-playwrite text-2xl tracking-tight text-carbon">
               xwordle
             </span>
-            <span className="text-[10px] font-mono uppercase bg-carbon text-paper px-1.5 py-0.5 rounded font-semibold">
-              WORD-01
+            <span className="text-[10px] font-mono uppercase bg-carbon text-paper px-2 py-0.5 rounded-full font-medium">
+              Daily
             </span>
           </div>
 

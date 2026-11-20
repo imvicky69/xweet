@@ -95,17 +95,17 @@ export default function StudioNavbar() {
       {/* Mobile Drawer (Adaptive phone responsiveness) */}
       {mobileMenuOpen && (
         <div className="md:hidden border-b border-terrain/25 bg-paper px-6 py-6 space-y-4 animate-in fade-in">
-          <nav className="flex flex-col space-y-2 font-mono text-xs uppercase tracking-wider text-terrain">
+          <nav className="flex flex-col space-y-1 font-mono text-xs uppercase tracking-wider text-terrain">
             <Link
               href="/games"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2.5 flex items-center justify-between border-b border-terrain/15 ${
+              className={`py-3 flex items-center justify-between border-b border-terrain/15 ${
                 isGames ? "text-carbon font-semibold" : "text-carbon/90 hover:text-carbon"
               }`}
             >
               <div className="flex items-center gap-2">
                 <Compass className="w-4 h-4 text-terrain" />
-                <span>01 // Games (unkn &amp; xwordle)</span>
+                <span>Games &amp; Puzzles</span>
               </div>
               <span className="text-[10px] bg-signal-lime text-carbon px-2 py-0.5 rounded-full font-bold">
                 PLAY
@@ -115,11 +115,11 @@ export default function StudioNavbar() {
             <Link
               href="/apps"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2.5 flex items-center justify-between border-b border-terrain/15 ${
+              className={`py-3 flex items-center justify-between border-b border-terrain/15 ${
                 isApps ? "text-carbon font-semibold" : "text-carbon/90 hover:text-carbon"
               }`}
             >
-              <span>02 // Apps &amp; Utilities</span>
+              <span>Apps &amp; Software</span>
               <span className="text-[10px] bg-black/5 text-terrain px-2 py-0.5 rounded-full border border-terrain/20 font-medium">
                 CATALOG
               </span>
@@ -128,18 +128,18 @@ export default function StudioNavbar() {
             <Link
               href="/#about"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-carbon/90 hover:text-carbon py-2.5 border-b border-terrain/15"
+              className="text-carbon/90 hover:text-carbon py-3 border-b border-terrain/15"
             >
-              03 // About Studio
+              About Studio
             </Link>
 
-            <div className="pt-2">
+            <div className="pt-3">
               <Link
                 href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
                 className="w-full bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold py-3 px-4 rounded-xl flex items-center justify-between text-xs tracking-normal font-sans border border-signal-lime shadow-2xs"
               >
-                <span>Start a Project / Inquire</span>
+                <span>Inquire About a Project</span>
                 <ArrowRight className="w-4 h-4 text-carbon" />
               </Link>
             </div>

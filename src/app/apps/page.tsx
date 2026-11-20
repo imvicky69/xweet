@@ -106,12 +106,12 @@ export default function AppsCatalogPage() {
       id: "unkn",
       category: "games",
       categoryLabel: "INTERACTIVE CARTOGRAPHY GAME · STREET VIEW",
-      title: "unkn (Geo-01)",
+      title: "unkn",
       domain: "xweet.in/play",
       tagline: "Artisanal, minimalist geography deduction game with real Google 360° panoramas.",
       description:
         "A full-stack geography deduction game. Drop into unknown global coordinates across 10 tactical rounds, analyze architectural clues, solar orientation, and road markings, and guess the country using a keyboard-driven search interface.",
-      badge: "Flagship Game · v1.2",
+      badge: "Flagship Game · Live",
       icon: Compass,
       platforms: ["Web Browser (Desktop & Mobile)"],
       highlights: [
@@ -130,7 +130,7 @@ export default function AppsCatalogPage() {
     {
       id: "xwordle",
       category: "games",
-      categoryLabel: "VOCABULARY DEDUCTION GAME · WORD-01",
+      categoryLabel: "VOCABULARY DEDUCTION GAME · DAILY PUZZLE",
       title: "xwordle",
       domain: "xweet.in/games/xwordle",
       tagline: "Minimalist, tactile daily 5-letter vocabulary deduction puzzle.",
@@ -212,9 +212,9 @@ export default function AppsCatalogPage() {
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-thin tracking-tight leading-[1.02] text-carbon">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-space font-medium tracking-tight leading-[1.04] text-carbon">
             Sovereign Apps &amp; Digital Archives. <br />
-            <span className="font-playwrite text-3xl sm:text-5xl lg:text-6xl text-terrain block mt-2">
+            <span className="font-space font-light text-terrain text-3xl sm:text-5xl lg:text-6xl block mt-2 tracking-tight">
               crafted for utility, speed &amp; aesthetics.
             </span>
           </h1>

@@ -71,9 +71,9 @@ export default function GamesHubPage() {
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-thin tracking-tight leading-[1.02] text-carbon">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-space font-medium tracking-tight leading-[1.04] text-carbon">
             Tactile Games &amp; Deductive Puzzles. <br />
-            <span className="font-playwrite text-3xl sm:text-5xl lg:text-6xl text-terrain block mt-2">
+            <span className="font-space font-light text-terrain text-3xl sm:text-5xl lg:text-6xl block mt-2 tracking-tight">
               designed for pure instinct.
             </span>
           </h1>
@@ -113,7 +113,7 @@ export default function GamesHubPage() {
                       GEOGRAPHY DEDUCTION
                     </span>
                     <span className="text-xs font-mono text-carbon font-semibold">
-                      GEO-01 · 10 ROUNDS
+                      EXPEDITION · 10 ROUNDS
                     </span>
                   </div>
                 </div>
@@ -125,7 +125,7 @@ export default function GamesHubPage() {
 
               <div>
                 <h2 className="text-3xl sm:text-4xl font-space font-medium text-carbon tracking-tight">
-                  unkn (Geo-01)
+                  unkn
                 </h2>
                 <p className="text-sm sm:text-base font-medium text-carbon/90 mt-1 leading-snug">
                   Artisanal, minimalist GeoGuessr alternative with real Google 360° Street View panoramas.
@@ -188,7 +188,7 @@ export default function GamesHubPage() {
                       WORD DEDUCTION
                     </span>
                     <span className="text-xs font-mono text-carbon font-semibold">
-                      WORD-01 · 6 ATTEMPTS
+                      DAILY PUZZLE · 6 ATTEMPTS
                     </span>
                   </div>
                 </div>
@@ -373,21 +373,21 @@ export default function GamesHubPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs pt-4 border-t border-white/10">
             <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-              <span className="text-signal-lime font-bold block">01. ZERO ADS OR PAYWALLS</span>
+              <span className="text-signal-lime font-bold block">ZERO ADS OR PAYWALLS</span>
               <p className="text-terrain text-[11px] leading-relaxed font-light">
                 No 30-second video ads before you can make a guess. No energy meters telling you to wait 4 hours. Play as much as you want.
               </p>
             </div>
 
             <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-              <span className="text-signal-lime font-bold block">02. SUB-100MS RESPONSIVENESS</span>
+              <span className="text-signal-lime font-bold block">SUB-100MS RESPONSIVENESS</span>
               <p className="text-terrain text-[11px] leading-relaxed font-light">
                 Instant keyboard typing, fast Street View panorama loads, and smooth 60–120 FPS animations on mobile phones and desktop.
               </p>
             </div>
 
             <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-              <span className="text-signal-lime font-bold block">03. SERVER-SIDE SECRECY</span>
+              <span className="text-signal-lime font-bold block">SERVER-SIDE SECRECY</span>
               <p className="text-terrain text-[11px] leading-relaxed font-light">
                 Answers are validated on the server with cryptographic integrity. Inspection tools cannot cheat the target solution.
               </p>

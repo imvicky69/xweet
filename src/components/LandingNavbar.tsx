@@ -42,7 +42,7 @@ export default function LandingNavbar({ onOpenHowToPlay }: LandingNavbarProps) {
               <div className="flex items-center gap-2">
                 <span className="font-playwrite text-2xl tracking-tight text-carbon">unkn</span>
                 <span className="text-[10px] uppercase tracking-widest font-mono text-terrain border border-terrain/40 px-1.5 py-0.2 rounded">
-                  GEO-01
+                  EXPEDITION
                 </span>
               </div>
               <span className="text-[10px] font-mono text-terrain -mt-1 hidden sm:block">

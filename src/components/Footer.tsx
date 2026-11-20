@@ -241,7 +241,7 @@ export default function Footer({
           </div>
 
           <div className="flex items-center gap-6">
-            <span className="text-[11px] text-terrain">GEO-01 // PRODUCTION</span>
+            <span className="text-[11px] text-terrain">STABLE PRODUCTION BUILD</span>
             <span className="w-1.5 h-1.5 rounded-full bg-signal-lime" />
             <span className="text-[11px] text-carbon">PAPER #F0EFE6 &amp; CARBON #171815</span>
           </div>

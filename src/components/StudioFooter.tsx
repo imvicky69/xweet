@@ -172,7 +172,7 @@ export default function StudioFooter() {
                   href="/play"
                   className="hover:text-carbon text-carbon font-medium transition-colors flex items-center justify-between group"
                 >
-                  <span>unkn (Geo-01 Game)</span>
+                  <span>unkn (Geography Game)</span>
                   <span className="text-[10px] bg-signal-lime text-carbon px-1.5 py-0.2 rounded font-semibold">
                     PLAY
                   </span>
@@ -183,7 +183,7 @@ export default function StudioFooter() {
                   href="/games/xwordle"
                   className="hover:text-carbon text-carbon font-medium transition-colors flex items-center justify-between group"
                 >
-                  <span>xwordle (Word-01)</span>
+                  <span>xwordle (Word Game)</span>
                   <span className="text-[10px] bg-mist/70 text-carbon px-1.5 py-0.2 rounded font-semibold">
                     PLAY
                   </span>

@@ -250,7 +250,7 @@ function PlayController() {
             {/* Rules Quick Checklist */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left font-mono text-xs max-w-lg mx-auto">
               <div className="p-3.5 rounded-2xl bg-paper border border-terrain/30 space-y-1">
-                <span className="text-signal-lime text-[10px] block font-semibold">RULE 01</span>
+                <span className="text-signal-lime text-[10px] block font-semibold uppercase tracking-wider">Format</span>
                 <span className="text-carbon font-medium block">10 Locations</span>
                 <span className="text-terrain text-[11px] leading-tight block">
                   Curated 360° panoramas worldwide.
@@ -258,7 +258,7 @@ function PlayController() {
               </div>
 
               <div className="p-3.5 rounded-2xl bg-paper border border-terrain/30 space-y-1">
-                <span className="text-signal-lime text-[10px] block font-semibold">RULE 02</span>
+                <span className="text-signal-lime text-[10px] block font-semibold uppercase tracking-wider">Scoring</span>
                 <span className="text-carbon font-medium block">1 Point / Match</span>
                 <span className="text-terrain text-[11px] leading-tight block">
                   1 pt for correct country, 0 for miss.
@@ -266,7 +266,7 @@ function PlayController() {
               </div>
 
               <div className="p-3.5 rounded-2xl bg-paper border border-terrain/30 space-y-1">
-                <span className="text-signal-lime text-[10px] block font-semibold">RULE 03</span>
+                <span className="text-signal-lime text-[10px] block font-semibold uppercase tracking-wider">Telemetry</span>
                 <span className="text-carbon font-medium block">Pure Clues</span>
                 <span className="text-terrain text-[11px] leading-tight block">
                   Look at signs, road lines &amp; sun direction.

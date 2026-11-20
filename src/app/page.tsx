@@ -22,9 +22,8 @@ export default function StudioHomePage() {
     const RELEASES = [
       {
         id: "unkn",
-        num: "01",
         category: "INTERACTIVE CARTOGRAPHY GAME",
-        title: "unkn (Geo-01)",
+        title: "unkn",
         tagline: "Minimalist, artisanal geography deduction game with real Google 360° Street View.",
         description:
         "A full-stack interactive geography guessing game engineered for pure cartographic instinct. Survey real Google Street View panoramas, analyze sun angles and road markings, and guess the country with a searchable keyboard-driven interface.",
@@ -38,9 +37,8 @@ export default function StudioHomePage() {
       },
       {
         id: "xwordle",
-        num: "02",
         category: "VOCABULARY DEDUCTION GAME",
-        title: "xwordle (Word-01)",
+        title: "xwordle",
         tagline: "Minimalist, tactile daily 5-letter vocabulary deduction puzzle.",
         description:
         "A clean, distraction-free Wordle alternative engineered in strict light mode. 6 attempts to deduce the secret word, accompanied by responsive physical & touch keyboard input, shareable emoji results, and persistent win streaks.",
@@ -53,7 +51,6 @@ export default function StudioHomePage() {
       },
       {
         id: "wallpaper",
-        num: "03",
         category: "CURATED VISUAL ARCHIVE · 4K / 5K ULTRA-HD",
         title: "Xweet Wallpapers",
         tagline: "Curated 4K & 5K wallpapers for smartphone screens & desktop workstations.",
@@ -68,7 +65,6 @@ export default function StudioHomePage() {
       },
       {
         id: "infyn",
-        num: "04",
         category: "SOVEREIGN IN-BROWSER UTILITY SUITE",
         title: "Infyn DL & Utilities",
         tagline: "100% private in-browser digital utilities running locally with zero cloud uploads.",
@@ -83,7 +79,6 @@ export default function StudioHomePage() {
       },
       {
         id: "smiley-pdf",
-        num: "05",
         category: "ANDROID MOBILE APPLICATION",
         title: "Smiley PDF",
         tagline: "Fast, air-gapped Android document reader with 120 FPS hardware acceleration.",
@@ -98,7 +93,6 @@ export default function StudioHomePage() {
       },
       {
         id: "indivio",
-        num: "06",
         category: "HYPERLOCAL LOGISTICS PLATFORM",
         title: "Indivio",
         tagline: "Low-latency food delivery and courier dispatch engine with live GPS tracking.",
@@ -115,21 +109,18 @@ export default function StudioHomePage() {
 
   const ETHOS = [
       {
-        num: "01",
         title: "Sovereign Privacy & Local-First",
         icon: EyeOff,
         description:
           "Software should respect human autonomy. Where possible, our applications process data strictly on-device using WebAssembly and modern browser APIs. Zero telemetry, zero tracking cookies, and zero third-party surveillance scripts.",
       },
       {
-        num: "02",
         title: "Sub-100ms Tactile Speed",
         icon: Zap,
         description:
           "Digital tools should feel like responsive physical machinery. We target sub-second page loads, 120 FPS mobile interfaces, instant keyboard shortcuts, and lightweight asset bundles that respect battery life and network bandwidth.",
       },
       {
-        num: "03",
         title: "Restraint Over Feature Bloat",
         icon: Cpu,
         description:
@@ -183,7 +174,7 @@ export default function StudioHomePage() {
                 className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-sm sm:text-base px-7 sm:px-8 py-3.5 sm:py-4 rounded-full transition-all duration-200 shadow-md flex items-center gap-3 hover:scale-105 active:scale-95 border border-signal-lime/90 group"
               >
                 <Compass className="w-4 h-4 text-carbon" />
-                <span>Play unkn (Geo-01 Expedition)</span>
+                <span>Play unkn Expedition</span>
                 <ArrowRight className="w-4 h-4 text-carbon group-hover:translate-x-1 transition-transform" />
               </Link>
 
@@ -213,37 +204,37 @@ export default function StudioHomePage() {
             <div className="w-full pt-6 sm:pt-8 border-t border-terrain/20">
               <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-terrain">
                 <div className="flex items-center gap-2">
-                  <span className="text-signal-lime font-bold">01</span>
-                  <span>LOCAL-FIRST &amp; PRIVACY RESPECTING</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span className="text-carbon/90 font-medium">Local-First &amp; Sovereign Privacy</span>
                 </div>
                 <div className="hidden sm:inline-block text-terrain/40">•</div>
                 <div className="flex items-center gap-2">
-                  <span className="text-signal-lime font-bold">02</span>
-                  <span>120 FPS &amp; SUB-100MS LATENCY</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span className="text-carbon/90 font-medium">120 FPS &amp; Sub-100ms Response</span>
                 </div>
                 <div className="hidden sm:inline-block text-terrain/40">•</div>
                 <div className="flex items-center gap-2">
-                  <span className="text-signal-lime font-bold">03</span>
-                  <span>NO SURVEILLANCE OR AD TRACKERS</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span className="text-carbon/90 font-medium">Zero Surveillance or Ad Trackers</span>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-                      {/* ========================================================================= */}
-                      {/* SECTION 01: SHIPPED SOFTWARE RELEASES (The Centerpiece) */}
-                      {/* ========================================================================= */}
-                      <section id="releases" className="max-w-7xl mx-auto px-4 sm:px-8 py-20 sm:py-28">
-                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-                          <div>
-                            <span className="text-xs font-mono uppercase tracking-widest text-terrain">
-                              01 // Shipped Software &amp; Games
-                            </span>
-                            <h2 className="text-3xl sm:text-5xl font-space font-medium tracking-tight text-carbon mt-1">
-                              The Software Releases
-                            </h2>
-                          </div>
+        {/* ========================================================================= */}
+        {/* SHIPPED SOFTWARE RELEASES (The Centerpiece) */}
+        {/* ========================================================================= */}
+        <section id="releases" className="max-w-7xl mx-auto px-4 sm:px-8 py-20 sm:py-28">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+            <div>
+              <span className="text-xs font-mono uppercase tracking-widest text-terrain font-medium">
+                Shipped Software &amp; Games
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-space font-medium tracking-tight text-carbon mt-1">
+                The Software Releases
+              </h2>
+            </div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <p className="text-xs sm:text-sm font-mono text-terrain max-w-md">
                 Living digital products, interactive tools, and sovereign utilities designed and maintained independently by Xweet.
@@ -255,28 +246,26 @@ export default function StudioHomePage() {
                 <span>View Dedicated Apps Catalog →</span>
               </Link>
             </div>
-                        </div>
+          </div>
 
-                            <div className="space-y-12">
-                              {RELEASES.map((item) => (
-                                <article
-                                  key={item.id}
-                className={`border rounded-3xl p-6 sm:p-10 transition-all ${item.isFlagship
-                                      ? "border-carbon bg-white/70 shadow-sm ring-1 ring-carbon/10"
-                                      : "border-terrain/35 bg-white/40 hover:bg-white/60 hover:border-carbon/60 shadow-2xs"
-                                    }`}
-                                >
-                                    {/* Header row */}
-                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-terrain/20 pb-4 mb-6">
-                                      <div className="flex items-center gap-3">
-                                          <span className="text-sm sm:text-base font-mono font-bold text-terrain">
-                                            {item.num}
-                                          </span>
-                                          <span className="text-terrain/40">/</span>
-                                          <span className="text-xs font-mono uppercase tracking-wider text-terrain">
-                                            {item.category}
-                                          </span>
-                                      </div>
+          <div className="space-y-12">
+            {RELEASES.map((item) => (
+              <article
+                key={item.id}
+                className={`border rounded-3xl p-6 sm:p-10 transition-all ${
+                  item.isFlagship
+                    ? "border-carbon bg-white/70 shadow-sm ring-1 ring-carbon/10"
+                    : "border-terrain/35 bg-white/40 hover:bg-white/60 hover:border-carbon/60 shadow-2xs"
+                }`}
+              >
+                {/* Header row */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-terrain/20 pb-4 mb-6">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-signal-lime shrink-0" />
+                    <span className="text-xs font-mono uppercase tracking-wider text-terrain font-medium">
+                      {item.category}
+                    </span>
+                  </div>
 
                                         <span className="text-xs font-mono text-carbon font-semibold bg-black/5 border border-terrain/25 px-3 py-1 rounded-full self-start sm:self-auto">
                                           {item.badge}
@@ -366,7 +355,7 @@ export default function StudioHomePage() {
                                         <div className="space-y-1 text-center sm:text-left">
                                           <div className="flex items-center justify-center sm:justify-start gap-2 text-xs font-mono text-terrain uppercase">
                                             <Sparkles className="w-3.5 h-3.5 text-signal-lime" />
-                                            <span>05 // Studio Laboratory</span>
+                                            <span>Studio Laboratory</span>
                                           </div>
                                           <h4 className="text-lg font-space font-medium text-carbon">
                                             Experimental Prototypes &amp; Micro-Tools in Testing
@@ -390,7 +379,7 @@ export default function StudioHomePage() {
                                             <section id="about" className="max-w-7xl mx-auto px-4 sm:px-8 py-20 border-t border-terrain/25">
                                               <div className="mb-14">
                                                 <span className="text-xs font-mono uppercase tracking-widest text-terrain">
-                                                  02 // Studio Philosophy
+                                                  Studio Philosophy &amp; Convictions
                                                 </span>
                                                 <h2 className="text-3xl sm:text-5xl font-space font-medium tracking-tight text-carbon mt-1">
                                                   Software Ethos &amp; Convictions
@@ -405,7 +394,7 @@ export default function StudioHomePage() {
                                                     const Icon = e.icon;
                                                     return (
                 <div
-                  key={e.num}
+                  key={e.title}
                   className="border border-terrain/35 rounded-3xl p-8 bg-white/50 space-y-4 hover:border-carbon/70 transition-colors flex flex-col justify-between"
                 >
                   <div className="space-y-4">
@@ -413,8 +402,8 @@ export default function StudioHomePage() {
                       <div className="w-12 h-12 rounded-2xl bg-signal-lime/25 border border-signal-lime/60 flex items-center justify-center text-carbon">
                         <Icon className="w-6 h-6 text-carbon" />
                       </div>
-                      <span className="text-xs font-mono text-terrain font-bold">
-                        {e.num}
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-terrain bg-black/5 px-2.5 py-0.5 rounded-full border border-terrain/20 font-medium">
+                        Standard
                       </span>
                     </div>
 
@@ -444,7 +433,7 @@ export default function StudioHomePage() {
                                                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                                                       <div className="lg:col-span-7 space-y-4">
                                                         <span className="text-xs font-mono uppercase tracking-widest text-signal-lime">
-                                                          03 // Bespoke Collaboration
+                                                          Bespoke Collaboration
                                                         </span>
                                                         <h2 className="text-3xl sm:text-5xl font-space font-light tracking-tight text-paper">
                                                           Available for Select Commissions
