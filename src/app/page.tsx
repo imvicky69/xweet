@@ -155,9 +155,9 @@ export default function StudioHomePage() {
         <section className="max-w-7xl mx-auto px-4 sm:px-8 pt-4 sm:pt-6 lg:pt-8 pb-12 sm:pb-16 border-b border-terrain/25">
           <div className="flex flex-col items-start max-w-4xl space-y-4 sm:space-y-5">
             {/* Main Editorial Headline */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-[5.25rem] font-space font-medium tracking-tight leading-[1.04] text-carbon">
+            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-thin tracking-tight leading-[1.01] text-carbon">
               Independent software crafted with precision &amp; restraint. <br />
-              <span className="font-space font-light text-terrain text-3xl sm:text-5xl lg:text-6xl block mt-2 sm:mt-3 tracking-tight">
+              <span className="font-playwrite text-4xl sm:text-6xl lg:text-7xl text-terrain block mt-2">
                 sovereign tools, games &amp; web apps.
               </span>
             </h1>

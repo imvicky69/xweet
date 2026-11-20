@@ -212,9 +212,9 @@ export default function AppsCatalogPage() {
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-space font-medium tracking-tight leading-[1.04] text-carbon">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-thin tracking-tight leading-[1.02] text-carbon">
             Sovereign Apps &amp; Digital Archives. <br />
-            <span className="font-space font-light text-terrain text-3xl sm:text-5xl lg:text-6xl block mt-2 tracking-tight">
+            <span className="font-playwrite text-3xl sm:text-5xl lg:text-6xl text-terrain block mt-2">
               crafted for utility, speed &amp; aesthetics.
             </span>
           </h1>
