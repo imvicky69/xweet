@@ -731,41 +731,31 @@ export default function WordlePage() {
           </div>
 
           {/* RIGHT COLUMN: TELEMETRY & ON-SCREEN KEYBOARD */}
-          <div className="flex flex-col items-center justify-center w-full max-w-md sm:max-w-lg shrink-0 gap-3 sm:gap-4">
-            {/* Desktop Round Telemetry Box */}
-            <div className="hidden lg:flex w-full items-center justify-between p-3.5 rounded-2xl bg-white/60 border border-terrain/25 text-xs font-mono">
-              <div className="space-y-0.5">
-                <span className="text-[10px] uppercase tracking-widest text-terrain block">
-                  Current Round
-                </span>
-                <span className="text-sm font-bold text-carbon">
-                  Round 0{currentRound} of 0{TOTAL_ROUNDS}
-                </span>
-              </div>
+          <div className="flex flex-col items-center justify-center w-full max-w-md sm:max-w-lg shrink-0 gap-2.5 sm:gap-3">
+            {/* Minimal Attempt Status Bar (No redundant round repetition) */}
+            <div className="w-full flex items-center justify-between px-1 pb-0.5 text-xs font-mono">
+              <span className="text-terrain text-[11px] uppercase tracking-wider">
+                Attempt <strong className="text-carbon font-bold">{Math.min(guesses.length + 1, 6)}</strong> of 6
+              </span>
 
-              {/* Attempt Pips */}
-              <div className="flex flex-col items-end gap-1">
-                <span className="text-[10px] uppercase tracking-widest text-terrain">
-                  Attempt {Math.min(guesses.length + 1, 6)} / 6
-                </span>
-                <div className="flex items-center gap-1.5">
-                  {Array.from({ length: 6 }).map((_, i) => {
-                    const isUsed = i < guesses.length;
-                    const isCurrent = i === guesses.length;
-                    return (
-                      <div
-                        key={i}
-                        className={`h-2 rounded-full transition-all ${
-                          isUsed
-                            ? "w-3 bg-carbon"
-                            : isCurrent
-                              ? "w-5 bg-signal-lime border border-carbon/40 animate-pulse"
-                              : "w-2 bg-terrain/30"
-                        }`}
-                      />
-                    );
-                  })}
-                </div>
+              {/* 6 Attempt Pips */}
+              <div className="flex items-center gap-1.5">
+                {Array.from({ length: 6 }).map((_, i) => {
+                  const isUsed = i < guesses.length;
+                  const isCurrent = i === guesses.length;
+                  return (
+                    <div
+                      key={i}
+                      className={`h-1.5 rounded-full transition-all duration-200 ${
+                        isUsed
+                          ? "w-3 bg-carbon"
+                          : isCurrent
+                            ? "w-5 bg-signal-lime border border-carbon/40 animate-pulse"
+                            : "w-2 bg-terrain/30"
+                      }`}
+                    />
+                  );
+                })}
               </div>
             </div>
 
