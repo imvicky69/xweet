@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import StudioNavbar from "@/components/StudioNavbar";
 import StudioFooter from "@/components/StudioFooter";
-import HeroCartographyGlobe from "@/components/HeroCartographyGlobe";
 import {
   ArrowRight,
   Compass,
@@ -154,78 +153,70 @@ export default function StudioHomePage() {
         {/* HERO SECTION: Studio Manifesto & Immediate Focus */}
         {/* ========================================================================= */}
         <section className="max-w-7xl mx-auto px-4 sm:px-8 pt-4 sm:pt-6 lg:pt-8 pb-12 sm:pb-16 border-b border-terrain/25">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-center">
-            {/* Left Content Column */}
-            <div className="lg:col-span-7 xl:col-span-7 flex flex-col items-start space-y-4 sm:space-y-5">
-              {/* Main Editorial Headline */}
-              <h1 className="text-5xl sm:text-7xl lg:text-8xl font-thin tracking-tight leading-[1.01] text-carbon">
-                Independent software crafted with precision &amp; restraint. <br />
-                <span className="font-space font-light text-terrain text-3xl sm:text-5xl lg:text-6xl block mt-2 sm:mt-3 tracking-tight">
-                  sovereign tools, games &amp; web apps.
-                </span>
-              </h1>
+          <div className="flex flex-col items-start max-w-5xl space-y-4 sm:space-y-5">
+            {/* Main Editorial Headline */}
+            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-thin tracking-tight leading-[1.01] text-carbon">
+              Independent software crafted with precision &amp; restraint. <br />
+              <span className="font-space font-light text-terrain text-3xl sm:text-5xl lg:text-6xl block mt-2 sm:mt-3 tracking-tight">
+                sovereign tools, games &amp; web apps.
+              </span>
+            </h1>
 
-              {/* Studio Purpose Statement */}
-              <p className="text-base sm:text-lg lg:text-xl text-carbon/75 max-w-2xl font-light leading-relaxed pt-1">
-                An independent studio building fast, private tools and tactile games — free of tracking, ads, and clutter.
-              </p>
+            {/* Studio Purpose Statement */}
+            <p className="text-base sm:text-lg lg:text-xl text-carbon/75 max-w-2xl font-light leading-relaxed pt-1">
+              An independent studio building fast, private tools and tactile games — free of tracking, ads, and clutter.
+            </p>
 
-              {/* Direct Editorial Actions */}
-              <div className="flex flex-wrap items-center gap-3.5 pt-2">
-                <Link
-                  href="/unkn"
-                  className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-sm sm:text-base px-7 sm:px-8 py-3.5 sm:py-4 rounded-full transition-all duration-200 shadow-md flex items-center gap-3 hover:scale-105 active:scale-95 border border-signal-lime/90 group"
-                >
-                  <Compass className="w-4 h-4 text-carbon" />
-                  <span>Play unkn Expedition</span>
-                  <ArrowRight className="w-4 h-4 text-carbon group-hover:translate-x-1 transition-transform" />
-                </Link>
+            {/* Direct Editorial Actions */}
+            <div className="flex flex-wrap items-center gap-3.5 pt-2">
+              <Link
+                href="/unkn"
+                className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-sm sm:text-base px-7 sm:px-8 py-3.5 sm:py-4 rounded-full transition-all duration-200 shadow-md flex items-center gap-3 hover:scale-105 active:scale-95 border border-signal-lime/90 group"
+              >
+                <Compass className="w-4 h-4 text-carbon" />
+                <span>Play unkn Expedition</span>
+                <ArrowRight className="w-4 h-4 text-carbon group-hover:translate-x-1 transition-transform" />
+              </Link>
 
-                <Link
-                  href="/apps"
-                  className="cursor-pointer border border-terrain/40 hover:border-carbon text-carbon font-mono text-xs sm:text-sm px-6 py-3.5 sm:py-4 rounded-full hover:bg-black/5 transition-all flex items-center gap-2"
-                >
-                  <span>Browse Dedicated Apps →</span>
-                </Link>
+              <Link
+                href="/apps"
+                className="cursor-pointer border border-terrain/40 hover:border-carbon text-carbon font-mono text-xs sm:text-sm px-6 py-3.5 sm:py-4 rounded-full hover:bg-black/5 transition-all flex items-center gap-2"
+              >
+                <span>Browse Dedicated Apps →</span>
+              </Link>
 
-                <a
-                  href="#releases"
-                  className="cursor-pointer text-xs font-mono text-terrain hover:text-carbon px-4 py-3.5 sm:py-4 transition-colors"
-                >
-                  <span>Releases Index ↓</span>
-                </a>
+              <a
+                href="#releases"
+                className="cursor-pointer text-xs font-mono text-terrain hover:text-carbon px-4 py-3.5 sm:py-4 transition-colors"
+              >
+                <span>Releases Index ↓</span>
+              </a>
 
-                <Link
-                  href="/contact"
-                  className="cursor-pointer text-xs font-mono text-terrain hover:text-carbon px-4 py-3.5 sm:py-4 transition-colors"
-                >
-                  <span>Select Commissions →</span>
-                </Link>
-              </div>
+              <Link
+                href="/contact"
+                className="cursor-pointer text-xs font-mono text-terrain hover:text-carbon px-4 py-3.5 sm:py-4 transition-colors"
+              >
+                <span>Select Commissions →</span>
+              </Link>
             </div>
 
-            {/* Right Side: Interactive 3D Cartography Model (PC / Desktop View Only) */}
-            <div className="hidden lg:flex lg:col-span-5 xl:col-span-5 justify-center xl:justify-end items-center">
-              <HeroCartographyGlobe />
-            </div>
-          </div>
-
-          {/* Streamlined Studio Principles Strip */}
-          <div className="w-full pt-6 sm:pt-8 border-t border-terrain/20 mt-6 sm:mt-8">
-            <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-terrain">
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
-                <span className="text-carbon/90 font-medium">Local-First &amp; Sovereign Privacy</span>
-              </div>
-              <div className="hidden sm:inline-block text-terrain/40">•</div>
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
-                <span className="text-carbon/90 font-medium">120 FPS &amp; Sub-100ms Response</span>
-              </div>
-              <div className="hidden sm:inline-block text-terrain/40">•</div>
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
-                <span className="text-carbon/90 font-medium">Zero Surveillance or Ad Trackers</span>
+            {/* Streamlined Studio Principles Strip */}
+            <div className="w-full pt-6 sm:pt-8 border-t border-terrain/20">
+              <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-terrain">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span className="text-carbon/90 font-medium">Local-First &amp; Sovereign Privacy</span>
+                </div>
+                <div className="hidden sm:inline-block text-terrain/40">•</div>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span className="text-carbon/90 font-medium">120 FPS &amp; Sub-100ms Response</span>
+                </div>
+                <div className="hidden sm:inline-block text-terrain/40">•</div>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span className="text-carbon/90 font-medium">Zero Surveillance or Ad Trackers</span>
+                </div>
               </div>
             </div>
           </div>
