@@ -492,13 +492,13 @@ export default function WordlePage() {
       {/* Studio Navigation Bar */}
       <StudioNavbar />
 
-      <main className="flex-1 w-full max-w-xl mx-auto px-4 sm:px-6 py-4 sm:py-8 flex flex-col items-center justify-between">
-        {/* ========================================================================= */}
-        {/* EDITORIAL 5-ROUND SERIES HEADER & CONTROLS */}
-        {/* ========================================================================= */}
-        <div className="w-full flex items-center justify-between border-b border-terrain/25 pb-3">
+      {/* ========================================================================= */}
+      {/* DEDICATED 5-ROUND SERIES CONTROL BAR (Full Width with generous max-w-4xl) */}
+      {/* ========================================================================= */}
+      <div className="w-full border-b border-terrain/20 bg-paper/60 backdrop-blur-xs">
+        <div className="max-w-4xl mx-auto px-4 sm:px-8 py-3 sm:py-4 flex items-center justify-between gap-4">
           {/* Left: Back Link & Series Round Badge */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             <Link
               href="/games"
               className="flex items-center gap-1.5 text-xs font-mono text-terrain hover:text-carbon transition-colors"
@@ -508,25 +508,21 @@ export default function WordlePage() {
               <span className="hidden sm:inline">Games</span>
             </Link>
 
+            <span className="text-terrain/30 hidden sm:inline">•</span>
+
             <div className="flex items-center gap-2">
               <span className="font-playwrite text-2xl tracking-tight text-carbon">wordle</span>
-              <span className="text-[10px] font-mono uppercase bg-carbon text-paper px-2 py-0.5 rounded-full font-medium">
-                0{currentRound} / 0{TOTAL_ROUNDS}
+              <span className="text-[11px] font-mono uppercase bg-carbon text-paper px-2.5 py-0.5 rounded-full font-medium whitespace-nowrap shrink-0">
+                Round 0{currentRound} / 0{TOTAL_ROUNDS}
               </span>
             </div>
           </div>
 
-          {/* Center: Progress Segments */}
-          <div className="hidden sm:flex flex-col items-center gap-1">
-            <div className="flex items-center gap-2 text-xs font-mono text-terrain">
-              <span>
-                Round <strong className="text-carbon font-bold">0{currentRound}</strong> of 0{TOTAL_ROUNDS}
-              </span>
-              <span>•</span>
-              <span>
-                <strong className="text-carbon font-bold">{seriesSolvedCount}</strong> / {TOTAL_ROUNDS} Solved
-              </span>
-            </div>
+          {/* Center: Progress Segments & Score (Desktop) */}
+          <div className="hidden md:flex flex-col items-center gap-1 shrink-0">
+            <span className="text-[11px] font-mono text-terrain">
+              Series Score: <strong className="text-carbon font-semibold">{seriesSolvedCount}</strong> of {TOTAL_ROUNDS} Solved
+            </span>
 
             {/* 5 Progress Segments */}
             <div className="flex items-center gap-1.5">
@@ -538,11 +534,11 @@ export default function WordlePage() {
 
                 let pillClass = "h-1.5 rounded-full transition-all duration-300 ";
                 if (isPast) {
-                  pillClass += isCorrect ? "w-5 sm:w-6 bg-signal-lime" : "w-5 sm:w-6 bg-carbon/30";
+                  pillClass += isCorrect ? "w-6 bg-signal-lime" : "w-6 bg-carbon/35";
                 } else if (isCurrent) {
-                  pillClass += "w-7 sm:w-9 bg-carbon";
+                  pillClass += "w-8 bg-carbon";
                 } else {
-                  pillClass += "w-4 sm:w-5 bg-terrain/25";
+                  pillClass += "w-4 bg-terrain/25";
                 }
 
                 return <div key={i} className={pillClass} />;
@@ -551,7 +547,7 @@ export default function WordlePage() {
           </div>
 
           {/* Right Toolbar Controls */}
-          <div className="flex items-center gap-1 sm:gap-1.5">
+          <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
             {/* Audio Toggle */}
             <button
               onClick={toggleMute}
@@ -612,8 +608,8 @@ export default function WordlePage() {
           </div>
         </div>
 
-        {/* Mobile Sub-Header Progress Bar */}
-        <div className="w-full flex sm:hidden items-center justify-between pt-2 pb-1 text-[11px] font-mono text-terrain">
+        {/* Mobile Series Progress Bar */}
+        <div className="flex md:hidden items-center justify-between max-w-sm mx-auto px-4 pb-2.5 text-[11px] font-mono text-terrain">
           <span>Round 0{currentRound} / 0{TOTAL_ROUNDS}</span>
           <div className="flex items-center gap-1">
             {Array.from({ length: TOTAL_ROUNDS }).map((_, i) => {
@@ -635,6 +631,10 @@ export default function WordlePage() {
           </div>
           <span>{seriesSolvedCount} Solved</span>
         </div>
+      </div>
+
+      {/* Main Playing Area with Generous Spacing */}
+      <main className="flex-1 w-full max-w-lg mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col items-center justify-between">
 
         {/* Floating Toast Notification */}
         {toastMessage && (
