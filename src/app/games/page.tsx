@@ -56,42 +56,17 @@ export default function GamesHubPage() {
       {/* Universal Studio Navigation: ONLY Games, Apps, About + 1 CTA */}
       <StudioNavbar />
 
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 py-8 sm:py-16 space-y-12 sm:space-y-16">
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 py-6 sm:py-10 space-y-8 sm:space-y-12">
         {/* ========================================================================= */}
-        {/* GAMES HUB HERO */}
+        {/* GAMES HUB HERO: Minimal One-Lined Header */}
         {/* ========================================================================= */}
-        <section className="space-y-6 max-w-4xl">
-          <div className="flex items-center gap-2 text-xs font-mono text-terrain">
-            <Link href="/" className="hover:text-carbon transition-colors">
-              Xweet Studio
-            </Link>
-            <span>/</span>
-            <span className="text-carbon font-semibold uppercase tracking-wider">
-              Games &amp; Interactive Lab
-            </span>
-          </div>
-
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-thin tracking-tight leading-[1.02] text-carbon">
-            Tactile Games &amp; Deductive Puzzles. <br />
-            <span className="font-space font-light text-terrain text-3xl sm:text-5xl lg:text-6xl block mt-2 tracking-tight">
-              designed for pure instinct.
-            </span>
+        <section className="border-b border-terrain/20 pb-4 sm:pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-thin tracking-tight text-carbon">
+            Tactile Games &amp; Deductive Puzzles.
           </h1>
-
-          <p className="text-base sm:text-lg text-carbon/75 font-light leading-relaxed max-w-2xl">
-            Minimalist browser games built for instinct and focus — free of ads, paywalls, and distraction.
-          </p>
-
-          {/* Quick Telemetry Pill Bar */}
-          <div className="flex flex-wrap items-center gap-3 pt-2 text-xs font-mono text-terrain border-t border-terrain/20">
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-signal-lime animate-pulse" />
-              <span className="text-carbon font-semibold">2 Games Live</span>
-            </div>
-            <span>•</span>
-            <span>Real Google Street View &amp; Wasm Logic</span>
-            <span>•</span>
-            <span>100% Free Public Access</span>
+          <div className="flex items-center gap-2 text-xs font-mono text-terrain shrink-0">
+            <span className="w-2 h-2 rounded-full bg-signal-lime" />
+            <span className="text-carbon font-medium">Free &amp; Ad-Free</span>
           </div>
         </section>
 
