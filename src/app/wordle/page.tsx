@@ -21,12 +21,16 @@ import {
   Trophy,
   ArrowRight,
   Sparkles,
+  SlidersHorizontal,
 } from "lucide-react";
 import {
   isValidWord,
   getRandomTargetWord,
   getRecentWords,
   recordRecentWord,
+  getDifficultyPreference,
+  setDifficultyPreference,
+  type WordleDifficulty,
 } from "@/lib/wordle-words";
 
 type TileState = "empty" | "tbd" | "correct" | "present" | "absent";
@@ -105,6 +109,9 @@ export default function WordlePage() {
   const [lastRoundResult, setLastRoundResult] = useState<RoundAudit | null>(null);
   const [showRoundModal, setShowRoundModal] = useState<boolean>(false);
   const [showSeriesSummary, setShowSeriesSummary] = useState<boolean>(false);
+  const [showDifficultyModal, setShowDifficultyModal] = useState<boolean>(false);
+  const [difficulty, setDifficulty] = useState<WordleDifficulty>("progressive");
+  const [pendingDifficulty, setPendingDifficulty] = useState<WordleDifficulty>("progressive");
 
   // Active Board State
   const [targetWord, setTargetWord] = useState<string>("EARTH");
@@ -199,10 +206,13 @@ export default function WordlePage() {
     }
   }, []);
 
-  // Initialize first target word on mount
+  // Initialize first target word with saved difficulty preference on mount
   useEffect(() => {
+    const savedDiff = getDifficultyPreference();
+    setDifficulty(savedDiff);
+    setPendingDifficulty(savedDiff);
     const recents = getRecentWords();
-    const initialWord = getRandomTargetWord(recents);
+    const initialWord = getRandomTargetWord(recents, savedDiff, 1);
     setTargetWord(initialWord);
     recordRecentWord(initialWord);
   }, []);
@@ -293,7 +303,7 @@ export default function WordlePage() {
     setCurrentRound(nextRoundIndex);
 
     const recents = getRecentWords();
-    const nextWord = getRandomTargetWord(recents);
+    const nextWord = getRandomTargetWord(recents, difficulty, nextRoundIndex);
     setTargetWord(nextWord);
     recordRecentWord(nextWord);
 
@@ -303,8 +313,8 @@ export default function WordlePage() {
     triggerToast(`Round 0${nextRoundIndex} Ready`);
   };
 
-  // Start a fresh 5-round series
-  const startNewSeries = () => {
+  // Start a fresh 5-round series with optional difficulty override
+  const startNewSeries = (diffOverride?: WordleDifficulty) => {
     try {
       Object.values(audioRef.current).forEach((audio) => {
         audio.pause();
@@ -312,29 +322,51 @@ export default function WordlePage() {
       });
     } catch {}
 
+    const activeDiff =
+      (typeof diffOverride === "string" ? diffOverride : null) || difficulty;
+    if (typeof diffOverride === "string") {
+      setDifficulty(diffOverride);
+      setPendingDifficulty(diffOverride);
+      setDifficultyPreference(diffOverride);
+    }
+
     setShowRoundModal(false);
     setShowSeriesSummary(false);
     setShowStats(false);
+    setShowDifficultyModal(false);
     setCurrentRound(1);
     setRoundHistory([]);
     setLastRoundResult(null);
 
     const recents = getRecentWords();
-    const firstWord = getRandomTargetWord(recents);
+    const firstWord = getRandomTargetWord(recents, activeDiff, 1);
     setTargetWord(firstWord);
     recordRecentWord(firstWord);
 
     setGuesses([]);
     setCurrentGuess("");
     setGameStatus("playing");
-    triggerToast("New 5-Round Series Started");
+    triggerToast(`New Series Started · ${activeDiff.toUpperCase()}`);
+  };
+
+  const openDifficultyModal = () => {
+    setPendingDifficulty(difficulty);
+    setShowDifficultyModal(true);
+  };
+
+  const handleApplyDifficultyPreference = (newDiff: WordleDifficulty) => {
+    setDifficulty(newDiff);
+    setPendingDifficulty(newDiff);
+    setDifficultyPreference(newDiff);
+    setShowDifficultyModal(false);
+    triggerToast(`Difficulty set to ${newDiff.toUpperCase()}`);
   };
 
   // Keyboard input handler
   const handleKey = useCallback(
     (key: string) => {
       if (gameStatus !== "playing") return;
-      if (showRoundModal || showSeriesSummary || showHelp || showStats) return;
+      if (showRoundModal || showSeriesSummary || showHelp || showStats || showDifficultyModal) return;
 
       const upper = key.toUpperCase();
 
@@ -550,6 +582,14 @@ export default function WordlePage() {
                 <span className="text-[11px] font-mono uppercase bg-carbon text-paper px-2.5 py-0.5 rounded-full font-medium whitespace-nowrap shrink-0">
                   Round 0{currentRound} / 0{TOTAL_ROUNDS}
                 </span>
+                <button
+                  onClick={openDifficultyModal}
+                  className="hidden sm:inline-flex items-center gap-1.5 text-[10px] font-mono uppercase border border-terrain/35 hover:border-carbon text-terrain hover:text-carbon px-2.5 py-0.5 rounded-full font-medium transition-colors cursor-pointer shrink-0"
+                  title="Configure Word Difficulty Level"
+                >
+                  <SlidersHorizontal className="w-3 h-3 text-terrain" />
+                  <span className="capitalize">{difficulty}</span>
+                </button>
               </div>
             </div>
 
@@ -611,6 +651,19 @@ export default function WordlePage() {
                 )}
               </button>
 
+              {/* Difficulty Level Selector */}
+              <button
+                onClick={openDifficultyModal}
+                className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer flex items-center gap-1.5"
+                title={`Word Difficulty: ${difficulty.toUpperCase()} (Click to change)`}
+                aria-label="Select Word Difficulty Level"
+              >
+                <SlidersHorizontal className="w-4 h-4 text-terrain" />
+                <span className="hidden xl:inline text-[11px] font-mono uppercase font-semibold text-carbon">
+                  {difficulty}
+                </span>
+              </button>
+
               {/* How to Play */}
               <button
                 onClick={() => setShowHelp(true)}
@@ -633,7 +686,7 @@ export default function WordlePage() {
 
               {/* Reset 5-Round Series */}
               <button
-                onClick={startNewSeries}
+                onClick={() => startNewSeries()}
                 className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer"
                 title="Restart 5-Round Series"
                 aria-label="Restart 5-Round Series"
@@ -1040,7 +1093,7 @@ export default function WordlePage() {
             {/* Series Actions */}
             <div className="space-y-2 pt-2">
               <button
-                onClick={startNewSeries}
+                onClick={() => startNewSeries()}
                 className="w-full py-3.5 rounded-full bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs font-mono transition-all flex items-center justify-center gap-2 border border-signal-lime/80 shadow-xs cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5 text-carbon" />
@@ -1208,6 +1261,139 @@ export default function WordlePage() {
                 className="w-full py-3 rounded-full bg-carbon text-paper font-mono text-xs font-semibold hover:bg-carbon/90 transition-all cursor-pointer"
               >
                 Resume Game
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* DIFFICULTY SELECTION MODAL */}
+      {/* ========================================================================= */}
+      {showDifficultyModal && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-paper border border-terrain/35 rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-xl animate-in fade-in">
+            <div className="flex items-center justify-between border-b border-terrain/20 pb-3">
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                  <SlidersHorizontal className="w-3.5 h-3.5 text-terrain" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-terrain">
+                    LEXICAL DIFFICULTY TIERS
+                  </span>
+                </div>
+                <h3 className="text-xl font-space font-medium text-carbon">
+                  Target Lexicon Preference
+                </h3>
+              </div>
+              <button
+                onClick={() => setShowDifficultyModal(false)}
+                className="p-1.5 rounded-lg border border-terrain/30 text-carbon hover:bg-black/5 cursor-pointer"
+                aria-label="Close difficulty modal"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="text-xs text-terrain leading-relaxed">
+              Tailor the target secret word distribution to your preferred challenge level. All 5,757 valid English words remain acceptable guesses in every mode.
+            </p>
+
+            {/* 4 Difficulty Tier Cards */}
+            <div className="space-y-2.5">
+              {[
+                {
+                  id: "progressive" as WordleDifficulty,
+                  label: "Progressive Series",
+                  tag: "Recommended",
+                  lexicon: "Top 900 → 5,757 words",
+                  desc: "Rounds 1–2 start with familiar words, steadily ramping up to advanced vocabulary in Round 5.",
+                },
+                {
+                  id: "easy" as WordleDifficulty,
+                  label: "Easy / Casual",
+                  tag: "Top 1,200",
+                  lexicon: "1,200 everyday words",
+                  desc: "Focuses strictly on common, universally recognizable daily English vocabulary.",
+                },
+                {
+                  id: "medium" as WordleDifficulty,
+                  label: "Medium / Standard",
+                  tag: "Top 2,800",
+                  lexicon: "2,800 classic words",
+                  desc: "Balanced lexical challenge matching the classic New York Times Wordle standard.",
+                },
+                {
+                  id: "hard" as WordleDifficulty,
+                  label: "Hard / Lexicographer",
+                  tag: "5,757 Full",
+                  lexicon: "Unrestricted dictionary",
+                  desc: "Uncapped master vocabulary including archaic, literary, and rare 5-letter gems.",
+                },
+              ].map((tier) => {
+                const isSelected = pendingDifficulty === tier.id;
+                return (
+                  <button
+                    key={tier.id}
+                    type="button"
+                    onClick={() => setPendingDifficulty(tier.id)}
+                    className={`w-full text-left p-3.5 rounded-2xl border transition-all cursor-pointer flex items-start gap-3.5 ${
+                      isSelected
+                        ? "bg-white/80 border-carbon ring-1 ring-carbon shadow-2xs"
+                        : "bg-white/40 border-terrain/25 hover:border-terrain/50 hover:bg-white/60"
+                    }`}
+                  >
+                    <div
+                      className={`w-5 h-5 rounded-full border mt-0.5 flex items-center justify-center shrink-0 transition-colors ${
+                        isSelected
+                          ? "bg-signal-lime border-carbon text-carbon"
+                          : "border-terrain/40 bg-paper"
+                      }`}
+                    >
+                      {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
+                    </div>
+
+                    <div className="flex-1 space-y-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-space font-medium text-sm text-carbon">
+                          {tier.label}
+                        </span>
+                        <span
+                          className={`text-[10px] font-mono px-2 py-0.5 rounded-full uppercase font-medium ${
+                            tier.tag === "Recommended"
+                              ? "bg-signal-lime text-carbon font-semibold"
+                              : "bg-black/5 text-terrain"
+                          }`}
+                        >
+                          {tier.tag}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-terrain leading-snug">
+                        {tier.desc}
+                      </p>
+                      <div className="text-[10px] font-mono text-terrain/70">
+                        Target Pool: <span className="text-carbon font-medium">{tier.lexicon}</span>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Actions */}
+            <div className="pt-2 flex flex-col sm:flex-row gap-2">
+              <button
+                type="button"
+                onClick={() => startNewSeries(pendingDifficulty)}
+                className="flex-1 py-3 px-4 rounded-full bg-signal-lime text-carbon font-mono text-xs font-semibold hover:bg-signal-lime/90 transition-all cursor-pointer text-center border border-carbon/20 shadow-2xs"
+              >
+                Apply & Restart Series
+              </button>
+              <button
+                type="button"
+                onClick={() => handleApplyDifficultyPreference(pendingDifficulty)}
+                className="py-3 px-5 rounded-full bg-carbon text-paper font-mono text-xs font-semibold hover:bg-carbon/90 transition-all cursor-pointer text-center"
+              >
+                Apply to Next Round
               </button>
             </div>
           </div>

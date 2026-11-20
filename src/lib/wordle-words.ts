@@ -1,5 +1,7 @@
 import wordsData from "../../public/words.json";
 
+export type WordleDifficulty = "easy" | "medium" | "hard" | "progressive";
+
 // Thematic words that align with the unkn tactile/tech/cartography brand
 const THEMATIC_ADDITIONS: string[] = [
   "ASYNC", "INBOX", "PLUTO", "VENUS", "BYTES", "ATOLL", "FJORD", "GLYPH", "PIXEL",
@@ -10,17 +12,42 @@ const RAW_WORDS: string[] = (wordsData.words || [])
   .map((w: string) => (typeof w === "string" ? w.trim().toUpperCase() : ""))
   .filter((w: string) => w.length === 5 && /^[A-Z]{5}$/.test(w));
 
-// Complete dictionary of all allowed words in O(1) hash set
+// Complete dictionary of all allowed words in O(1) hash set (every word can always be guessed)
 export const VALID_GUESS_SET: Set<string> = new Set([
   ...RAW_WORDS,
   ...THEMATIC_ADDITIONS,
 ]);
 
-// All words in the dataset can be targets
-export const TARGET_WORDS: string[] = [
+// =========================================================================
+// DIFFICULTY TIERS (Ranked by frequency from common to obscure)
+// =========================================================================
+
+// Easy / Casual: Top 1,200 common, everyday words (ideal for relaxing play)
+export const EASY_WORDS: string[] = [
+  ...RAW_WORDS.slice(0, 1200),
+  ...THEMATIC_ADDITIONS,
+];
+
+// Medium / Standard: Top 2,800 common and recognizable words (classic Wordle caliber)
+export const MEDIUM_WORDS: string[] = [
+  ...RAW_WORDS.slice(0, 2800),
+  ...THEMATIC_ADDITIONS,
+];
+
+// Hard / Expert: Full 5,757+ dictionary including archaic, literary, and rare vocabulary
+export const HARD_WORDS: string[] = [
   ...RAW_WORDS,
   ...THEMATIC_ADDITIONS,
 ];
+
+// Progressive 5-Round Series Curve: Each round ramps up in lexical challenge
+export const PROGRESSIVE_ROUND_POOLS: Record<number, string[]> = {
+  1: [...RAW_WORDS.slice(0, 900), ...THEMATIC_ADDITIONS], // Round 1: Familiar Everyday (Top 900)
+  2: [...RAW_WORDS.slice(0, 1600), ...THEMATIC_ADDITIONS], // Round 2: Standard Common (Top 1,600)
+  3: [...RAW_WORDS.slice(0, 2600), ...THEMATIC_ADDITIONS], // Round 3: Intermediate (Top 2,600)
+  4: [...RAW_WORDS.slice(0, 3800), ...THEMATIC_ADDITIONS], // Round 4: Challenging (Top 3,800)
+  5: [...RAW_WORDS, ...THEMATIC_ADDITIONS], // Round 5: Climax Master (Full 5,757 words)
+};
 
 /**
  * Checks whether an entered guess is a legitimate 5-letter English word.
@@ -32,19 +59,60 @@ export function isValidWord(guess: string): boolean {
 }
 
 /**
- * Fast O(1) random solution generator.
+ * Fast O(1) random solution generator tailored to difficulty preference.
  * Avoids recently played words so the user never gets repeat solutions in consecutive rounds.
  */
-export function getRandomTargetWord(recentWords: string[] = []): string {
+export function getRandomTargetWord(
+  recentWords: string[] = [],
+  difficulty: WordleDifficulty = "progressive",
+  roundNumber: number = 1
+): string {
+  let candidateWords: string[];
+
+  if (difficulty === "progressive") {
+    candidateWords = PROGRESSIVE_ROUND_POOLS[roundNumber] || MEDIUM_WORDS;
+  } else if (difficulty === "easy") {
+    candidateWords = EASY_WORDS;
+  } else if (difficulty === "medium") {
+    candidateWords = MEDIUM_WORDS;
+  } else {
+    candidateWords = HARD_WORDS;
+  }
+
   const recentSet = new Set(recentWords.map((w) => w.toUpperCase()));
-  const pool = TARGET_WORDS.filter((w) => !recentSet.has(w));
-  const candidatePool = pool.length > 50 ? pool : TARGET_WORDS;
+  const pool = candidateWords.filter((w) => !recentSet.has(w));
+  const candidatePool = pool.length > 30 ? pool : candidateWords;
   const index = Math.floor(Math.random() * candidatePool.length);
   return candidatePool[index];
 }
 
 const RECENT_WORDS_STORAGE_KEY = "wordle_recent_words";
+const DIFFICULTY_STORAGE_KEY = "wordle_difficulty_preference";
 const MAX_RECENT_HISTORY = 50;
+
+/**
+ * Retrieves the user's saved difficulty preference from localStorage.
+ */
+export function getDifficultyPreference(): WordleDifficulty {
+  if (typeof window === "undefined") return "progressive";
+  try {
+    const saved = localStorage.getItem(DIFFICULTY_STORAGE_KEY);
+    if (saved === "easy" || saved === "medium" || saved === "hard" || saved === "progressive") {
+      return saved;
+    }
+  } catch {}
+  return "progressive";
+}
+
+/**
+ * Persists the user's difficulty preference to localStorage.
+ */
+export function setDifficultyPreference(difficulty: WordleDifficulty): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(DIFFICULTY_STORAGE_KEY, difficulty);
+  } catch {}
+}
 
 /**
  * Retrieves the list of recently played target words from localStorage.
