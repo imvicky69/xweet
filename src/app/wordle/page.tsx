@@ -669,9 +669,9 @@ export default function WordlePage() {
         </div>
 
         {/* ========================================================================= */}
-        {/* GAMEPLAY CANVAS: ZOOMED & FITTED VERTICALLY */}
+        {/* GAMEPLAY CANVAS: ADAPTIVE SIDE-BY-SIDE ON DESKTOP, STACKED ON MOBILE */}
         {/* ========================================================================= */}
-        <div className="flex-1 w-full max-w-2xl mx-auto px-4 sm:px-6 py-2 sm:py-3 flex flex-col items-center justify-between min-h-0 overflow-hidden">
+        <div className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 py-2 sm:py-4 flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-12 min-h-0">
           {/* Floating Toast Notification */}
           {toastMessage && (
             <div className="fixed top-16 z-50 bg-carbon text-paper px-4 py-2 rounded-full text-xs font-mono shadow-md animate-in fade-in slide-in-from-top-2">
@@ -679,91 +679,139 @@ export default function WordlePage() {
             </div>
           )}
 
-          {/* 6x5 LETTER GRID (ZOOMED & FITTED) */}
-          <div className="my-auto py-1 sm:py-2 flex flex-col gap-1.5 sm:gap-2 md:gap-2.5 justify-center">
-            {Array.from({ length: 6 }).map((_, rowIndex) => {
-              const isCurrentRow = rowIndex === guesses.length;
-              const rowGuess = guesses[rowIndex] || (isCurrentRow ? currentGuess : "");
-              const isShaking = shakingRow === rowIndex;
+          {/* LEFT COLUMN: 6x5 LETTER GRID */}
+          <div className="flex flex-col items-center justify-center shrink-0">
+            <div className="flex flex-col gap-1.5 sm:gap-2 justify-center">
+              {Array.from({ length: 6 }).map((_, rowIndex) => {
+                const isCurrentRow = rowIndex === guesses.length;
+                const rowGuess = guesses[rowIndex] || (isCurrentRow ? currentGuess : "");
+                const isShaking = shakingRow === rowIndex;
 
-              return (
-                <div
-                  key={rowIndex}
-                  className={`flex gap-1.5 sm:gap-2.5 justify-center transition-transform ${
-                    isShaking ? "animate-shake" : ""
-                  }`}
-                >
-                  {Array.from({ length: 5 }).map((_, colIndex) => {
-                    const letter = rowGuess[colIndex] || "";
-                    const isSubmitted = rowIndex < guesses.length;
-                    const state: TileState = isSubmitted
-                      ? getTileState(guesses[rowIndex], colIndex)
-                      : letter
-                        ? "tbd"
-                        : "empty";
+                return (
+                  <div
+                    key={rowIndex}
+                    className={`flex gap-1.5 sm:gap-2 justify-center transition-transform ${
+                      isShaking ? "animate-shake" : ""
+                    }`}
+                  >
+                    {Array.from({ length: 5 }).map((_, colIndex) => {
+                      const letter = rowGuess[colIndex] || "";
+                      const isSubmitted = rowIndex < guesses.length;
+                      const state: TileState = isSubmitted
+                        ? getTileState(guesses[rowIndex], colIndex)
+                        : letter
+                          ? "tbd"
+                          : "empty";
 
-                    let styleClass =
-                      "aspect-square w-12 h-12 sm:w-15 sm:h-15 md:w-17 md:h-17 lg:w-19 lg:h-19 max-h-[10.5vh] max-w-[10.5vh] sm:max-h-[11.5vh] sm:max-w-[11.5vh] border rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl md:text-3xl font-mono uppercase transition-all duration-200 select-none shadow-2xs ";
+                      let styleClass =
+                        "w-11 h-11 sm:w-13 sm:h-13 md:w-14 md:h-14 lg:w-16 lg:h-16 border rounded-xl sm:rounded-2xl flex items-center justify-center text-lg sm:text-2xl md:text-3xl font-mono uppercase transition-all duration-200 select-none shadow-2xs ";
 
-                    if (state === "correct") {
-                      styleClass += "bg-signal-lime text-carbon border-signal-lime font-bold shadow-xs";
-                    } else if (state === "present") {
-                      styleClass += "bg-mist/85 text-carbon border-mist font-bold";
-                    } else if (state === "absent") {
-                      styleClass += "bg-terrain/20 text-terrain/70 border-terrain/30 font-medium";
-                    } else if (state === "tbd") {
-                      styleClass += "border-2 border-carbon bg-white text-carbon font-bold scale-102";
-                    } else {
-                      styleClass += "border-terrain/30 bg-white/40 text-carbon";
-                    }
+                      if (state === "correct") {
+                        styleClass += "bg-signal-lime text-carbon border-signal-lime font-bold shadow-xs";
+                      } else if (state === "present") {
+                        styleClass += "bg-mist/85 text-carbon border-mist font-bold";
+                      } else if (state === "absent") {
+                        styleClass += "bg-terrain/20 text-terrain/70 border-terrain/30 font-medium";
+                      } else if (state === "tbd") {
+                        styleClass += "border-2 border-carbon bg-white text-carbon font-bold scale-102";
+                      } else {
+                        styleClass += "border-terrain/30 bg-white/40 text-carbon";
+                      }
 
+                      return (
+                        <div key={colIndex} className={styleClass}>
+                          {letter}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: TELEMETRY & ON-SCREEN KEYBOARD */}
+          <div className="flex flex-col items-center justify-center w-full max-w-md sm:max-w-lg shrink-0 gap-3 sm:gap-4">
+            {/* Desktop Round Telemetry Box */}
+            <div className="hidden lg:flex w-full items-center justify-between p-3.5 rounded-2xl bg-white/60 border border-terrain/25 text-xs font-mono">
+              <div className="space-y-0.5">
+                <span className="text-[10px] uppercase tracking-widest text-terrain block">
+                  Current Round
+                </span>
+                <span className="text-sm font-bold text-carbon">
+                  Round 0{currentRound} of 0{TOTAL_ROUNDS}
+                </span>
+              </div>
+
+              {/* Attempt Pips */}
+              <div className="flex flex-col items-end gap-1">
+                <span className="text-[10px] uppercase tracking-widest text-terrain">
+                  Attempt {Math.min(guesses.length + 1, 6)} / 6
+                </span>
+                <div className="flex items-center gap-1.5">
+                  {Array.from({ length: 6 }).map((_, i) => {
+                    const isUsed = i < guesses.length;
+                    const isCurrent = i === guesses.length;
                     return (
-                      <div key={colIndex} className={styleClass}>
-                        {letter}
-                      </div>
+                      <div
+                        key={i}
+                        className={`h-2 rounded-full transition-all ${
+                          isUsed
+                            ? "w-3 bg-carbon"
+                            : isCurrent
+                              ? "w-5 bg-signal-lime border border-carbon/40 animate-pulse"
+                              : "w-2 bg-terrain/30"
+                        }`}
+                      />
                     );
                   })}
                 </div>
-              );
-            })}
-          </div>
-
-          {/* TOUCH-FRIENDLY VIRTUAL KEYBOARD */}
-          <div className="w-full max-w-md sm:max-w-lg md:max-w-xl pb-1 sm:pb-3 select-none touch-manipulation shrink-0">
-            {KEYBOARD_ROWS.map((row, rIdx) => (
-              <div key={rIdx} className="flex justify-center gap-1 sm:gap-1.5 my-1">
-                {row.map((k) => {
-                  const status = keyStatuses[k];
-                  const isWide = k === "ENTER" || k === "⌫";
-
-                  let keyClass =
-                    "h-10 sm:h-12 md:h-13 rounded-lg sm:rounded-xl font-mono text-xs sm:text-sm md:text-base font-semibold flex items-center justify-center transition-all cursor-pointer active:scale-95 border ";
-
-                  if (isWide) {
-                    keyClass += "px-2 sm:px-3.5 bg-paper border-terrain/40 text-carbon min-w-[42px] sm:min-w-[58px] md:min-w-[68px]";
-                  } else if (status === "correct") {
-                    keyClass += "bg-signal-lime border-signal-lime text-carbon shadow-2xs min-w-[28px] sm:min-w-[34px] md:min-w-[40px] flex-1";
-                  } else if (status === "present") {
-                    keyClass += "bg-mist/85 border-mist text-carbon min-w-[28px] sm:min-w-[34px] md:min-w-[40px] flex-1";
-                  } else if (status === "absent") {
-                    keyClass += "bg-terrain/25 border-terrain/35 text-terrain/60 min-w-[28px] sm:min-w-[34px] md:min-w-[40px] flex-1";
-                  } else {
-                    keyClass += "bg-white/80 border-terrain/30 text-carbon hover:bg-white min-w-[28px] sm:min-w-[34px] md:min-w-[40px] flex-1 shadow-2xs";
-                  }
-
-                  return (
-                    <button
-                      key={k}
-                      onClick={() => handleKey(k)}
-                      className={keyClass}
-                      aria-label={k}
-                    >
-                      {k}
-                    </button>
-                  );
-                })}
               </div>
-            ))}
+            </div>
+
+            {/* Touch-Friendly Virtual Keyboard */}
+            <div className="w-full select-none touch-manipulation">
+              {KEYBOARD_ROWS.map((row, rIdx) => (
+                <div key={rIdx} className="flex justify-center gap-1 sm:gap-1.5 my-1">
+                  {row.map((k) => {
+                    const status = keyStatuses[k];
+                    const isWide = k === "ENTER" || k === "⌫";
+
+                    let keyClass =
+                      "h-10 sm:h-11 md:h-12 rounded-lg sm:rounded-xl font-mono text-xs sm:text-sm font-semibold flex items-center justify-center transition-all cursor-pointer active:scale-95 border ";
+
+                    if (isWide) {
+                      keyClass += "px-2 sm:px-3 bg-paper border-terrain/40 text-carbon min-w-[42px] sm:min-w-[54px] md:min-w-[62px]";
+                    } else if (status === "correct") {
+                      keyClass += "bg-signal-lime border-signal-lime text-carbon shadow-2xs min-w-[28px] sm:min-w-[34px] md:min-w-[38px] flex-1";
+                    } else if (status === "present") {
+                      keyClass += "bg-mist/85 border-mist text-carbon min-w-[28px] sm:min-w-[34px] md:min-w-[38px] flex-1";
+                    } else if (status === "absent") {
+                      keyClass += "bg-terrain/25 border-terrain/35 text-terrain/60 min-w-[28px] sm:min-w-[34px] md:min-w-[38px] flex-1";
+                    } else {
+                      keyClass += "bg-white/80 border-terrain/30 text-carbon hover:bg-white min-w-[28px] sm:min-w-[34px] md:min-w-[38px] flex-1 shadow-2xs";
+                    }
+
+                    return (
+                      <button
+                        key={k}
+                        onClick={() => handleKey(k)}
+                        className={keyClass}
+                        aria-label={k}
+                      >
+                        {k}
+                      </button>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+
+            {/* Keyboard helper hints */}
+            <div className="hidden lg:flex items-center justify-between w-full text-[10px] font-mono text-terrain/70 px-1">
+              <span>Physical keyboard active</span>
+              <span>Press <kbd className="px-1 py-0.5 rounded bg-black/5 border border-terrain/30 font-semibold">ENTER</kbd> to submit</span>
+            </div>
           </div>
         </div>
       </div>
