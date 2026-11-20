@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import StudioNavbar from "@/components/StudioNavbar";
 import StudioFooter from "@/components/StudioFooter";
@@ -14,6 +14,8 @@ import {
   X,
   Compass,
   Sparkles,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 
 // Curated 5-letter target words (tactile, cartographic, nature, tech themes)
@@ -80,6 +82,49 @@ interface Stats {
   maxStreak: number;
 }
 
+// Evaluate letter matches for audio trigger feedback
+function evaluateGuess(guess: string, target: string) {
+  const targetChars = target.split("");
+  const guessChars = guess.split("");
+  const remainingTarget: (string | null)[] = [...targetChars];
+
+  let correctCount = 0;
+  let presentCount = 0;
+
+  // Pass 1: exact matches (greens)
+  for (let i = 0; i < 5; i++) {
+    if (guessChars[i] === targetChars[i]) {
+      correctCount++;
+      remainingTarget[i] = null;
+    }
+  }
+
+  // Pass 2: misplaced matches (yellows)
+  for (let i = 0; i < 5; i++) {
+    if (guessChars[i] !== targetChars[i]) {
+      const matchIndex = remainingTarget.indexOf(guessChars[i]);
+      if (matchIndex !== -1) {
+        presentCount++;
+        remainingTarget[matchIndex] = null;
+      }
+    }
+  }
+
+  const totalMatched = correctCount + presentCount;
+  // All letters missing entirely from the target word
+  const allMissing = totalMatched === 0;
+  // Close: almost 5 letters found (all 5 letters matched / near anagram) OR 4 exact letters correct
+  const isClose = !allMissing && (correctCount >= 4 || totalMatched >= 4);
+
+  return {
+    correctCount,
+    presentCount,
+    totalMatched,
+    allMissing,
+    isClose,
+  };
+}
+
 export default function WordlePage() {
   const [targetWord, setTargetWord] = useState<string>("EARTH");
   const [guesses, setGuesses] = useState<string[]>([]);
@@ -90,6 +135,56 @@ export default function WordlePage() {
   const [showStats, setShowStats] = useState<boolean>(false);
   const [copiedShare, setCopiedShare] = useState<boolean>(false);
   const [stats, setStats] = useState<Stats>({ played: 0, won: 0, streak: 0, maxStreak: 0 });
+  const [isMuted, setIsMuted] = useState<boolean>(false);
+
+  const audioRef = useRef<{ [key: string]: HTMLAudioElement }>({});
+
+  // Initialize audio elements & load sound preferences
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      audioRef.current = {
+        boom: new Audio("/boom.mp3"),
+        close: new Audio("/close.mp3"),
+        correct: new Audio("/correct.mp3"),
+      };
+      Object.values(audioRef.current).forEach((audio) => {
+        audio.preload = "auto";
+      });
+
+      try {
+        const savedMute = localStorage.getItem("wordle_muted");
+        if (savedMute !== null) {
+          setIsMuted(JSON.parse(savedMute));
+        }
+      } catch {}
+    }
+  }, []);
+
+  const playSound = useCallback(
+    (sound: "boom" | "close" | "correct") => {
+      if (isMuted || typeof window === "undefined") return;
+      try {
+        const audio = audioRef.current[sound] || new Audio(`/${sound}.mp3`);
+        audio.currentTime = 0;
+        audio.volume = 0.8;
+        const promise = audio.play();
+        if (promise !== undefined) {
+          promise.catch(() => {});
+        }
+      } catch {}
+    },
+    [isMuted]
+  );
+
+  const toggleMute = () => {
+    setIsMuted((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("wordle_muted", JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+  };
 
   // Pick a random word and load stats on client mount
   useEffect(() => {
@@ -135,6 +230,7 @@ export default function WordlePage() {
         setCurrentGuess("");
 
         if (currentGuess === targetWord) {
+          playSound("correct");
           setGameStatus("won");
           setStats((prev) => {
             const updated = {
@@ -149,21 +245,31 @@ export default function WordlePage() {
             return updated;
           });
           setTimeout(() => setShowStats(true), 800);
-        } else if (newGuesses.length >= 6) {
-          setGameStatus("lost");
-          setStats((prev) => {
-            const updated = {
-              played: prev.played + 1,
-              won: prev.won,
-              streak: 0,
-              maxStreak: prev.maxStreak,
-            };
-            try {
-              localStorage.setItem("wordle_stats", JSON.stringify(updated));
-            } catch { }
-            return updated;
-          });
-          setTimeout(() => setShowStats(true), 800);
+        } else {
+          // Audio feedback triggers on guess precision
+          const evalResult = evaluateGuess(currentGuess, targetWord);
+          if (evalResult.allMissing) {
+            playSound("boom");
+          } else if (evalResult.isClose) {
+            playSound("close");
+          }
+
+          if (newGuesses.length >= 6) {
+            setGameStatus("lost");
+            setStats((prev) => {
+              const updated = {
+                played: prev.played + 1,
+                won: prev.won,
+                streak: 0,
+                maxStreak: prev.maxStreak,
+              };
+              try {
+                localStorage.setItem("wordle_stats", JSON.stringify(updated));
+              } catch { }
+              return updated;
+            });
+            setTimeout(() => setShowStats(true), 800);
+          }
         }
         return;
       }
@@ -172,7 +278,7 @@ export default function WordlePage() {
         setCurrentGuess((prev) => prev + upper);
       }
     },
-    [currentGuess, guesses, gameStatus, targetWord]
+    [currentGuess, guesses, gameStatus, targetWord, playSound]
   );
 
   // Global physical keyboard listener
@@ -189,6 +295,12 @@ export default function WordlePage() {
 
   // Restart new game
   const resetGame = () => {
+    try {
+      Object.values(audioRef.current).forEach((audio) => {
+        audio.pause();
+        audio.currentTime = 0;
+      });
+    } catch {}
     const nextWord = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
     setTargetWord(nextWord);
     setGuesses([]);
@@ -283,6 +395,18 @@ export default function WordlePage() {
           </div>
 
           <div className="flex items-center gap-1 sm:gap-2">
+            <button
+              onClick={toggleMute}
+              className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation"
+              title={isMuted ? "Unmute Sound" : "Mute Sound"}
+              aria-label={isMuted ? "Unmute Sound" : "Mute Sound"}
+            >
+              {isMuted ? (
+                <VolumeX className="w-4 h-4 text-terrain/60" />
+              ) : (
+                <Volume2 className="w-4 h-4 text-carbon" />
+              )}
+            </button>
             <button
               onClick={() => setShowHelp(true)}
               className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation"
