@@ -158,34 +158,26 @@ export default function StudioHomePage() {
         <StudioNavbar />
 
         <main className="flex-1 w-full">
-              {/* ========================================================================= */}
-              {/* HERO SECTION: Studio Manifesto & Immediate Focus */}
-              {/* ========================================================================= */}
-              <section className="max-w-7xl mx-auto px-4 sm:px-8 pt-10 sm:pt-16 lg:pt-20 pb-16 sm:pb-24 border-b border-terrain/25">
-                <div className="flex flex-col items-start max-w-4xl space-y-6 sm:space-y-7">
-                  {/* Studio Telemetry Indicator */}
-                  <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/[0.04] border border-terrain/30 text-xs font-mono text-carbon">
-                    <span className="w-2 h-2 rounded-full bg-signal-lime animate-pulse" />
-                    <span className="uppercase tracking-wider font-medium text-[11px]">
-                      Independent Software Studio · India
-                    </span>
-                  </div>
+        {/* ========================================================================= */}
+        {/* HERO SECTION: Studio Manifesto & Immediate Focus */}
+        {/* ========================================================================= */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-8 pt-4 sm:pt-6 lg:pt-8 pb-12 sm:pb-16 border-b border-terrain/25">
+          <div className="flex flex-col items-start max-w-4xl space-y-4 sm:space-y-5">
+            {/* Main Editorial Headline */}
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-[5.25rem] font-space font-medium tracking-tight leading-[1.04] text-carbon">
+              Independent software crafted with precision &amp; restraint. <br />
+              <span className="font-space font-light text-terrain text-3xl sm:text-5xl lg:text-6xl block mt-2 sm:mt-3 tracking-tight">
+                sovereign tools, games &amp; web apps.
+              </span>
+            </h1>
 
-                  {/* Main Editorial Headline */}
-                  <h1 className="text-5xl sm:text-7xl lg:text-8xl font-thin tracking-tight leading-[1.01] text-carbon">
-                      Independent software crafted with precision &amp; restraint. <br />
-                      <span className="font-playwrite text-4xl sm:text-6xl lg:text-7xl text-terrain block mt-2">
-                        sovereign tools, games &amp; web apps.
-                      </span>
-                  </h1>
-
-                  {/* Studio Purpose Statement */}
-                  <p className="text-base sm:text-lg lg:text-xl text-carbon/80 max-w-3xl font-light leading-relaxed pt-1">
-                    <strong className="text-carbon font-medium font-space">Xweet</strong> is an independent software studio. We design and engineer sovereign digital utilities, 120 FPS mobile apps, and tactile cartographic games. Built with obsessive attention to typography, sub-100ms response targets, and zero synthetic bloat.
-                  </p>
+            {/* Studio Purpose Statement */}
+            <p className="text-base sm:text-lg lg:text-xl text-carbon/80 max-w-3xl font-light leading-relaxed pt-1">
+              <strong className="text-carbon font-medium font-space">Xweet</strong> is an independent software studio. We design and engineer sovereign digital utilities, 120 FPS mobile apps, and tactile cartographic games. Built with obsessive attention to typography, sub-100ms response targets, and zero synthetic bloat.
+            </p>
 
             {/* Direct Editorial Actions */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex flex-wrap items-center gap-3.5 pt-2">
               <Link
                 href="/play"
                 className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-sm sm:text-base px-7 sm:px-8 py-3.5 sm:py-4 rounded-full transition-all duration-200 shadow-md flex items-center gap-3 hover:scale-105 active:scale-95 border border-signal-lime/90 group"
@@ -217,27 +209,27 @@ export default function StudioHomePage() {
               </Link>
             </div>
 
-                        {/* Streamlined Studio Principles Strip */}
-                        <div className="w-full pt-8 border-t border-terrain/20">
-                          <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-terrain">
-                            <div className="flex items-center gap-2">
-                              <span className="text-signal-lime font-bold">01</span>
-                              <span>LOCAL-FIRST &amp; PRIVACY RESPECTING</span>
-                            </div>
-                            <div className="hidden sm:inline-block text-terrain/40">•</div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-signal-lime font-bold">02</span>
-                              <span>120 FPS &amp; SUB-100MS LATENCY</span>
-                            </div>
-                            <div className="hidden sm:inline-block text-terrain/40">•</div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-signal-lime font-bold">03</span>
-                              <span>NO SURVEILLANCE OR AD TRACKERS</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
+            {/* Streamlined Studio Principles Strip */}
+            <div className="w-full pt-6 sm:pt-8 border-t border-terrain/20">
+              <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-terrain">
+                <div className="flex items-center gap-2">
+                  <span className="text-signal-lime font-bold">01</span>
+                  <span>LOCAL-FIRST &amp; PRIVACY RESPECTING</span>
+                </div>
+                <div className="hidden sm:inline-block text-terrain/40">•</div>
+                <div className="flex items-center gap-2">
+                  <span className="text-signal-lime font-bold">02</span>
+                  <span>120 FPS &amp; SUB-100MS LATENCY</span>
+                </div>
+                <div className="hidden sm:inline-block text-terrain/40">•</div>
+                <div className="flex items-center gap-2">
+                  <span className="text-signal-lime font-bold">03</span>
+                  <span>NO SURVEILLANCE OR AD TRACKERS</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
                       {/* ========================================================================= */}
                       {/* SECTION 01: SHIPPED SOFTWARE RELEASES (The Centerpiece) */}
