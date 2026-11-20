@@ -7,6 +7,25 @@ const nextConfig: NextConfig = {
   experimental: {
     agentUpgrade: "security",
   },
+  async redirects() {
+    return [
+      {
+        source: "/play",
+        destination: "/unkn",
+        permanent: true,
+      },
+      {
+        source: "/games/xwordle",
+        destination: "/wordle",
+        permanent: true,
+      },
+      {
+        source: "/games/wordle",
+        destination: "/wordle",
+        permanent: true,
+      },
+    ];
+  },
   turbopack: {
     rules: {
       "*.css": {

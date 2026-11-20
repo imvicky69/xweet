@@ -99,7 +99,7 @@ export default function LandingNavbar({ onOpenHowToPlay }: LandingNavbarProps) {
 
           {/* Primary Play Button */}
           <Link
-            href="/play"
+            href="/unkn"
             className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs sm:text-sm px-5 sm:px-6 py-2.5 rounded-full transition-all duration-200 shadow-sm flex items-center gap-2 hover:scale-105 active:scale-95 border border-signal-lime/80"
           >
             <span>Play unkn</span>

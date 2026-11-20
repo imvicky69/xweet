@@ -3,7 +3,7 @@
 ## 🧭 Project Context: Phase 1 Real Gameplay
 **`unkn`** is a minimal, editorial-style geography guessing game engineered with Next.js (App Router), Tailwind CSS v4, Google Maps JavaScript API, and Firebase.
 - **Landing Page (`/`)**: High-craft editorial base station introducing the game, viewport preview, mechanics, theme tokens, and direct "Start Expedition" CTA.
-- **Gameplay Route (`/play`)**: **Phase 1 Ten-Round Expedition**. Integrates real Google Street View panoramas, server-side secret country selection & validation, searchable dropdown country guesser, round outcome breakdown, and complete expedition audit report.
+- **Gameplay Route (`/unkn`)**: **Phase 1 Ten-Round Expedition**. Integrates real Google Street View panoramas, server-side secret country selection & validation, searchable dropdown country guesser, round outcome breakdown, and complete expedition audit report.
 - **Firebase Auth & Firestore**: Guest play supported by default; Google sign-in and Email/Password authentication for archiving completed games to Firestore.
 
 ---
@@ -40,7 +40,7 @@ The application operates in **Strict Light Mode** using custom tokens defined in
 
 ---
 
-## 🎮 Game Architecture (`/play`)
+## 🎮 Game Architecture (`/unkn`)
 1. **Game Controller State Machine**:
    `ready` → `loading-location` → `playing` → `submitting-guess` → `result` → `completed` (and `error`).
 2. **Components**:

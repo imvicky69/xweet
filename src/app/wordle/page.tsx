@@ -80,7 +80,7 @@ interface Stats {
   maxStreak: number;
 }
 
-export default function XwordlePage() {
+export default function WordlePage() {
   const [targetWord, setTargetWord] = useState<string>("EARTH");
   const [guesses, setGuesses] = useState<string[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
@@ -97,7 +97,7 @@ export default function XwordlePage() {
     setTargetWord(randomWord);
 
     try {
-      const saved = localStorage.getItem("xwordle_stats");
+      const saved = localStorage.getItem("wordle_stats") || localStorage.getItem("xwordle_stats");
       if (saved) {
         setStats(JSON.parse(saved));
       }
@@ -144,7 +144,7 @@ export default function XwordlePage() {
               maxStreak: Math.max(prev.maxStreak, prev.streak + 1),
             };
             try {
-              localStorage.setItem("xwordle_stats", JSON.stringify(updated));
+              localStorage.setItem("wordle_stats", JSON.stringify(updated));
             } catch { }
             return updated;
           });
@@ -159,7 +159,7 @@ export default function XwordlePage() {
               maxStreak: prev.maxStreak,
             };
             try {
-              localStorage.setItem("xwordle_stats", JSON.stringify(updated));
+              localStorage.setItem("wordle_stats", JSON.stringify(updated));
             } catch { }
             return updated;
           });
@@ -239,7 +239,7 @@ export default function XwordlePage() {
         .join("");
     });
 
-    const shareText = `xwordle ${gameStatus === "won" ? guesses.length : "X"}/6\n\n${rows.join("\n")}\n\nhttps://xweet.in/games/xwordle`;
+    const shareText = `Wordle ${gameStatus === "won" ? guesses.length : "X"}/6\n\n${rows.join("\n")}\n\nhttps://xweet.in/wordle`;
 
     if (navigator.clipboard) {
       navigator.clipboard.writeText(shareText);
@@ -275,7 +275,7 @@ export default function XwordlePage() {
 
           <div className="flex items-center gap-2">
             <span className="font-playwrite text-2xl tracking-tight text-carbon">
-              xwordle
+              wordle
             </span>
             <span className="text-[10px] font-mono uppercase bg-carbon text-paper px-2 py-0.5 rounded-full font-medium">
               Daily
@@ -411,7 +411,7 @@ export default function XwordlePage() {
           <div className="bg-paper border border-terrain/35 rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-5 shadow-xl animate-in fade-in">
             <div className="flex items-center justify-between border-b border-terrain/20 pb-3">
               <div className="flex items-center gap-2">
-                <span className="font-playwrite text-2xl text-carbon">xwordle</span>
+                <span className="font-playwrite text-2xl text-carbon">wordle</span>
                 <span className="text-[10px] font-mono bg-carbon text-paper px-1.5 py-0.5 rounded font-semibold">
                   HOW TO PLAY
                 </span>

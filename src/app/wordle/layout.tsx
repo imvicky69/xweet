@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "xwordle — Minimalist Daily Word Game | Xweet",
+  title: "Wordle — Minimalist Daily Word Game | Xweet",
   description:
     "A clean, tactile 5-letter vocabulary deduction game. 6 attempts, zero ads, zero distraction, and pure deduction in light mode.",
+  metadataBase: new URL("https://xweet.in"),
+  alternates: {
+    canonical: "https://xweet.in/wordle",
+  },
   keywords: [
-    "xwordle",
+    "wordle",
     "wordle alternative",
     "minimalist word game",
     "word puzzle",
@@ -14,22 +18,22 @@ export const metadata: Metadata = {
     "tactile web game",
   ],
   openGraph: {
-    title: "xwordle — Minimalist Word Deduction Game",
+    title: "Wordle — Minimalist Word Deduction Game | Xweet",
     description: "Deduce the secret 5-letter word in 6 attempts. Crafted with precision & restraint.",
-    url: "https://xweet.in/games/xwordle",
+    url: "https://xweet.in/wordle",
     siteName: "Xweet",
     images: [
       {
         url: "/logo-clear.png",
         width: 1381,
         height: 1139,
-        alt: "xwordle",
+        alt: "Wordle",
       },
     ],
   },
 };
 
-export default function XwordleLayout({
+export default function WordleLayout({
   children,
 }: {
   children: React.ReactNode;

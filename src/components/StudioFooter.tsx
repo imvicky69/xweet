@@ -169,7 +169,7 @@ export default function StudioFooter() {
               </li>
               <li>
                 <Link
-                  href="/play"
+                  href="/unkn"
                   className="hover:text-carbon text-carbon font-medium transition-colors flex items-center justify-between group"
                 >
                   <span>unkn (Geography Game)</span>
@@ -180,10 +180,10 @@ export default function StudioFooter() {
               </li>
               <li>
                 <Link
-                  href="/games/xwordle"
+                  href="/wordle"
                   className="hover:text-carbon text-carbon font-medium transition-colors flex items-center justify-between group"
                 >
-                  <span>xwordle (Word Game)</span>
+                  <span>Wordle (Word Game)</span>
                   <span className="text-[10px] bg-mist/70 text-carbon px-1.5 py-0.2 rounded font-semibold">
                     PLAY
                   </span>

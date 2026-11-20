@@ -71,7 +71,7 @@ export default function GamesHubPage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* THE GAMES ROSTER (unkn & xwordle) */}
+        {/* THE GAMES ROSTER (unkn & wordle) */}
         {/* ========================================================================= */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
           {/* GAME 01: unkn (Geo-01) */}
@@ -131,7 +131,7 @@ export default function GamesHubPage() {
             {/* CTAs */}
             <div className="pt-4 border-t border-terrain/20 flex flex-wrap items-center gap-3">
               <Link
-                href="/play"
+                href="/unkn"
                 className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs sm:text-sm px-6 py-3.5 rounded-2xl transition-all shadow-sm flex items-center gap-2 hover:scale-102 active:scale-98 border border-signal-lime/90 group"
               >
                 <Compass className="w-4 h-4 text-carbon" />
@@ -149,7 +149,7 @@ export default function GamesHubPage() {
             </div>
           </article>
 
-          {/* GAME 02: xwordle (Word-01) */}
+          {/* GAME 02: Wordle */}
           <article className="border border-terrain/35 rounded-3xl p-6 sm:p-10 bg-white/50 hover:bg-white/70 hover:border-carbon/70 transition-all shadow-2xs flex flex-col justify-between space-y-6">
             <div className="space-y-5">
               {/* Header row */}
@@ -175,7 +175,7 @@ export default function GamesHubPage() {
 
               <div>
                 <h2 className="text-3xl sm:text-4xl font-space font-medium text-carbon tracking-tight flex items-center gap-2">
-                  <span className="font-playwrite">xwordle</span>
+                  <span className="font-playwrite">wordle</span>
                 </h2>
                 <p className="text-sm sm:text-base font-medium text-carbon/90 mt-1 leading-snug">
                   Minimalist, tactile daily 5-letter vocabulary deduction puzzle.
@@ -229,15 +229,15 @@ export default function GamesHubPage() {
             {/* CTAs */}
             <div className="pt-4 border-t border-terrain/20 flex flex-wrap items-center gap-3">
               <Link
-                href="/games/xwordle"
+                href="/wordle"
                 className="cursor-pointer bg-carbon hover:bg-carbon/85 text-paper font-semibold text-xs sm:text-sm px-6 py-3.5 rounded-2xl transition-all shadow-sm flex items-center gap-2 hover:scale-102 active:scale-98 group"
               >
-                <span>Play xwordle Now</span>
+                <span>Play Wordle Now</span>
                 <ArrowRight className="w-4 h-4 text-signal-lime group-hover:translate-x-1 transition-transform" />
               </Link>
 
               <Link
-                href="/games/xwordle"
+                href="/wordle"
                 className="cursor-pointer border border-terrain/35 hover:border-carbon text-carbon font-mono text-xs px-4 py-3.5 rounded-2xl bg-white/40 hover:bg-white transition-colors"
               >
                 <span>Quick Play</span>
@@ -320,7 +320,7 @@ export default function GamesHubPage() {
               </div>
 
               <Link
-                href="/play"
+                href="/unkn"
                 className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs px-5 py-2.5 rounded-full transition-all shrink-0 flex items-center justify-center gap-1.5 shadow-2xs border border-signal-lime"
               >
                 <span>Launch Live Session</span>

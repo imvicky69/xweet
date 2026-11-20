@@ -32,14 +32,14 @@ export default function StudioHomePage() {
         metrics: "10-Round Session • Server-Side Secrecy • Strict Light Mode",
         tags: ["Next.js", "Google Maps JS API", "Tailwind CSS v4", "Firebase", "TypeScript"],
         isFlagship: true,
-        playHref: "/play",
+        playHref: "/unkn",
         detailsHref: "/games",
         primaryCta: "Play Expedition (10 Rounds) →",
       },
       {
-        id: "xwordle",
+        id: "wordle",
         category: "VOCABULARY DEDUCTION GAME",
-        title: "xwordle",
+        title: "Wordle",
         tagline: "Minimalist, tactile daily 5-letter vocabulary deduction puzzle.",
         description:
         "A clean, distraction-free Wordle alternative engineered in strict light mode. 6 attempts to deduce the secret word, accompanied by responsive physical & touch keyboard input, shareable emoji results, and persistent win streaks.",
@@ -47,8 +47,8 @@ export default function StudioHomePage() {
         metrics: "6 Attempts • 5-Letter Deduction • Strict Light Mode",
         tags: ["Word Puzzle", "Next.js", "Tactile UI", "Tailwind CSS"],
         isFlagship: false,
-        playHref: "/games/xwordle",
-        primaryCta: "Play xwordle Now →",
+        playHref: "/wordle",
+        primaryCta: "Play Wordle Now →",
       },
       {
         id: "wallpaper",
@@ -173,7 +173,7 @@ export default function StudioHomePage() {
               {/* Direct Editorial Actions */}
               <div className="flex flex-wrap items-center gap-3.5 pt-2">
                 <Link
-                  href="/play"
+                  href="/unkn"
                   className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-sm sm:text-base px-7 sm:px-8 py-3.5 sm:py-4 rounded-full transition-all duration-200 shadow-md flex items-center gap-3 hover:scale-105 active:scale-95 border border-signal-lime/90 group"
                 >
                   <Compass className="w-4 h-4 text-carbon" />

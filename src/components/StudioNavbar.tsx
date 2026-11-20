@@ -10,7 +10,7 @@ export default function StudioNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const isGames = pathname.startsWith("/games") || pathname.startsWith("/play");
+  const isGames = pathname.startsWith("/games") || pathname.startsWith("/unkn") || pathname.startsWith("/wordle");
   const isApps = pathname.startsWith("/apps");
 
   return (
