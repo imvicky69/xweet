@@ -123,26 +123,50 @@ export default function WordlePage() {
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
+  const gameWrapperRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<{ [key: string]: HTMLAudioElement }>({});
 
   // Fullscreen event listener
   useEffect(() => {
     const handleFsChange = () => {
-      setIsFullscreen(Boolean(document.fullscreenElement));
+      const isFs =
+        Boolean(document.fullscreenElement) ||
+        Boolean((document as unknown as { webkitFullscreenElement?: Element }).webkitFullscreenElement);
+      setIsFullscreen(isFs);
     };
     document.addEventListener("fullscreenchange", handleFsChange);
-    return () => document.removeEventListener("fullscreenchange", handleFsChange);
+    document.addEventListener("webkitfullscreenchange", handleFsChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFsChange);
+      document.removeEventListener("webkitfullscreenchange", handleFsChange);
+    };
   }, []);
 
   const toggleFullscreen = async () => {
     try {
-      if (!document.fullscreenElement) {
-        await document.documentElement.requestFullscreen();
+      const el = gameWrapperRef.current || document.documentElement;
+      const isCurrentlyFs =
+        Boolean(document.fullscreenElement) ||
+        Boolean((document as unknown as { webkitFullscreenElement?: Element }).webkitFullscreenElement);
+
+      if (!isCurrentlyFs) {
+        if (el?.requestFullscreen) {
+          await el.requestFullscreen();
+        } else if ((el as unknown as { webkitRequestFullscreen?: () => Promise<void> })?.webkitRequestFullscreen) {
+          await (el as unknown as { webkitRequestFullscreen: () => Promise<void> }).webkitRequestFullscreen();
+        }
+        setIsFullscreen(true);
       } else {
-        await document.exitFullscreen();
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if ((document as unknown as { webkitExitFullscreen?: () => Promise<void> }).webkitExitFullscreen) {
+          await (document as unknown as { webkitExitFullscreen: () => Promise<void> }).webkitExitFullscreen();
+        }
+        setIsFullscreen(false);
       }
     } catch {
-      // ignore fullscreen rejection
+      // Fallback toggle for environments restricting native fullscreen API
+      setIsFullscreen((prev) => !prev);
     }
   };
 
@@ -489,251 +513,263 @@ export default function WordlePage() {
 
   return (
     <div className="min-h-screen bg-paper text-carbon font-geist selection:bg-signal-lime selection:text-carbon flex flex-col justify-between">
-      {/* Studio Navigation Bar */}
-      <StudioNavbar />
+      {/* Studio Navigation Bar (Hidden in Fullscreen) */}
+      {!isFullscreen && <StudioNavbar />}
 
       {/* ========================================================================= */}
-      {/* DEDICATED 5-ROUND SERIES CONTROL BAR (Full Width with generous max-w-4xl) */}
+      {/* GAME WRAPPER ARENA: ZOOMED & FITTED (Zero-Scroll in Fullscreen Mode) */}
       {/* ========================================================================= */}
-      <div className="w-full border-b border-terrain/20 bg-paper/60 backdrop-blur-xs">
-        <div className="max-w-4xl mx-auto px-4 sm:px-8 py-3 sm:py-4 flex items-center justify-between gap-4">
-          {/* Left: Back Link & Series Round Badge */}
-          <div className="flex items-center gap-3 shrink-0">
-            <Link
-              href="/games"
-              className="flex items-center gap-1.5 text-xs font-mono text-terrain hover:text-carbon transition-colors"
-              title="Return to Games Hub"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Games</span>
-            </Link>
+      <div
+        ref={gameWrapperRef}
+        className={`bg-paper text-carbon flex flex-col justify-between ${
+          isFullscreen
+            ? "fixed inset-0 z-50 h-[100dvh] w-screen overflow-hidden p-2 sm:p-4 select-none"
+            : "flex-1 w-full min-h-[calc(100dvh-68px)] max-h-[100dvh] overflow-hidden"
+        }`}
+      >
+        {/* ========================================================================= */}
+        {/* DEDICATED 5-ROUND SERIES CONTROL BAR */}
+        {/* ========================================================================= */}
+        <div className="w-full border-b border-terrain/20 bg-paper/60 backdrop-blur-xs shrink-0">
+          <div className="max-w-4xl mx-auto px-4 sm:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-4">
+            {/* Left: Back Link & Series Round Badge */}
+            <div className="flex items-center gap-3 shrink-0">
+              <Link
+                href="/games"
+                className="flex items-center gap-1.5 text-xs font-mono text-terrain hover:text-carbon transition-colors"
+                title="Return to Games Hub"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Games</span>
+              </Link>
 
-            <span className="text-terrain/30 hidden sm:inline">•</span>
+              <span className="text-terrain/30 hidden sm:inline">•</span>
 
-            <div className="flex items-center gap-2">
-              <span className="font-playwrite text-2xl tracking-tight text-carbon">wordle</span>
-              <span className="text-[11px] font-mono uppercase bg-carbon text-paper px-2.5 py-0.5 rounded-full font-medium whitespace-nowrap shrink-0">
-                Round 0{currentRound} / 0{TOTAL_ROUNDS}
+              <div className="flex items-center gap-2">
+                <span className="font-playwrite text-2xl tracking-tight text-carbon">wordle</span>
+                <span className="text-[11px] font-mono uppercase bg-carbon text-paper px-2.5 py-0.5 rounded-full font-medium whitespace-nowrap shrink-0">
+                  Round 0{currentRound} / 0{TOTAL_ROUNDS}
+                </span>
+              </div>
+            </div>
+
+            {/* Center: Progress Segments & Score (Desktop) */}
+            <div className="hidden md:flex flex-col items-center gap-1 shrink-0">
+              <span className="text-[11px] font-mono text-terrain">
+                Series Score: <strong className="text-carbon font-semibold">{seriesSolvedCount}</strong> of {TOTAL_ROUNDS} Solved
               </span>
+
+              {/* 5 Progress Segments */}
+              <div className="flex items-center gap-1.5">
+                {Array.from({ length: TOTAL_ROUNDS }).map((_, i) => {
+                  const isPast = i < roundHistory.length;
+                  const isCurrent = i === currentRound - 1;
+                  const pastRound = roundHistory[i];
+                  const isCorrect = pastRound?.isWon === true;
+
+                  let pillClass = "h-1.5 rounded-full transition-all duration-300 ";
+                  if (isPast) {
+                    pillClass += isCorrect ? "w-6 bg-signal-lime" : "w-6 bg-carbon/35";
+                  } else if (isCurrent) {
+                    pillClass += "w-8 bg-carbon";
+                  } else {
+                    pillClass += "w-4 bg-terrain/25";
+                  }
+
+                  return <div key={i} className={pillClass} />;
+                })}
+              </div>
+            </div>
+
+            {/* Right Toolbar Controls */}
+            <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+              {/* Audio Toggle */}
+              <button
+                onClick={toggleMute}
+                className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer"
+                title={isMuted ? "Unmute Sound Effects" : "Mute Sound Effects"}
+                aria-label={isMuted ? "Unmute Sound Effects" : "Mute Sound Effects"}
+              >
+                {isMuted ? (
+                  <VolumeX className="w-4 h-4 text-terrain/60" />
+                ) : (
+                  <Volume2 className="w-4 h-4 text-carbon" />
+                )}
+              </button>
+
+              {/* Fullscreen Toggle */}
+              <button
+                onClick={toggleFullscreen}
+                className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer"
+                title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen Mode"}
+                aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen Mode"}
+              >
+                {isFullscreen ? (
+                  <Minimize2 className="w-4 h-4 text-carbon" />
+                ) : (
+                  <Maximize2 className="w-4 h-4 text-terrain" />
+                )}
+              </button>
+
+              {/* How to Play */}
+              <button
+                onClick={() => setShowHelp(true)}
+                className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer"
+                title="How to Play"
+                aria-label="How to Play"
+              >
+                <HelpCircle className="w-4 h-4" />
+              </button>
+
+              {/* Lifetime Stats */}
+              <button
+                onClick={() => setShowStats(true)}
+                className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer"
+                title="Statistics & Records"
+                aria-label="Statistics & Records"
+              >
+                <BarChart2 className="w-4 h-4" />
+              </button>
+
+              {/* Reset 5-Round Series */}
+              <button
+                onClick={startNewSeries}
+                className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer"
+                title="Restart 5-Round Series"
+                aria-label="Restart 5-Round Series"
+              >
+                <RotateCcw className="w-4 h-4" />
+              </button>
             </div>
           </div>
 
-          {/* Center: Progress Segments & Score (Desktop) */}
-          <div className="hidden md:flex flex-col items-center gap-1 shrink-0">
-            <span className="text-[11px] font-mono text-terrain">
-              Series Score: <strong className="text-carbon font-semibold">{seriesSolvedCount}</strong> of {TOTAL_ROUNDS} Solved
-            </span>
-
-            {/* 5 Progress Segments */}
-            <div className="flex items-center gap-1.5">
+          {/* Mobile Series Progress Bar */}
+          <div className="flex md:hidden items-center justify-between max-w-sm mx-auto px-4 pb-2 text-[11px] font-mono text-terrain">
+            <span>Round 0{currentRound} / 0{TOTAL_ROUNDS}</span>
+            <div className="flex items-center gap-1">
               {Array.from({ length: TOTAL_ROUNDS }).map((_, i) => {
                 const isPast = i < roundHistory.length;
                 const isCurrent = i === currentRound - 1;
                 const pastRound = roundHistory[i];
                 const isCorrect = pastRound?.isWon === true;
 
-                let pillClass = "h-1.5 rounded-full transition-all duration-300 ";
+                let pillClass = "h-1.5 rounded-full transition-all ";
                 if (isPast) {
-                  pillClass += isCorrect ? "w-6 bg-signal-lime" : "w-6 bg-carbon/35";
+                  pillClass += isCorrect ? "w-4 bg-signal-lime" : "w-4 bg-carbon/30";
                 } else if (isCurrent) {
-                  pillClass += "w-8 bg-carbon";
+                  pillClass += "w-6 bg-carbon";
                 } else {
-                  pillClass += "w-4 bg-terrain/25";
+                  pillClass += "w-3 bg-terrain/25";
                 }
-
                 return <div key={i} className={pillClass} />;
               })}
             </div>
-          </div>
-
-          {/* Right Toolbar Controls */}
-          <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
-            {/* Audio Toggle */}
-            <button
-              onClick={toggleMute}
-              className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer"
-              title={isMuted ? "Unmute Sound Effects" : "Mute Sound Effects"}
-              aria-label={isMuted ? "Unmute Sound Effects" : "Mute Sound Effects"}
-            >
-              {isMuted ? (
-                <VolumeX className="w-4 h-4 text-terrain/60" />
-              ) : (
-                <Volume2 className="w-4 h-4 text-carbon" />
-              )}
-            </button>
-
-            {/* Fullscreen Toggle */}
-            <button
-              onClick={toggleFullscreen}
-              className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer"
-              title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen Mode"}
-              aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen Mode"}
-            >
-              {isFullscreen ? (
-                <Minimize2 className="w-4 h-4 text-carbon" />
-              ) : (
-                <Maximize2 className="w-4 h-4 text-terrain" />
-              )}
-            </button>
-
-            {/* How to Play */}
-            <button
-              onClick={() => setShowHelp(true)}
-              className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer"
-              title="How to Play"
-              aria-label="How to Play"
-            >
-              <HelpCircle className="w-4 h-4" />
-            </button>
-
-            {/* Lifetime Stats */}
-            <button
-              onClick={() => setShowStats(true)}
-              className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer"
-              title="Statistics & Records"
-              aria-label="Statistics & Records"
-            >
-              <BarChart2 className="w-4 h-4" />
-            </button>
-
-            {/* Reset 5-Round Series */}
-            <button
-              onClick={startNewSeries}
-              className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer"
-              title="Restart 5-Round Series"
-              aria-label="Restart 5-Round Series"
-            >
-              <RotateCcw className="w-4 h-4" />
-            </button>
+            <span>{seriesSolvedCount} Solved</span>
           </div>
         </div>
 
-        {/* Mobile Series Progress Bar */}
-        <div className="flex md:hidden items-center justify-between max-w-sm mx-auto px-4 pb-2.5 text-[11px] font-mono text-terrain">
-          <span>Round 0{currentRound} / 0{TOTAL_ROUNDS}</span>
-          <div className="flex items-center gap-1">
-            {Array.from({ length: TOTAL_ROUNDS }).map((_, i) => {
-              const isPast = i < roundHistory.length;
-              const isCurrent = i === currentRound - 1;
-              const pastRound = roundHistory[i];
-              const isCorrect = pastRound?.isWon === true;
+        {/* ========================================================================= */}
+        {/* GAMEPLAY CANVAS: ZOOMED & FITTED VERTICALLY */}
+        {/* ========================================================================= */}
+        <div className="flex-1 w-full max-w-2xl mx-auto px-4 sm:px-6 py-2 sm:py-3 flex flex-col items-center justify-between min-h-0 overflow-hidden">
+          {/* Floating Toast Notification */}
+          {toastMessage && (
+            <div className="fixed top-16 z-50 bg-carbon text-paper px-4 py-2 rounded-full text-xs font-mono shadow-md animate-in fade-in slide-in-from-top-2">
+              {toastMessage}
+            </div>
+          )}
 
-              let pillClass = "h-1.5 rounded-full transition-all ";
-              if (isPast) {
-                pillClass += isCorrect ? "w-4 bg-signal-lime" : "w-4 bg-carbon/30";
-              } else if (isCurrent) {
-                pillClass += "w-6 bg-carbon";
-              } else {
-                pillClass += "w-3 bg-terrain/25";
-              }
-              return <div key={i} className={pillClass} />;
+          {/* 6x5 LETTER GRID (ZOOMED & FITTED) */}
+          <div className="my-auto py-1 sm:py-2 flex flex-col gap-1.5 sm:gap-2 md:gap-2.5 justify-center">
+            {Array.from({ length: 6 }).map((_, rowIndex) => {
+              const isCurrentRow = rowIndex === guesses.length;
+              const rowGuess = guesses[rowIndex] || (isCurrentRow ? currentGuess : "");
+              const isShaking = shakingRow === rowIndex;
+
+              return (
+                <div
+                  key={rowIndex}
+                  className={`flex gap-1.5 sm:gap-2.5 justify-center transition-transform ${
+                    isShaking ? "animate-shake" : ""
+                  }`}
+                >
+                  {Array.from({ length: 5 }).map((_, colIndex) => {
+                    const letter = rowGuess[colIndex] || "";
+                    const isSubmitted = rowIndex < guesses.length;
+                    const state: TileState = isSubmitted
+                      ? getTileState(guesses[rowIndex], colIndex)
+                      : letter
+                        ? "tbd"
+                        : "empty";
+
+                    let styleClass =
+                      "aspect-square w-12 h-12 sm:w-15 sm:h-15 md:w-17 md:h-17 lg:w-19 lg:h-19 max-h-[10.5vh] max-w-[10.5vh] sm:max-h-[11.5vh] sm:max-w-[11.5vh] border rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl md:text-3xl font-mono uppercase transition-all duration-200 select-none shadow-2xs ";
+
+                    if (state === "correct") {
+                      styleClass += "bg-signal-lime text-carbon border-signal-lime font-bold shadow-xs";
+                    } else if (state === "present") {
+                      styleClass += "bg-mist/85 text-carbon border-mist font-bold";
+                    } else if (state === "absent") {
+                      styleClass += "bg-terrain/20 text-terrain/70 border-terrain/30 font-medium";
+                    } else if (state === "tbd") {
+                      styleClass += "border-2 border-carbon bg-white text-carbon font-bold scale-102";
+                    } else {
+                      styleClass += "border-terrain/30 bg-white/40 text-carbon";
+                    }
+
+                    return (
+                      <div key={colIndex} className={styleClass}>
+                        {letter}
+                      </div>
+                    );
+                  })}
+                </div>
+              );
             })}
           </div>
-          <span>{seriesSolvedCount} Solved</span>
-        </div>
-      </div>
 
-      {/* Main Playing Area with Generous Spacing */}
-      <main className="flex-1 w-full max-w-lg mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col items-center justify-between">
+          {/* TOUCH-FRIENDLY VIRTUAL KEYBOARD */}
+          <div className="w-full max-w-md sm:max-w-lg md:max-w-xl pb-1 sm:pb-3 select-none touch-manipulation shrink-0">
+            {KEYBOARD_ROWS.map((row, rIdx) => (
+              <div key={rIdx} className="flex justify-center gap-1 sm:gap-1.5 my-1">
+                {row.map((k) => {
+                  const status = keyStatuses[k];
+                  const isWide = k === "ENTER" || k === "⌫";
 
-        {/* Floating Toast Notification */}
-        {toastMessage && (
-          <div className="fixed top-20 z-50 bg-carbon text-paper px-4 py-2 rounded-full text-xs font-mono shadow-md animate-in fade-in slide-in-from-top-2">
-            {toastMessage}
-          </div>
-        )}
+                  let keyClass =
+                    "h-10 sm:h-12 md:h-13 rounded-lg sm:rounded-xl font-mono text-xs sm:text-sm md:text-base font-semibold flex items-center justify-center transition-all cursor-pointer active:scale-95 border ";
 
-        {/* ========================================================================= */}
-        {/* 6x5 LETTER GRID */}
-        {/* ========================================================================= */}
-        <div className="my-auto py-3 sm:py-6 flex flex-col gap-1.5 sm:gap-2">
-          {Array.from({ length: 6 }).map((_, rowIndex) => {
-            const isCurrentRow = rowIndex === guesses.length;
-            const rowGuess = guesses[rowIndex] || (isCurrentRow ? currentGuess : "");
-            const isShaking = shakingRow === rowIndex;
-
-            return (
-              <div
-                key={rowIndex}
-                className={`flex gap-1.5 sm:gap-2 justify-center transition-transform ${
-                  isShaking ? "animate-shake" : ""
-                }`}
-              >
-                {Array.from({ length: 5 }).map((_, colIndex) => {
-                  const letter = rowGuess[colIndex] || "";
-                  const isSubmitted = rowIndex < guesses.length;
-                  const state: TileState = isSubmitted
-                    ? getTileState(guesses[rowIndex], colIndex)
-                    : letter
-                      ? "tbd"
-                      : "empty";
-
-                  let styleClass =
-                    "w-12 h-12 sm:w-14 sm:h-14 border rounded-xl flex items-center justify-center text-lg sm:text-2xl font-mono uppercase transition-all duration-300 ";
-
-                  if (state === "correct") {
-                    styleClass += "bg-signal-lime text-carbon border-signal-lime font-bold shadow-xs";
-                  } else if (state === "present") {
-                    styleClass += "bg-mist/85 text-carbon border-mist font-bold";
-                  } else if (state === "absent") {
-                    styleClass += "bg-terrain/20 text-terrain/70 border-terrain/30 font-medium";
-                  } else if (state === "tbd") {
-                    styleClass += "border-2 border-carbon bg-white text-carbon font-bold scale-102";
+                  if (isWide) {
+                    keyClass += "px-2 sm:px-3.5 bg-paper border-terrain/40 text-carbon min-w-[42px] sm:min-w-[58px] md:min-w-[68px]";
+                  } else if (status === "correct") {
+                    keyClass += "bg-signal-lime border-signal-lime text-carbon shadow-2xs min-w-[28px] sm:min-w-[34px] md:min-w-[40px] flex-1";
+                  } else if (status === "present") {
+                    keyClass += "bg-mist/85 border-mist text-carbon min-w-[28px] sm:min-w-[34px] md:min-w-[40px] flex-1";
+                  } else if (status === "absent") {
+                    keyClass += "bg-terrain/25 border-terrain/35 text-terrain/60 min-w-[28px] sm:min-w-[34px] md:min-w-[40px] flex-1";
                   } else {
-                    styleClass += "border-terrain/30 bg-white/40 text-carbon";
+                    keyClass += "bg-white/80 border-terrain/30 text-carbon hover:bg-white min-w-[28px] sm:min-w-[34px] md:min-w-[40px] flex-1 shadow-2xs";
                   }
 
                   return (
-                    <div key={colIndex} className={styleClass}>
-                      {letter}
-                    </div>
+                    <button
+                      key={k}
+                      onClick={() => handleKey(k)}
+                      className={keyClass}
+                      aria-label={k}
+                    >
+                      {k}
+                    </button>
                   );
                 })}
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
+      </div>
 
-        {/* ========================================================================= */}
-        {/* TOUCH-FRIENDLY VIRTUAL KEYBOARD */}
-        {/* ========================================================================= */}
-        <div className="w-full max-w-md pb-2 select-none touch-manipulation">
-          {KEYBOARD_ROWS.map((row, rIdx) => (
-            <div key={rIdx} className="flex justify-center gap-1 sm:gap-1.5 my-1">
-              {row.map((k) => {
-                const status = keyStatuses[k];
-                const isWide = k === "ENTER" || k === "⌫";
-
-                let keyClass =
-                  "h-11 sm:h-12 rounded-lg font-mono text-xs sm:text-sm font-semibold flex items-center justify-center transition-all cursor-pointer active:scale-95 border ";
-
-                if (isWide) {
-                  keyClass += "px-2.5 sm:px-3.5 bg-paper border-terrain/40 text-carbon min-w-[40px] sm:min-w-[54px]";
-                } else if (status === "correct") {
-                  keyClass += "bg-signal-lime border-signal-lime text-carbon shadow-2xs min-w-[28px] sm:min-w-[34px] flex-1";
-                } else if (status === "present") {
-                  keyClass += "bg-mist/85 border-mist text-carbon min-w-[28px] sm:min-w-[34px] flex-1";
-                } else if (status === "absent") {
-                  keyClass += "bg-terrain/25 border-terrain/35 text-terrain/60 min-w-[28px] sm:min-w-[34px] flex-1";
-                } else {
-                  keyClass += "bg-white/80 border-terrain/30 text-carbon hover:bg-white min-w-[28px] sm:min-w-[34px] flex-1 shadow-2xs";
-                }
-
-                return (
-                  <button
-                    key={k}
-                    onClick={() => handleKey(k)}
-                    className={keyClass}
-                    aria-label={k}
-                  >
-                    {k}
-                  </button>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-      </main>
+      {/* Studio Architectural Footer (Hidden in Fullscreen) */}
+      {!isFullscreen && <StudioFooter />}
 
       {/* ========================================================================= */}
       {/* ROUND OUTCOME MODAL (BETWEEN ROUNDS 1-4) */}
