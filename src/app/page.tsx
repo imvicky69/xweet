@@ -157,14 +157,14 @@ export default function StudioHomePage() {
             {/* Main Editorial Headline */}
             <h1 className="text-5xl sm:text-7xl lg:text-8xl font-thin tracking-tight leading-[1.01] text-carbon">
               Independent software crafted with precision &amp; restraint. <br />
-              <span className="font-playwrite text-4xl sm:text-6xl lg:text-7xl text-terrain block mt-2">
+              <span className="font-space font-light text-terrain text-3xl sm:text-5xl lg:text-6xl block mt-2 sm:mt-3 tracking-tight">
                 sovereign tools, games &amp; web apps.
               </span>
             </h1>
 
             {/* Studio Purpose Statement */}
-            <p className="text-base sm:text-lg lg:text-xl text-carbon/80 max-w-3xl font-light leading-relaxed pt-1">
-              <strong className="text-carbon font-medium font-space">Xweet</strong> is an independent software studio. We design and engineer sovereign digital utilities, 120 FPS mobile apps, and tactile cartographic games. Built with obsessive attention to typography, sub-100ms response targets, and zero synthetic bloat.
+            <p className="text-base sm:text-lg lg:text-xl text-carbon/75 max-w-2xl font-light leading-relaxed pt-1">
+              An independent studio building fast, private tools and tactile games — free of tracking, ads, and clutter.
             </p>
 
             {/* Direct Editorial Actions */}

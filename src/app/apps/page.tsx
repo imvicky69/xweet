@@ -214,13 +214,13 @@ export default function AppsCatalogPage() {
 
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-thin tracking-tight leading-[1.02] text-carbon">
             Sovereign Apps &amp; Digital Archives. <br />
-            <span className="font-playwrite text-3xl sm:text-5xl lg:text-6xl text-terrain block mt-2">
+            <span className="font-space font-light text-terrain text-3xl sm:text-5xl lg:text-6xl block mt-2 tracking-tight">
               crafted for utility, speed &amp; aesthetics.
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg text-carbon/80 font-light leading-relaxed max-w-3xl">
-            A curated index of independent software, on-device utilities, high-framerate mobile tools, visual wallpaper archives, and interactive games engineered and maintained by <strong className="font-space font-medium text-carbon">Xweet</strong>.
+          <p className="text-base sm:text-lg text-carbon/75 font-light leading-relaxed max-w-2xl">
+            A curated collection of independent software, private utilities, wallpaper archives, and web games.
           </p>
 
           {/* Quick Stats Strip */}

@@ -73,13 +73,13 @@ export default function GamesHubPage() {
 
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-thin tracking-tight leading-[1.02] text-carbon">
             Tactile Games &amp; Deductive Puzzles. <br />
-            <span className="font-playwrite text-3xl sm:text-5xl lg:text-6xl text-terrain block mt-2">
+            <span className="font-space font-light text-terrain text-3xl sm:text-5xl lg:text-6xl block mt-2 tracking-tight">
               designed for pure instinct.
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg text-carbon/80 font-light leading-relaxed max-w-3xl">
-            Sovereign browser games crafted with ruthless minimalism. Survey real 360° global Street View panoramas in <strong className="text-carbon font-medium font-space">unkn</strong> or deduce daily 5-letter vocabulary puzzles in <strong className="text-carbon font-medium font-space">xwordle</strong>. Zero synthetic ads, zero paywalls, zero distraction.
+          <p className="text-base sm:text-lg text-carbon/75 font-light leading-relaxed max-w-2xl">
+            Minimalist browser games built for instinct and focus — free of ads, paywalls, and distraction.
           </p>
 
           {/* Quick Telemetry Pill Bar */}
