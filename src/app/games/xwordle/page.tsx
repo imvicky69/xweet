@@ -18,17 +18,57 @@ import {
 
 // Curated 5-letter target words (tactile, cartographic, nature, tech themes)
 const WORD_LIST = [
-  "EARTH", "TRACK", "PLANE", "ROUTE", "OCEAN", "WORLD", "SPACE", "STONE",
-  "LIGHT", "MAPLE", "SOLAR", "RIVER", "COAST", "GLOBE", "SWIFT", "GRAIN",
-  "FLAME", "CRAFT", "PULSE", "VAPOR", "CLOUD", "STORM", "SHORE", "SOUND",
-  "FOCUS", "PRISM", "VALVE", "LOGIC", "SPARK", "NEXUS", "ORBIT", "ATLAS",
-  "TERRA", "CHART", "RADAR", "PIXEL", "FROST", "TRAIL", "RIDGE", "ALPHA",
-  "DELTA", "GAMMA", "SIGMA", "ZENITH", "CREST", "BLOOM", "SHINE", "BLAZE",
-  "STARK", "FIELD", "NORTH", "SOUTH", "PLAZA", "OASIS", "CLIFF", "CABLE",
-  "SERIF", "GLYPH", "DRIFT", "TIDES", "QUEST", "FORGE", "HAVEN", "CRYPT",
-  "STAMP", "SCENE", "SCOUT", "EMBER", "TOWER", "BRICK", "VALET", "BRAVE",
-  "PRIDE", "FLAIR", "PRIME", "ECHOES", "CORAL", "DUNE", "POLAR", "VAULT",
-  "SHIFT", "SCALE", "FRAME", "POINT", "SHADE", "CANOPY", "SURGE", "POWER",
+  "ADULT", "ALERT", "ALIGN", "ALPHA", "AMBER", "ANGEL", "ANVIL", "APPLE",
+  "ARENA", "ARRAY", "ARROW", "ASYNC", "ATLAS", "ATOLL", "AWARE", "BAKER",
+  "BASIC", "BASIN", "BEACH", "BEAMS", "BENCH", "BIRCH", "BLAND", "BLAZE",
+  "BLOCK", "BLOOM", "BLUFF", "BLUNT", "BOUND", "BRAIN", "BRAVE", "BREAD",
+  "BRICK", "BRIEF", "BROAD", "BROOK", "BYTES", "CABLE", "CACHE", "CAMEL",
+  "CANDY", "CANON", "CARGO", "CEDAR", "CHAIR", "CHARM", "CHART", "CHASM",
+  "CHESS", "CHEST", "CHIEF", "CIVIC", "CLAIM", "CLEAN", "CLEAR", "CLIFF",
+  "CLIMB", "CLOCK", "CLOTH", "CLOUD", "COAST", "COMET", "CORAL", "CRAFT",
+  "CRAGS", "CRANE", "CREEK", "CREST", "CROWN", "CRYPT", "DAILY", "DANCE",
+  "DEBUG", "DECOR", "DELTA", "DIGIT", "DOMES", "DRAFT", "DREAM", "DRIFT",
+  "DRIVE", "DUNES", "EAGLE", "EARLY", "EARTH", "ELITE", "EMBER", "ENTRY",
+  "EQUAL", "ERROR", "ESSAY", "EVENT", "EXACT", "FAITH", "FAUNA", "FEAST",
+  "FETCH", "FIBER", "FIELD", "FINAL", "FIRST", "FJORD", "FLAIR", "FLAME",
+  "FLARE", "FLASH", "FLEET", "FLOAT", "FLOOR", "FLORA", "FLUID", "FLUTE",
+  "FOCUS", "FORGE", "FRAME", "FRESH", "FRONT", "FROST", "GAMMA", "GHOST",
+  "GIANT", "GLASS", "GLOBE", "GLORY", "GLYPH", "GRACE", "GRAIN", "GRAND",
+  "GRASS", "GREEN", "GROVE", "GUARD", "GUIDE", "GULCH", "HAPPY", "HAVEN",
+  "HEART", "HEAVY", "HINGE", "HONOR", "HOTEL", "HOUSE", "HUMAN", "IMAGE",
+  "INBOX", "INDEX", "INNER", "INPUT", "IRONY", "ISLES", "IVORY", "JEWEL",
+  "JUDGE", "JUICE", "KNIFE", "LABOR", "LAKES", "LASER", "LATCH", "LEMON",
+  "LEVEL", "LEVER", "LIGHT", "LOCAL", "LODGE", "LOGIC", "LUCID", "LUCKY",
+  "LUNAR", "MACRO", "MAGIC", "MAJOR", "MAKER", "MANGO", "MANOR", "MAPLE",
+  "MARCH", "MARSH", "MATCH", "MEDAL", "MEDIA", "METAL", "METER", "MICRO",
+  "MINER", "MIXER", "MODEL", "MODEM", "MONEY", "MOTIF", "MOTOR", "MOUNT",
+  "MUSIC", "NEXUS", "NIGHT", "NOBLE", "NORTH", "NURSE", "OASIS", "OCEAN",
+  "OFFER", "OLIVE", "OMEGA", "ONION", "OPERA", "ORBIT", "ORDER", "PAINT",
+  "PANEL", "PAPER", "PARSE", "PARTY", "PATCH", "PAUSE", "PEACE", "PEACH",
+  "PEAKS", "PEARL", "PENAL", "PENNY", "PHASE", "PHONE", "PHOTO", "PIANO",
+  "PIERS", "PILOT", "PINES", "PIQUE", "PITCH", "PIVOT", "PIXEL", "PIZZA",
+  "PLAIN", "PLANE", "PLANT", "PLATE", "PLAZA", "PLUTO", "POINT", "POLAR",
+  "POUND", "POWER", "PRICE", "PRIDE", "PRIME", "PRINT", "PRISM", "PRIZE",
+  "PROBE", "PROOF", "PROUD", "PROXY", "PULSE", "PUPIL", "QUEEN", "QUERY",
+  "QUEST", "QUEUE", "QUICK", "QUIET", "RADAR", "RADIO", "RANCH", "RANGE",
+  "RAPID", "RATIO", "REACH", "REEFS", "RELAX", "RESET", "RIDER", "RIDGE",
+  "RIVAL", "RIVER", "ROBOT", "ROUND", "ROUTE", "ROVER", "ROYAL", "RULER",
+  "SALAD", "SAUCE", "SCALE", "SCENE", "SCOPE", "SCORE", "SCOUT", "SENSE",
+  "SERIF", "SERVE", "SHADE", "SHAPE", "SHARK", "SHARP", "SHELL", "SHIFT",
+  "SHINE", "SHIRT", "SHORE", "SIGHT", "SIGMA", "SKILL", "SLEEP", "SLOPE",
+  "SMART", "SMILE", "SMOKE", "SOLAR", "SOLID", "SOLVE", "SOUND", "SOUTH",
+  "SPACE", "SPARK", "SPAWN", "SPEED", "SPICE", "SPORT", "STACK", "STAGE",
+  "STAMP", "STAND", "STARK", "STARS", "STATE", "STEAM", "STEEL", "STERN",
+  "STICK", "STILL", "STONE", "STORE", "STORM", "SUGAR", "SUITE", "SUPER",
+  "SURGE", "SWEET", "SWIFT", "TABLE", "TANGY", "TASTE", "TERRA", "THEME",
+  "THUMB", "TIDES", "TIGER", "TILES", "TITAN", "TITLE", "TOAST", "TOKEN",
+  "TOPIC", "TOTAL", "TOUCH", "TOWEL", "TOWER", "TRACE", "TRACK", "TRAIL",
+  "TRAIN", "TREES", "TRUCK", "TRUTH", "TULIP", "UNCLE", "UNION", "UNITY",
+  "URBAN", "VALES", "VALET", "VALOR", "VALUE", "VALVE", "VAPID", "VAPOR",
+  "VAULT", "VENUS", "VIDEO", "VIGOR", "VIRUS", "VISIT", "VISTA", "VITAL",
+  "VIVID", "VOICE", "VOTER", "WAGON", "WATCH", "WATER", "WHARF", "WHEAT",
+  "WHEEL", "WHITE", "WHOLE", "WINDY", "WOODS", "WORLD", "WORRY", "WRIST",
+  "YIELD", "YOUTH", "ZEBRA", "ZESTY",
 ].filter((w) => w.length === 5);
 
 type TileState = "empty" | "tbd" | "correct" | "present" | "absent";
@@ -105,7 +145,7 @@ export default function XwordlePage() {
             };
             try {
               localStorage.setItem("xwordle_stats", JSON.stringify(updated));
-            } catch {}
+            } catch { }
             return updated;
           });
           setTimeout(() => setShowStats(true), 800);
@@ -120,7 +160,7 @@ export default function XwordlePage() {
             };
             try {
               localStorage.setItem("xwordle_stats", JSON.stringify(updated));
-            } catch {}
+            } catch { }
             return updated;
           });
           setTimeout(() => setShowStats(true), 800);
@@ -293,8 +333,8 @@ export default function XwordlePage() {
                   const state: TileState = isSubmitted
                     ? getTileState(guesses[rowIndex], colIndex)
                     : letter
-                    ? "tbd"
-                    : "empty";
+                      ? "tbd"
+                      : "empty";
 
                   let styleClass =
                     "w-12 h-12 sm:w-14 sm:h-14 border rounded-xl flex items-center justify-center text-lg sm:text-2xl font-mono uppercase transition-all duration-300 ";
@@ -451,8 +491,8 @@ export default function XwordlePage() {
                   {gameStatus === "won"
                     ? "Splendid Deduction!"
                     : gameStatus === "lost"
-                    ? "Game Over"
-                    : "Studio Statistics"}
+                      ? "Game Over"
+                      : "Studio Statistics"}
                 </h3>
               </div>
               <button
