@@ -554,8 +554,8 @@ export default function GamesPrivacyPage() {
                 <h4 className="text-base font-space font-medium text-carbon">
                   Xweet Games
                 </h4>
-                <p className="text-xs font-mono text-terrain">
-                  Package: <strong className="text-carbon font-semibold">in.xweet.games</strong>
+                <p className="text-xs font-light text-terrain leading-relaxed">
+                  Minimal offline puzzle &amp; deductive games for Android.
                 </p>
               </div>
 
@@ -563,10 +563,29 @@ export default function GamesPrivacyPage() {
                 href="https://play.google.com/store/apps/details?id=in.xweet.games"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-carbon hover:bg-black text-paper font-mono text-xs font-semibold transition-all shadow-sm group"
+                className="w-full flex items-center justify-center gap-2.5 py-3 px-4 rounded-2xl bg-carbon hover:bg-black text-paper font-mono text-xs font-semibold transition-all shadow-sm group"
               >
+                {/* Official Google Play Multi-Color Vector */}
+                <svg className="w-4 h-4 shrink-0" viewBox="0 0 512 512" aria-hidden="true">
+                  <path
+                    fill="#4285F4"
+                    d="M48.7 13.9C39.6 23.6 34.3 38.3 34.3 56.5v399c0 18.2 5.3 32.9 14.4 42.6l2.4 2.4 227-227v-5.4L51.1 11.5l-2.4 2.4z"
+                  />
+                  <path
+                    fill="#00E676"
+                    d="m356.5 334.8-78.4-78.4v-5.4l78.4-78.4 2.7 1.5 92.9 52.8c26.5 15.1 26.5 39.8 0 54.9l-92.9 52.8-2.7 1.7z"
+                  />
+                  <path
+                    fill="#FFD600"
+                    d="m278.1 251 78.4 78.4-270.1 153.5c-14.6 8.2-27.5 7.2-35.3-1.1l227-227V251z"
+                  />
+                  <path
+                    fill="#FF3D00"
+                    d="m278.1 256.4-227-227C58.9 21.1 71.8 22.1 86.4 30.4l270.1 153.5-78.4 78.4v-5.9z"
+                  />
+                </svg>
                 <span>Get it on Google Play</span>
-                <ExternalLink className="w-3.5 h-3.5 text-signal-lime group-hover:translate-x-0.5 transition-transform" />
+                <ExternalLink className="w-3.5 h-3.5 text-terrain/60 group-hover:text-paper group-hover:translate-x-0.5 transition-all" />
               </a>
             </div>
           </aside>
@@ -587,9 +606,6 @@ export default function GamesPrivacyPage() {
             <p className="text-xs sm:text-sm text-terrain font-light leading-relaxed">
               Minimal, tactile puzzle and casual games for Android. Zero ads, zero accounts, and 100% on-device local storage.
             </p>
-            <div className="pt-1 font-mono text-xs text-terrain">
-              Package: <span className="text-carbon font-semibold bg-black/5 px-2.5 py-0.5 rounded-full border border-terrain/20">in.xweet.games</span>
-            </div>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
@@ -597,14 +613,29 @@ export default function GamesPrivacyPage() {
               href="https://play.google.com/store/apps/details?id=in.xweet.games"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3.5 px-6 py-3 rounded-2xl bg-carbon hover:bg-black text-paper transition-all border border-carbon shadow-md group cursor-pointer"
+              className="inline-flex items-center gap-3.5 px-6 py-3.5 rounded-2xl bg-carbon hover:bg-black text-paper transition-all border border-carbon shadow-md group cursor-pointer"
             >
-              {/* Google Play Triangle Logo */}
-              <svg className="w-6 h-6 shrink-0 fill-current text-signal-lime" viewBox="0 0 24 24">
-                <path d="M3.609 1.814L13.793 12 3.61 22.186a1.99 1.99 0 0 1-.61-1.42V3.234c0-.555.226-1.057.61-1.42zm11.235 11.235l2.427 2.427-11.758 6.784 9.331-9.211zm0-2.098l-9.33-9.211 11.757 6.784-2.427 2.427zm1.485 1.049l3.524 2.035c.877.507.877 1.334 0 1.841l-3.524 2.035-2.098-2.098 2.098-2.013z"/>
+              {/* Authentic Google Play Multi-Color Logo */}
+              <svg className="w-5 h-5 shrink-0" viewBox="0 0 512 512" aria-hidden="true">
+                <path
+                  fill="#4285F4"
+                  d="M48.7 13.9C39.6 23.6 34.3 38.3 34.3 56.5v399c0 18.2 5.3 32.9 14.4 42.6l2.4 2.4 227-227v-5.4L51.1 11.5l-2.4 2.4z"
+                />
+                <path
+                  fill="#00E676"
+                  d="m356.5 334.8-78.4-78.4v-5.4l78.4-78.4 2.7 1.5 92.9 52.8c26.5 15.1 26.5 39.8 0 54.9l-92.9 52.8-2.7 1.7z"
+                />
+                <path
+                  fill="#FFD600"
+                  d="m278.1 251 78.4 78.4-270.1 153.5c-14.6 8.2-27.5 7.2-35.3-1.1l227-227V251z"
+                />
+                <path
+                  fill="#FF3D00"
+                  d="m278.1 256.4-227-227C58.9 21.1 71.8 22.1 86.4 30.4l270.1 153.5-78.4 78.4v-5.9z"
+                />
               </svg>
               <div className="text-left font-mono">
-                <span className="block text-[9px] uppercase tracking-wider text-terrain/90 leading-none">GET IT ON</span>
+                <span className="block text-[9px] uppercase tracking-wider text-terrain/80 leading-none">GET IT ON</span>
                 <span className="block text-sm font-bold text-paper font-sans leading-tight">Google Play</span>
               </div>
             </a>
