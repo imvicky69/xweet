@@ -264,10 +264,10 @@ export default function StudioFooter() {
             <ul className="space-y-2 text-xs font-mono">
               <li>
                 <a
-                  href="mailto:contact@xweet.in"
+                  href="mailto:hello@xweet.in"
                   className="text-signal-lime font-semibold hover:underline transition-colors block"
                 >
-                  contact@xweet.in
+                  hello@xweet.in
                 </a>
               </li>
               <li>
@@ -304,30 +304,30 @@ export default function StudioFooter() {
           </div>
         </div>
 
-            {/* Bottom Colophon Bar */}
-            <div className="pt-10 mt-10 border-t border-terrain/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-terrain">
-              <div className="flex items-center gap-2">
-                <span>© {currentYear} Xweet Studio.</span>
-                <span>Crafted with precision &amp; restraint.</span>
-              </div>
+        {/* Bottom Colophon Bar */}
+        <div className="pt-10 mt-10 border-t border-terrain/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-terrain">
+          <div className="flex items-center gap-2">
+            <span>© {currentYear} Xweet Studio.</span>
+            <span>Crafted with precision &amp; restraint.</span>
+          </div>
 
-                <div className="flex items-center gap-4 sm:gap-6">
-                  <Link href="/games/privacy" className="hover:text-carbon transition-colors">
-                    Privacy Policy
-                  </Link>
-                  <span className="text-terrain/40 hidden sm:inline">•</span>
-                  <span className="hidden sm:inline">Strict Light Mode • Sovereign Architecture</span>
-                  <button
-                    onClick={scrollToTop}
-                    className="hover:text-carbon flex items-center gap-1 cursor-pointer transition-colors"
-                    aria-label="Scroll back to top"
-                  >
-                    <span>Back to Top</span>
-                    <ArrowUp className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </footer>
-          );
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="/games/privacy" className="hover:text-carbon transition-colors">
+              Privacy Policy
+            </Link>
+            <span className="text-terrain/40 hidden sm:inline">•</span>
+            <span className="hidden sm:inline">Strict Light Mode • Sovereign Architecture</span>
+            <button
+              onClick={scrollToTop}
+              className="hover:text-carbon flex items-center gap-1 cursor-pointer transition-colors"
+              aria-label="Scroll back to top"
+            >
+              <span>Back to Top</span>
+              <ArrowUp className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
 }
