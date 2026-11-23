@@ -17,6 +17,8 @@ import {
   UserX,
   Ban,
   Compass,
+  Smartphone,
+  ExternalLink,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -539,48 +541,43 @@ export default function GamesPrivacyPage() {
               </div>
             </div>
 
-            {/* Quick Game Launchers */}
-            <div className="p-6 rounded-3xl bg-black/5 border border-terrain/25 space-y-3">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-terrain block">
-                AVAILABLE FREE &amp; AD-FREE
-              </span>
-              <div className="space-y-2">
-                <Link
-                  href="/wordle"
-                  className="flex items-center justify-between p-3 rounded-2xl bg-white/70 border border-terrain/25 hover:border-carbon transition-all group"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <span className="font-playwrite text-base text-carbon">wordle</span>
-                    <span className="text-[10px] font-mono text-terrain">5-Round Series</span>
-                  </div>
-                  <span className="text-xs font-mono font-semibold text-carbon group-hover:translate-x-0.5 transition-transform">
-                    Play →
-                  </span>
-                </Link>
-
-                <Link
-                  href="/unkn"
-                  className="flex items-center justify-between p-3 rounded-2xl bg-white/70 border border-terrain/25 hover:border-carbon transition-all group"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <span className="font-space font-medium text-sm text-carbon">unkn</span>
-                    <span className="text-[10px] font-mono text-terrain">Geography</span>
-                  </div>
-                  <span className="text-xs font-mono font-semibold text-carbon group-hover:translate-x-0.5 transition-transform">
-                    Play →
-                  </span>
-                </Link>
+            {/* Google Play App Card */}
+            <div className="p-6 rounded-3xl bg-black/5 border border-terrain/25 space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-terrain block">
+                  GOOGLE PLAY STORE
+                </span>
+                <span className="w-2 h-2 rounded-full bg-signal-lime animate-pulse" />
               </div>
+
+              <div className="space-y-1">
+                <h4 className="text-base font-space font-medium text-carbon">
+                  Xweet Games
+                </h4>
+                <p className="text-xs font-mono text-terrain">
+                  Package: <strong className="text-carbon font-semibold">in.xweet.games</strong>
+                </p>
+              </div>
+
+              <a
+                href="https://play.google.com/store/apps/details?id=in.xweet.games"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-carbon hover:bg-black text-paper font-mono text-xs font-semibold transition-all shadow-sm group"
+              >
+                <span>Get it on Google Play</span>
+                <ExternalLink className="w-3.5 h-3.5 text-signal-lime group-hover:translate-x-0.5 transition-transform" />
+              </a>
             </div>
           </aside>
         </div>
 
         {/* ========================================================================= */}
-        {/* EDITORIAL SIGNOFF BANNER */}
+        {/* EDITORIAL SIGNOFF & GOOGLE PLAY DOWNLOAD BANNER */}
         {/* ========================================================================= */}
         <section className="border border-terrain/35 rounded-3xl p-8 sm:p-12 bg-white/60 backdrop-blur-xs shadow-xs text-center space-y-6">
           <div className="w-12 h-12 rounded-2xl bg-signal-lime text-carbon flex items-center justify-center mx-auto shadow-2xs border border-signal-lime/80">
-            <ShieldCheck className="w-6 h-6 text-carbon" />
+            <Smartphone className="w-6 h-6 text-carbon" />
           </div>
 
           <div className="space-y-2 max-w-xl mx-auto">
@@ -588,26 +585,37 @@ export default function GamesPrivacyPage() {
               Xweet Games — Play freely. Stay private.
             </h3>
             <p className="text-xs sm:text-sm text-terrain font-light leading-relaxed">
-              Tactile games built with precision and restraint. No intrusive permissions, no third-party tracking, and no paywalls.
+              Minimal, tactile puzzle and casual games for Android. Zero ads, zero accounts, and 100% on-device local storage.
             </p>
+            <div className="pt-1 font-mono text-xs text-terrain">
+              Package: <span className="text-carbon font-semibold bg-black/5 px-2.5 py-0.5 rounded-full border border-terrain/20">in.xweet.games</span>
+            </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <Link
-              href="/games"
-              className="px-6 py-3 rounded-full bg-signal-lime hover:bg-[#cbf056] text-carbon font-mono text-xs font-semibold transition-all border border-signal-lime/80 shadow-2xs inline-flex items-center gap-2 cursor-pointer"
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <a
+              href="https://play.google.com/store/apps/details?id=in.xweet.games"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3.5 px-6 py-3 rounded-2xl bg-carbon hover:bg-black text-paper transition-all border border-carbon shadow-md group cursor-pointer"
             >
-              <Compass className="w-4 h-4 text-carbon" />
-              <span>Explore Games Hub</span>
-            </Link>
+              {/* Google Play Triangle Logo */}
+              <svg className="w-6 h-6 shrink-0 fill-current text-signal-lime" viewBox="0 0 24 24">
+                <path d="M3.609 1.814L13.793 12 3.61 22.186a1.99 1.99 0 0 1-.61-1.42V3.234c0-.555.226-1.057.61-1.42zm11.235 11.235l2.427 2.427-11.758 6.784 9.331-9.211zm0-2.098l-9.33-9.211 11.757 6.784-2.427 2.427zm1.485 1.049l3.524 2.035c.877.507.877 1.334 0 1.841l-3.524 2.035-2.098-2.098 2.098-2.013z"/>
+              </svg>
+              <div className="text-left font-mono">
+                <span className="block text-[9px] uppercase tracking-wider text-terrain/90 leading-none">GET IT ON</span>
+                <span className="block text-sm font-bold text-paper font-sans leading-tight">Google Play</span>
+              </div>
+            </a>
 
-            <Link
-              href="/"
-              className="px-6 py-3 rounded-full bg-carbon hover:bg-carbon/90 text-paper font-mono text-xs font-semibold transition-all inline-flex items-center gap-2 cursor-pointer"
+            <a
+              href="mailto:hello@xweet.in"
+              className="px-6 py-3.5 rounded-2xl bg-paper hover:bg-white text-carbon font-mono text-xs font-semibold transition-all border border-terrain/30 inline-flex items-center gap-2 cursor-pointer shadow-2xs"
             >
-              <span>Xweet Studio Home</span>
-              <ArrowRight className="w-4 h-4 text-paper" />
-            </Link>
+              <Mail className="w-4 h-4 text-terrain" />
+              <span>Contact Developer</span>
+            </a>
           </div>
         </section>
       </main>
