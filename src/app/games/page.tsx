@@ -368,6 +368,20 @@ export default function GamesHubPage() {
               </p>
             </div>
           </div>
+
+          {/* Privacy & Sovereignty Link Strip */}
+          <div className="pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono text-terrain border-t border-white/10">
+            <span className="text-paper/70 font-light">
+              All Xweet games operate under our verified zero-tracking architecture.
+            </span>
+            <Link
+              href="/games/privacy"
+              className="text-signal-lime hover:underline inline-flex items-center gap-1.5 font-semibold group shrink-0"
+            >
+              <span>Games Privacy Policy</span>
+              <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
+          </div>
         </section>
       </main>
 

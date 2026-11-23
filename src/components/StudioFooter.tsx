@@ -244,6 +244,11 @@ export default function StudioFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/games/privacy" className="text-terrain hover:text-carbon transition-colors">
+                  Games Privacy Policy
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="text-carbon font-semibold hover:underline transition-colors">
                   Inquire
                 </Link>
@@ -306,7 +311,11 @@ export default function StudioFooter() {
                 <span>Crafted with precision &amp; restraint.</span>
               </div>
 
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4 sm:gap-6">
+                  <Link href="/games/privacy" className="hover:text-carbon transition-colors">
+                    Privacy Policy
+                  </Link>
+                  <span className="text-terrain/40 hidden sm:inline">•</span>
                   <span className="hidden sm:inline">Strict Light Mode • Sovereign Architecture</span>
                   <button
                     onClick={scrollToTop}
