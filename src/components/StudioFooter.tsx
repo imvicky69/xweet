@@ -249,6 +249,11 @@ export default function StudioFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/wallpapers/privacy" className="text-terrain hover:text-carbon transition-colors">
+                  Wallpapers Privacy Policy
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="text-carbon font-semibold hover:underline transition-colors">
                   Inquire
                 </Link>
