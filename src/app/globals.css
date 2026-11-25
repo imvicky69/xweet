@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Playwrite+DE+Grund:wght@100..400&display=swap");
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   /* Core Brand Palette Tokens */
@@ -63,11 +64,51 @@
   --font-playwrite: var(--font-playwrite);
 }
 
-/* Light mode lock */
+/* Light mode default */
 html {
   color-scheme: light;
   background-color: var(--paper);
   color: var(--carbon);
+}
+
+/* Global Dark Mode */
+html.dark {
+  color-scheme: dark;
+  --paper: #111210;
+  --carbon: #f0efe6;
+  --terrain: #9d9f92;
+  --signal-lime: #d7f36a;
+  --mist: #b7a7d9;
+}
+
+html.dark .bg-white,
+html.dark .bg-white\/35,
+html.dark .bg-white\/40,
+html.dark .bg-white\/45,
+html.dark .bg-white\/50,
+html.dark .bg-white\/60,
+html.dark .bg-white\/65,
+html.dark .bg-white\/70,
+html.dark .bg-white\/75,
+html.dark .bg-white\/80,
+html.dark .bg-white\/85,
+html.dark .bg-white\/90 {
+  background-color: rgba(28, 30, 26, 0.82) !important;
+}
+
+html.dark .bg-carbon {
+  background-color: #1c1e1a !important;
+  color: #f0efe6 !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+html.dark .bg-signal-lime,
+html.dark .bg-signal-lime * {
+  color: #171815 !important;
+}
+
+html.dark .bg-black\/5 {
+  background-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 body {

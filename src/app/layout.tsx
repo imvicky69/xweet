@@ -68,8 +68,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F0EFE6",
-  colorScheme: "light",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F0EFE6" },
+    { media: "(prefers-color-scheme: dark)", color: "#111210" },
+  ],
+  colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
 };
@@ -95,6 +98,11 @@ export default function RootLayout({
         <link
           href="https://fonts.googleapis.com/css2?family=Playwrite+DE+Grund:wght@100..400&display=swap"
           rel="stylesheet"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{if(localStorage.getItem('xweet-theme')==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();`,
+          }}
         />
         <script
           async

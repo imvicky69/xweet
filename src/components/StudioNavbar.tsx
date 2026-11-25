@@ -1,14 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";
+
+function subscribeToDarkClass(callback: () => void) {
+  if (typeof document === "undefined") return () => {};
+  const observer = new MutationObserver(callback);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+  return () => observer.disconnect();
+}
 
 export default function StudioNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const isDark = useSyncExternalStore(
+    subscribeToDarkClass,
+    () => typeof document !== "undefined" && document.documentElement.classList.contains("dark"),
+    () => false
+  );
+
+  const toggleTheme = () => {
+    const nextDark = !document.documentElement.classList.contains("dark");
+    document.documentElement.classList.toggle("dark", nextDark);
+    try {
+      localStorage.setItem("xweet-theme", nextDark ? "dark" : "light");
+    } catch {
+      // noop
+    }
+  };
 
   const isGames =
     pathname.startsWith("/games") || pathname.startsWith("/unkn") || pathname.startsWith("/wordle");
@@ -62,8 +84,18 @@ export default function StudioNavbar() {
           ))}
         </nav>
 
-        {/* Right: Single Clean CTA + Mobile Toggle */}
-        <div className="flex items-center gap-2.5 shrink-0">
+        {/* Right: Theme Toggle + CTA + Mobile Toggle */}
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            title={isDark ? "Light mode" : "Dark mode"}
+            className="h-9 w-9 rounded-full border border-terrain/30 bg-white/65 hover:border-carbon text-carbon flex items-center justify-center transition-colors cursor-pointer"
+          >
+            {isDark ? <Sun className="w-4 h-4 text-signal-lime" /> : <Moon className="w-4 h-4" />}
+          </button>
+
           <Link
             href="/contact"
             className={`cursor-pointer font-mono text-xs px-4 sm:px-5 py-2 rounded-full transition-all inline-flex items-center gap-1.5 border ${
