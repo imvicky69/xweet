@@ -38,11 +38,6 @@ export default function StudioHomePage() {
         {/* ── HERO SECTION ─────────────────────────────────────────────────── */}
         <section className="max-w-7xl mx-auto px-4 sm:px-8 pt-8 sm:pt-14 pb-12 sm:pb-16 border-b border-terrain/25">
           <div className="max-w-4xl space-y-5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/70 border border-terrain/30 text-[11px] font-mono text-carbon">
-              <span className="w-2 h-2 rounded-full bg-signal-lime" />
-              <span>Root Ecosystem · Formerly Indivio Studio</span>
-            </div>
-
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-thin tracking-tight leading-[1.03] text-carbon">
               Independent software built with precision &amp; restraint.
             </h1>
