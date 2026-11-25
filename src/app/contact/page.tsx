@@ -15,18 +15,30 @@ import {
   FileCheck,
 } from "lucide-react";
 
-const PROJECT_TYPES = ["Web App", "Android / Flutter", "Full Ecosystem", "UI / Architecture"];
-const BUDGET_RANGES = ["< $1.5k", "$1.5k – $3k", "$3k – $10k", "$10k+"];
+const PROJECT_TYPES = ["Portfolio / Site", "Web App", "Android & iOS App", "Full Ecosystem"];
+const BUDGET_PRESETS = [
+  { label: "₹8,000+", hint: "Portfolio / Landing" },
+  { label: "₹25,000+", hint: "Web App / SaaS" },
+  { label: "₹70,000+", hint: "Full Android & iOS" },
+  { label: "Custom", hint: "Enter INR" },
+];
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     projectType: "Web App",
-    budget: "$3k – $10k",
+    budget: "₹25,000+",
+    customBudget: "",
     message: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const effectiveBudget =
+    formData.budget === "Custom"
+      ? formData.customBudget.trim() || "Flexible / Custom"
+      : formData.budget;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,8 +80,10 @@ export default function ContactPage() {
                 </div>
                 <h2 className="text-xl font-space font-medium text-carbon">Inquiry Received</h2>
                 <p className="text-xs text-terrain max-w-sm mx-auto">
-                  Thanks <strong>{formData.name}</strong>. We&apos;ll reply to{" "}
-                  <strong>{formData.email}</strong> within 24 hours.
+                  Thanks <strong>{formData.name}</strong>. We received your{" "}
+                  <strong>{formData.projectType}</strong> inquiry ({effectiveBudget}) and will reach out to{" "}
+                  <strong>{formData.email}</strong>
+                  {formData.phone ? ` or ${formData.phone}` : ""} within 24 hours.
                 </p>
                 <button
                   type="button"
@@ -81,7 +95,7 @@ export default function ContactPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <label className="block space-y-1">
                     <span className="text-[11px] font-mono uppercase tracking-wider text-terrain">
                       Name *
@@ -105,6 +119,18 @@ export default function ContactPage() {
                       placeholder="you@domain.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-terrain/30 bg-paper text-sm text-carbon focus:outline-none focus:border-carbon"
+                    />
+                  </label>
+                  <label className="block space-y-1">
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-terrain">
+                      Phone / WhatsApp
+                    </span>
+                    <input
+                      type="tel"
+                      placeholder="+91 98XXX XXXXX"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-xl border border-terrain/30 bg-paper text-sm text-carbon focus:outline-none focus:border-carbon"
                     />
                   </label>
@@ -133,27 +159,47 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                {/* Budget Pills */}
-                <div className="space-y-1.5">
+                {/* Budget Pills (INR) + Optional Custom Input */}
+                <div className="space-y-2">
                   <span className="text-[11px] font-mono uppercase tracking-wider text-terrain block">
-                    Budget
+                    Budget (INR · Optional)
                   </span>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-                    {BUDGET_RANGES.map((range) => (
-                      <button
-                        type="button"
-                        key={range}
-                        onClick={() => setFormData({ ...formData, budget: range })}
-                        className={`cursor-pointer px-2.5 py-1.5 rounded-full border text-xs font-mono transition-colors ${
-                          formData.budget === range
-                            ? "bg-signal-lime text-carbon border-carbon/20 font-semibold"
-                            : "bg-paper text-terrain border-terrain/30 hover:border-carbon"
-                        }`}
-                      >
-                        {range}
-                      </button>
-                    ))}
+                    {BUDGET_PRESETS.map((item) => {
+                      const active = formData.budget === item.label;
+                      return (
+                        <button
+                          type="button"
+                          key={item.label}
+                          onClick={() => setFormData({ ...formData, budget: item.label })}
+                          className={`cursor-pointer px-3 py-2 rounded-2xl border text-left transition-colors ${
+                            active
+                              ? "bg-signal-lime text-carbon border-carbon/20 font-semibold"
+                              : "bg-paper text-carbon border-terrain/30 hover:border-carbon"
+                          }`}
+                        >
+                          <span className="block text-xs font-mono leading-tight">{item.label}</span>
+                          <span
+                            className={`block text-[10px] mt-0.5 ${
+                              active ? "text-carbon/75" : "text-terrain"
+                            }`}
+                          >
+                            {item.hint}
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
+
+                  {formData.budget === "Custom" && (
+                    <input
+                      type="text"
+                      placeholder="Enter optional budget in INR (e.g. ₹40,000)"
+                      value={formData.customBudget}
+                      onChange={(e) => setFormData({ ...formData, customBudget: e.target.value })}
+                      className="w-full px-3.5 py-2 rounded-xl border border-terrain/30 bg-paper text-xs font-mono text-carbon focus:outline-none focus:border-carbon"
+                    />
+                  )}
                 </div>
 
                 <label className="block space-y-1">
@@ -207,12 +253,12 @@ export default function ContactPage() {
                   </a>
                 </div>
                 <div className="flex items-center justify-between pt-2.5">
-                  <span className="text-terrain">REPLY TIME</span>
-                  <span>&lt; 24 Hours</span>
+                  <span className="text-terrain">STARTING AT</span>
+                  <span>₹8,000 (Site) · ₹70k (Mobile)</span>
                 </div>
                 <div className="flex items-center justify-between pt-2.5">
-                  <span className="text-terrain">TIMEZONE</span>
-                  <span>IST (UTC +5:30)</span>
+                  <span className="text-terrain">REPLY TIME</span>
+                  <span>&lt; 24 Hours</span>
                 </div>
                 <div className="flex items-center justify-between pt-2.5">
                   <span className="text-terrain">AVAILABILITY</span>
@@ -232,7 +278,7 @@ export default function ContactPage() {
               </div>
               <div className="flex items-center gap-2.5 text-paper/90">
                 <FileCheck className="w-4 h-4 text-signal-lime shrink-0" />
-                <span>Clear milestone-based pricing</span>
+                <span>Clear milestone-based INR pricing</span>
               </div>
             </div>
 
