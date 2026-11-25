@@ -1,335 +1,118 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUp, ExternalLink, ArrowRight } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 
 export default function StudioFooter() {
-  const [utcTime, setUtcTime] = useState<string>("");
-  const [currentYear, setCurrentYear] = useState<number>(2026);
-  const [copiedHex, setCopiedHex] = useState<string | null>(null);
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setUtcTime(now.toUTCString().slice(17, 25) + " UTC");
-      setCurrentYear(now.getFullYear());
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const copyColor = (hex: string, name: string) => {
-    navigator.clipboard.writeText(hex);
-    setCopiedHex(name);
-    setTimeout(() => setCopiedHex(null), 2000);
-  };
-
-  const TOKENS = [
-    { name: "Carbon", hex: "#171815" },
-    { name: "Paper", hex: "#F0EFE6" },
-    { name: "Signal Lime", hex: "#D7F36A" },
-    { name: "Terrain", hex: "#858779" },
-    { name: "Mist", hex: "#B7A7D9" },
-  ];
-
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
-    <footer className="relative mt-24 border-t border-terrain/30 bg-paper text-carbon overflow-hidden">
-      {/* Top Telemetry Strip */}
-      <div className="border-b border-terrain/20 py-3 px-4 sm:px-8 bg-black/[0.02]">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-terrain">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-signal-lime animate-pulse" />
-            <span className="text-carbon font-medium uppercase tracking-wider">
-              Studio Operations: Active · Sovereign Software &amp; Experiments
-            </span>
-            <span className="text-terrain/50">•</span>
-            <span>Available for Select Commissions</span>
-          </div>
+    <footer className="w-full border-t border-terrain/25 bg-paper text-carbon mt-20 relative overflow-hidden">
+      {/* 1. Clean Top Editorial Strip */}
+      <div className="border-b border-terrain/20 bg-white/35">
+        <div className="mx-auto max-w-7xl px-4 sm:px-8 py-10 sm:py-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="max-w-xl space-y-2">
+              <span className="font-mono text-[11px] uppercase tracking-widest text-terrain font-semibold flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-signal-lime" />
+                <span>Xweet Ecosystem</span>
+              </span>
+              <h2 className="font-space text-2xl sm:text-3xl font-medium tracking-tight text-carbon leading-tight">
+                Crafted with precision &amp; restraint.
+              </h2>
+              <p className="text-xs sm:text-sm text-terrain font-light leading-relaxed">
+                Sovereign browser tools, ad-free Android apps, games, and Indivio food delivery — built independently.
+              </p>
+            </div>
 
-          <div className="flex items-center gap-4">
-            <span className="text-carbon font-medium">{utcTime || "00:00:00 UTC"}</span>
-            <span className="text-terrain/50 hidden sm:inline">•</span>
-            <span className="hidden sm:inline">100% On-Device Respect &amp; Clean Code</span>
+            <div className="flex flex-wrap items-center gap-4 shrink-0">
+              <nav className="flex flex-wrap items-center gap-4 text-xs font-mono text-terrain">
+                <Link href="/apps" className="hover:text-carbon transition-colors">
+                  Apps
+                </Link>
+                <Link href="/about" className="hover:text-carbon transition-colors">
+                  About
+                </Link>
+                <Link href="/games" className="hover:text-carbon transition-colors">
+                  Games
+                </Link>
+                <Link href="/contact" className="hover:text-carbon transition-colors">
+                  Contact
+                </Link>
+              </nav>
+
+              <button
+                type="button"
+                onClick={scrollToTop}
+                className="inline-flex items-center gap-2 h-9 px-4 bg-white/70 hover:bg-white text-carbon font-mono text-[11px] font-medium border border-terrain/30 hover:border-carbon rounded-full transition-all cursor-pointer active:scale-[0.98]"
+              >
+                <span>TOP</span>
+                <ArrowUp className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Main Architectural Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
-          {/* Brand & Studio Column (5 cols) */}
-          <div className="lg:col-span-5 space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div className="relative w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center">
-                <Image
-                  src="/logo-clear.png"
-                  alt="xweet"
-                  width={34}
-                  height={34}
-                  className="object-contain"
-                />
-              </div>
-              <span className="font-playwrite text-3xl tracking-tight text-carbon">xweet</span>
+      {/* 2. Massive Minimalist Architectural Sign-off */}
+      <div className="w-full overflow-hidden select-none pointer-events-none -my-3 sm:-my-6 flex justify-center">
+        <span className="font-space text-[20vw] sm:text-[17vw] font-bold tracking-tighter text-carbon/[0.05] leading-none whitespace-nowrap uppercase">
+          XWEET
+        </span>
+      </div>
+
+      {/* 3. Bottom Hairline Strip */}
+      <div className="border-t border-terrain/20 bg-white/45 relative z-10">
+        <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-between gap-3 px-4 sm:px-8 py-4 text-[11px] font-mono text-terrain">
+          <div className="flex items-center gap-2.5">
+            <div className="relative h-5 w-5 rounded-full overflow-hidden bg-white border border-terrain/30 flex items-center justify-center shrink-0">
+              <Image
+                src="/logo-clear.png"
+                alt="Xweet"
+                fill
+                sizes="20px"
+                className="object-contain p-0.5"
+              />
             </div>
-
-            <p className="text-sm font-light text-carbon/80 max-w-md leading-relaxed">
-              An independent software studio crafting sovereign web utilities, 120 FPS mobile apps, and cartographic games. Built with precision, restraint, and zero synthetic bloat.
-            </p>
-
-            <div className="pt-2">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-signal-lime hover:bg-[#cbf056] text-carbon text-xs font-semibold transition-all border border-signal-lime/90 shadow-2xs"
-              >
-                <span>Inquire About Commissions</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-
-            {/* Design Tokens Palette Bar */}
-            <div className="pt-3 border-t border-terrain/20">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-terrain">
-                  Design Tokens
-                </span>
-                {copiedHex && (
-                  <span className="text-[10px] font-mono text-carbon font-semibold">
-                    Copied {copiedHex}!
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-2">
-                {TOKENS.map((token) => (
-                  <button
-                    key={token.name}
-                    onClick={() => copyColor(token.hex, token.name)}
-                    className="cursor-pointer group relative flex items-center gap-1.5 px-2 py-1 rounded-lg border border-terrain/30 hover:border-carbon transition-colors bg-white/40"
-                    title={`Click to copy ${token.name} (${token.hex})`}
-                  >
-                    <span
-                      className="w-3 h-3 rounded-full border border-black/10"
-                      style={{ backgroundColor: token.hex }}
-                    />
-                    <span className="text-[10px] font-mono text-terrain group-hover:text-carbon">
-                      {token.name}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
+            <span className="font-semibold text-carbon tracking-wide">XWEET</span>
+            <span className="text-terrain/40">•</span>
+            <span>© 2026</span>
           </div>
 
-          {/* Software Releases (3 cols) */}
-          <div className="lg:col-span-3 space-y-4">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-carbon font-semibold">
-              Ecosystem Apps
-            </h4>
-            <ul className="space-y-2 text-xs font-mono">
-              <li>
-                <a
-                  href="https://bg.xweet.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-carbon text-carbon font-medium transition-colors flex items-center justify-between group"
-                >
-                  <span>xweet bg (BG Remover)</span>
-                  <span className="text-[9px] bg-signal-lime text-carbon px-1.5 py-0.2 rounded font-semibold">
-                    LIVE
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://wallpaper.xweet.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-carbon text-terrain transition-colors flex items-center justify-between group"
-                >
-                  <span>Xweet Wallpapers</span>
-                  <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://infyn.software"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-carbon text-terrain transition-colors flex items-center justify-between group"
-                >
-                  <span>Infyn Utilities &amp; Home Tab</span>
-                  <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/imvicky69/infyn-dl/releases/latest"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-carbon text-terrain transition-colors flex items-center justify-between group"
-                >
-                  <span>Infyn DL (Music APK)</span>
-                  <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://smiley.xweet.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-carbon text-terrain transition-colors flex items-center justify-between group"
-                >
-                  <span>Smiley PDF</span>
-                  <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://indivio.xweet.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-carbon text-terrain transition-colors flex items-center justify-between group"
-                >
-                  <span>Indivio Food Delivery</span>
-                  <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
-                </a>
-              </li>
-              <li>
-                <Link
-                  href="/apps"
-                  className="hover:text-carbon text-carbon font-semibold transition-colors block pt-1.5 border-t border-terrain/15"
-                >
-                  View All 8 Apps →
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Studio Navigation (2 cols) */}
-          <div className="lg:col-span-2 space-y-4">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-carbon font-semibold">
-              Studio
-            </h4>
-            <ul className="space-y-2 text-xs font-mono">
-              <li>
-                <Link href="/apps" className="text-carbon font-medium hover:text-black transition-colors flex items-center gap-1.5">
-                  <span>Apps Catalog</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-terrain hover:text-carbon transition-colors">
-                  About Vikky &amp; Story
-                </Link>
-              </li>
-              <li>
-                <Link href="/#community" className="text-terrain hover:text-carbon transition-colors">
-                  Closed Testing &amp; Beta
-                </Link>
-              </li>
-              <li>
-                <Link href="/games" className="text-terrain hover:text-carbon transition-colors">
-                  Games Hub
-                </Link>
-              </li>
-              <li>
-                <Link href="/games/privacy" className="text-terrain hover:text-carbon transition-colors">
-                  Games Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/wallpapers" className="text-terrain hover:text-carbon transition-colors">
-                  Wallpapers App
-                </Link>
-              </li>
-              <li>
-                <Link href="/wallpapers/privacy" className="text-terrain hover:text-carbon transition-colors">
-                  Wallpapers Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-carbon font-semibold hover:underline transition-colors">
-                  Inquire
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact & Network (2 cols) */}
-          <div className="lg:col-span-2 space-y-4">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-carbon font-semibold">
-              Connect
-            </h4>
-            <ul className="space-y-2 text-xs font-mono">
-              <li>
-                <a
-                  href="mailto:contact@xweet.in"
-                  className="text-carbon font-semibold hover:underline transition-colors block"
-                >
-                  contact@xweet.in
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/imvicky69"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-terrain hover:text-carbon transition-colors flex items-center gap-1.5"
-                >
-                  <span>GitHub</span>
-                  <ExternalLink className="w-3 h-3 opacity-60" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://instagram.com/xweet_69"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-terrain hover:text-carbon transition-colors flex items-center gap-1.5"
-                >
-                  <span>Instagram (@xweet_69)</span>
-                  <ExternalLink className="w-3 h-3 opacity-60" />
-                </a>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="text-terrain hover:text-carbon transition-colors flex items-center gap-1"
-                >
-                  <span>Inquiry Form</span>
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom Colophon Bar */}
-        <div className="pt-10 mt-10 border-t border-terrain/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-terrain">
-          <div className="flex items-center gap-2">
-            <span>© {currentYear} Xweet Studio.</span>
-            <span>Crafted with precision &amp; restraint.</span>
-          </div>
-
-          <div className="flex items-center gap-4 sm:gap-6">
-            <Link href="/games/privacy" className="hover:text-carbon transition-colors">
-              Privacy Policy
-            </Link>
-            <span className="text-terrain/40 hidden sm:inline">•</span>
-            <span className="hidden sm:inline">Strict Light Mode • Sovereign Architecture</span>
-            <button
-              onClick={scrollToTop}
-              className="hover:text-carbon flex items-center gap-1 cursor-pointer transition-colors"
-              aria-label="Scroll back to top"
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="https://github.com/imvicky69"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-carbon transition-colors"
             >
-              <span>Back to Top</span>
-              <ArrowUp className="w-3.5 h-3.5" />
-            </button>
+              GitHub
+            </a>
+            <span className="text-terrain/40">•</span>
+            <a
+              href="https://instagram.com/xweet_69"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-carbon transition-colors"
+            >
+              @xweet_69
+            </a>
+            <span className="text-terrain/40">•</span>
+            <a
+              href="mailto:contact@xweet.in"
+              className="hover:text-carbon transition-colors"
+            >
+              contact@xweet.in
+            </a>
+            <span className="text-terrain/40">•</span>
+            <Link href="/games/privacy" className="hover:text-carbon transition-colors">
+              Privacy
+            </Link>
           </div>
         </div>
       </div>
