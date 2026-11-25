@@ -1,43 +1,31 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Apps & Software Catalog — Xweet Studio",
+  title: "Apps & Ecosystem Directory — Xweet",
   description:
-    "Explore independent software, sovereign privacy utilities, 120 FPS Android tools, 4K/5K wallpaper archives, and interactive cartography games engineered by Xweet.",
+    "Explore all Xweet ecosystem apps: xweet bg, Xweet Wallpapers, Xweet Games, Infyn DL (dynamic GitHub APK releases), Infyn Home Tab Chrome extension, Infyn browser tools, Smiley PDF, and Indivio.",
   keywords: [
     "Xweet Apps",
-    "Independent Software",
-    "Infyn DL",
-    "Smiley PDF",
+    "xweet bg",
+    "bg.xweet.in",
     "wallpaper.xweet.in",
-    "unkn",
+    "Infyn DL",
+    "Infyn Home Tab",
+    "infyn.software",
+    "Smiley PDF",
     "Indivio",
-    "Android Apps",
-    "WebAssembly Tools",
-    "Phone Wallpapers",
-    "Desktop Wallpapers",
+    "Xweet Games",
   ],
   openGraph: {
-    title: "Apps & Software Catalog — Xweet Studio",
+    title: "Apps & Ecosystem Directory — Xweet",
     description:
-      "Sovereign digital tools, 120 FPS mobile apps, curated 4K/5K wallpaper archives, and cartography games.",
+      "On-device web tools, open-source Android apps, Chrome extensions, and games built under the Xweet ecosystem.",
     url: "https://xweet.in/apps",
     siteName: "Xweet",
-    images: [
-      {
-        url: "/logo-clear.png",
-        width: 1381,
-        height: 1139,
-        alt: "Xweet Software Catalog",
-      },
-    ],
+    images: [{ url: "/logo-clear.png", width: 1381, height: 1139, alt: "Xweet Apps" }],
   },
 };
 
-export default function AppsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AppsLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

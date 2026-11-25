@@ -12,6 +12,7 @@ export default function StudioNavbar() {
 
   const isGames = pathname.startsWith("/games") || pathname.startsWith("/unkn") || pathname.startsWith("/wordle");
   const isApps = pathname.startsWith("/apps");
+  const isAbout = pathname.startsWith("/about");
 
   return (
     <header className="sticky top-0 z-40 bg-paper/95 backdrop-blur-md border-b border-terrain/25 transition-all">
@@ -64,10 +65,15 @@ export default function StudioNavbar() {
           </Link>
 
           <Link
-            href="/#about"
-            className="hover:text-carbon transition-colors text-xs uppercase tracking-wider font-mono text-terrain"
+            href="/about"
+            className={`transition-colors text-xs uppercase tracking-wider font-mono flex items-center gap-1.5 ${
+              isAbout
+                ? "text-carbon font-semibold bg-black/5 px-3 py-1 rounded-full border border-terrain/30 shadow-2xs"
+                : "text-terrain hover:text-carbon"
+            }`}
           >
-            About
+            <span>About</span>
+            {isAbout && <span className="w-1.5 h-1.5 rounded-full bg-signal-lime" />}
           </Link>
         </nav>
 
@@ -126,11 +132,13 @@ export default function StudioNavbar() {
             </Link>
 
             <Link
-              href="/#about"
+              href="/about"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-carbon/90 hover:text-carbon py-3 border-b border-terrain/15"
+              className={`py-3 border-b border-terrain/15 ${
+                isAbout ? "text-carbon font-semibold" : "text-carbon/90 hover:text-carbon"
+              }`}
             >
-              About Studio
+              About &amp; Story
             </Link>
 
             <div className="pt-3">

@@ -129,9 +129,22 @@ export default function StudioFooter() {
           {/* Software Releases (3 cols) */}
           <div className="lg:col-span-3 space-y-4">
             <h4 className="text-xs font-mono uppercase tracking-wider text-carbon font-semibold">
-              Releases &amp; Apps
+              Ecosystem Apps
             </h4>
             <ul className="space-y-2 text-xs font-mono">
+              <li>
+                <a
+                  href="https://bg.xweet.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-carbon text-carbon font-medium transition-colors flex items-center justify-between group"
+                >
+                  <span>xweet bg (BG Remover)</span>
+                  <span className="text-[9px] bg-signal-lime text-carbon px-1.5 py-0.2 rounded font-semibold">
+                    LIVE
+                  </span>
+                </a>
+              </li>
               <li>
                 <a
                   href="https://wallpaper.xweet.in"
@@ -139,10 +152,8 @@ export default function StudioFooter() {
                   rel="noopener noreferrer"
                   className="hover:text-carbon text-terrain transition-colors flex items-center justify-between group"
                 >
-                  <span>Wallpapers (4K/5K)</span>
-                  <span className="text-[9px] bg-black/5 text-terrain px-1.5 py-0.2 rounded border border-terrain/20">
-                    UHD
-                  </span>
+                  <span>Xweet Wallpapers</span>
+                  <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
                 </a>
               </li>
               <li>
@@ -152,7 +163,18 @@ export default function StudioFooter() {
                   rel="noopener noreferrer"
                   className="hover:text-carbon text-terrain transition-colors flex items-center justify-between group"
                 >
-                  <span>Infyn DL &amp; Suite</span>
+                  <span>Infyn Utilities &amp; Home Tab</span>
+                  <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/imvicky69/infyn-dl/releases/latest"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-carbon text-terrain transition-colors flex items-center justify-between group"
+                >
+                  <span>Infyn DL (Music APK)</span>
                   <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
                 </a>
               </li>
@@ -163,31 +185,9 @@ export default function StudioFooter() {
                   rel="noopener noreferrer"
                   className="hover:text-carbon text-terrain transition-colors flex items-center justify-between group"
                 >
-                  <span>Smiley PDF (Android)</span>
+                  <span>Smiley PDF</span>
                   <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
                 </a>
-              </li>
-              <li>
-                <Link
-                  href="/unkn"
-                  className="hover:text-carbon text-carbon font-medium transition-colors flex items-center justify-between group"
-                >
-                  <span>unkn (Geography Game)</span>
-                  <span className="text-[10px] bg-signal-lime text-carbon px-1.5 py-0.2 rounded font-semibold">
-                    PLAY
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/wordle"
-                  className="hover:text-carbon text-carbon font-medium transition-colors flex items-center justify-between group"
-                >
-                  <span>Wordle (Word Game)</span>
-                  <span className="text-[10px] bg-mist/70 text-carbon px-1.5 py-0.2 rounded font-semibold">
-                    PLAY
-                  </span>
-                </Link>
               </li>
               <li>
                 <a
@@ -196,7 +196,7 @@ export default function StudioFooter() {
                   rel="noopener noreferrer"
                   className="hover:text-carbon text-terrain transition-colors flex items-center justify-between group"
                 >
-                  <span>Indivio Logistics</span>
+                  <span>Indivio Food Delivery</span>
                   <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
                 </a>
               </li>
@@ -205,7 +205,7 @@ export default function StudioFooter() {
                   href="/apps"
                   className="hover:text-carbon text-carbon font-semibold transition-colors block pt-1.5 border-t border-terrain/15"
                 >
-                  View All Apps &amp; Catalog →
+                  View All 8 Apps →
                 </Link>
               </li>
             </ul>
@@ -224,18 +224,13 @@ export default function StudioFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/#releases" className="text-terrain hover:text-carbon transition-colors">
-                  Software Releases
+                <Link href="/about" className="text-terrain hover:text-carbon transition-colors">
+                  About Vikky &amp; Story
                 </Link>
               </li>
               <li>
-                <Link href="/#ethos" className="text-terrain hover:text-carbon transition-colors">
-                  Studio Ethos
-                </Link>
-              </li>
-              <li>
-                <Link href="/#commissions" className="text-terrain hover:text-carbon transition-colors">
-                  Select Commissions
+                <Link href="/#community" className="text-terrain hover:text-carbon transition-colors">
+                  Closed Testing &amp; Beta
                 </Link>
               </li>
               <li>
@@ -274,10 +269,10 @@ export default function StudioFooter() {
             <ul className="space-y-2 text-xs font-mono">
               <li>
                 <a
-                  href="mailto:hello@xweet.in"
-                  className="text-signal-lime font-semibold hover:underline transition-colors block"
+                  href="mailto:contact@xweet.in"
+                  className="text-carbon font-semibold hover:underline transition-colors block"
                 >
-                  hello@xweet.in
+                  contact@xweet.in
                 </a>
               </li>
               <li>
@@ -293,12 +288,12 @@ export default function StudioFooter() {
               </li>
               <li>
                 <a
-                  href="https://x.com"
+                  href="https://instagram.com/xweet_69"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-terrain hover:text-carbon transition-colors flex items-center gap-1.5"
                 >
-                  <span>X / Twitter</span>
+                  <span>Instagram (@xweet_69)</span>
                   <ExternalLink className="w-3 h-3 opacity-60" />
                 </a>
               </li>
