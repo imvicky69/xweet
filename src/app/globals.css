@@ -162,3 +162,16 @@ body {
 .animate-shake {
   animation: shake 0.45s ease-in-out;
 }
+
+/* Swiper Xweet Theme Tokens */
+.swiper-pagination-bullet {
+  background: var(--terrain) !important;
+  opacity: 0.35 !important;
+}
+.swiper-pagination-bullet-active {
+  background: var(--carbon) !important;
+  opacity: 1 !important;
+  width: 18px !important;
+  border-radius: 9999px !important;
+  transition: width 0.25s ease;
+}

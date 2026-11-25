@@ -49,11 +49,11 @@ export default function ContactPage() {
             </p>
           </div>
           <a
-            href="mailto:contact@xweet.in"
+            href="mailto:hello@xweet.in"
             className="inline-flex items-center gap-1.5 rounded-full border border-terrain/35 bg-white/70 px-4 py-2 text-xs font-mono text-carbon hover:border-carbon transition-colors self-start sm:self-auto"
           >
             <Mail className="w-3.5 h-3.5" />
-            <span>contact@xweet.in</span>
+            <span>hello@xweet.in</span>
           </a>
         </div>
 
@@ -202,8 +202,8 @@ export default function ContactPage() {
               <div className="space-y-2.5 text-xs font-mono divide-y divide-white/10">
                 <div className="flex items-center justify-between pt-1">
                   <span className="text-terrain">EMAIL</span>
-                  <a href="mailto:contact@xweet.in" className="text-signal-lime hover:underline">
-                    contact@xweet.in
+                  <a href="mailto:hello@xweet.in" className="text-signal-lime hover:underline">
+                    hello@xweet.in
                   </a>
                 </div>
                 <div className="flex items-center justify-between pt-2.5">

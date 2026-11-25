@@ -2,8 +2,20 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import StudioNavbar from "@/components/StudioNavbar";
 import StudioFooter from "@/components/StudioFooter";
+import { Reveal } from "@/components/Reveal";
+
+const EcosystemSwiper = dynamic(
+  () => import("@/components/EcosystemSwiper").then((m) => m.EcosystemSwiper),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[250px] w-full rounded-3xl border border-terrain/20 bg-white/40 animate-pulse" />
+    ),
+  }
+);
 import { ECOSYSTEM_APPS, COMMUNITY_LINKS, type ReleaseStatus } from "@/data/ecosystem";
 import {
   ArrowRight,
@@ -37,7 +49,7 @@ export default function StudioHomePage() {
       <main className="flex-1 w-full">
         {/* ── HERO SECTION ─────────────────────────────────────────────────── */}
         <section className="max-w-7xl mx-auto px-4 sm:px-8 pt-8 sm:pt-14 pb-12 sm:pb-16 border-b border-terrain/25">
-          <div className="max-w-4xl space-y-5">
+          <Reveal className="max-w-4xl space-y-5">
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-thin tracking-tight leading-[1.03] text-carbon">
               Independent software built with precision &amp; restraint.
             </h1>
@@ -64,12 +76,19 @@ export default function StudioHomePage() {
                 <span>About Founder &amp; Story</span>
               </Link>
             </div>
-          </div>
+          </Reveal>
         </section>
 
-        {/* ── ECOSYSTEM DIRECTORY PREVIEW (CLEAN, UNCLUTTERED GRID) ────────── */}
-        <section id="ecosystem" className="max-w-7xl mx-auto px-4 sm:px-8 py-14 sm:py-20 space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        {/* ── INTERACTIVE SWIPER SPOTLIGHT ────────────────────────────────── */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-8 pt-12 sm:pt-16">
+          <Reveal delay={80}>
+            <EcosystemSwiper />
+          </Reveal>
+        </section>
+
+        {/* ── ECOSYSTEM DIRECTORY GRID ─────────────────────────────────────── */}
+        <section id="ecosystem" className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-16 space-y-8">
+          <Reveal className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <span className="text-xs font-mono uppercase tracking-widest text-terrain">
                 Xweet Ecosystem
@@ -85,53 +104,54 @@ export default function StudioHomePage() {
               <span>Full Specs, APKs &amp; Filters</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
-          </div>
+          </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {ECOSYSTEM_APPS.map((app) => (
-              <Link
-                key={app.id}
-                href={`/apps#${app.id}`}
-                className="group rounded-2xl border border-terrain/30 bg-white/65 hover:bg-white hover:border-carbon p-5 flex flex-col justify-between gap-5 transition-all shadow-2xs hover:shadow-sm"
-              >
-                <div className="space-y-3.5">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="w-12 h-12 rounded-2xl border border-terrain/20 bg-paper p-1.5 shrink-0 overflow-hidden flex items-center justify-center">
-                      <Image
-                        src={app.iconPath}
-                        alt={`${app.name} icon`}
-                        width={48}
-                        height={48}
-                        className="w-full h-full object-contain rounded-lg"
-                      />
+            {ECOSYSTEM_APPS.map((app, idx) => (
+              <Reveal key={app.id} delay={idx * 45} className="h-full">
+                <Link
+                  href={`/apps#${app.id}`}
+                  className="h-full group rounded-2xl border border-terrain/30 bg-white/65 hover:bg-white hover:border-carbon p-5 flex flex-col justify-between gap-5 transition-all shadow-2xs hover:shadow-sm hover:-translate-y-0.5"
+                >
+                  <div className="space-y-3.5">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="w-12 h-12 rounded-2xl border border-terrain/20 bg-paper p-1.5 shrink-0 overflow-hidden flex items-center justify-center">
+                        <Image
+                          src={app.iconPath}
+                          alt={`${app.name} icon`}
+                          width={48}
+                          height={48}
+                          className="w-full h-full object-contain rounded-lg"
+                        />
+                      </div>
+                      <span
+                        className={`text-[10px] font-mono font-semibold px-2.5 py-0.5 rounded-full border ${statusStyle(
+                          app.status
+                        )}`}
+                      >
+                        {app.status}
+                      </span>
                     </div>
-                    <span
-                      className={`text-[10px] font-mono font-semibold px-2.5 py-0.5 rounded-full border ${statusStyle(
-                        app.status
-                      )}`}
-                    >
-                      {app.status}
+
+                    <div>
+                      <h3 className="font-space font-semibold text-lg text-carbon group-hover:underline underline-offset-4">
+                        {app.name}
+                      </h3>
+                      <p className="text-[11px] font-mono text-terrain truncate">{app.domain}</p>
+                      <p className="text-xs text-carbon/80 leading-relaxed mt-2 line-clamp-2">
+                        {app.tagline}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-terrain/15 flex items-center justify-between text-[11px] font-mono">
+                    <span className="text-terrain truncate">{app.platforms[0]}</span>
+                    <span className="text-carbon font-semibold inline-flex items-center gap-1 shrink-0 group-hover:translate-x-0.5 transition-transform">
+                      Details <ArrowRight className="w-3 h-3" />
                     </span>
                   </div>
-
-                  <div>
-                    <h3 className="font-space font-semibold text-lg text-carbon group-hover:underline underline-offset-4">
-                      {app.name}
-                    </h3>
-                    <p className="text-[11px] font-mono text-terrain truncate">{app.domain}</p>
-                    <p className="text-xs text-carbon/80 leading-relaxed mt-2 line-clamp-2">
-                      {app.tagline}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pt-3 border-t border-terrain/15 flex items-center justify-between text-[11px] font-mono">
-                  <span className="text-terrain truncate">{app.platforms[0]}</span>
-                  <span className="text-carbon font-semibold inline-flex items-center gap-1 shrink-0 group-hover:translate-x-0.5 transition-transform">
-                    Details <ArrowRight className="w-3 h-3" />
-                  </span>
-                </div>
-              </Link>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </section>
@@ -141,7 +161,7 @@ export default function StudioHomePage() {
           id="community"
           className="max-w-7xl mx-auto px-4 sm:px-8 py-14 sm:py-20 border-t border-terrain/25"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <Reveal className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             {/* Founder Card */}
             <div className="lg:col-span-7 rounded-3xl border border-terrain/35 bg-white/65 p-6 sm:p-9 flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between">
               <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border border-carbon/20 shrink-0 bg-paper">
@@ -230,40 +250,42 @@ export default function StudioHomePage() {
                 </a>
               </div>
             </div>
-          </div>
+          </Reveal>
         </section>
 
         {/* ── COMPACT COMMISSIONS STRIP ────────────────────────────────────── */}
         <section className="max-w-7xl mx-auto px-4 sm:px-8 pb-8">
-          <div className="rounded-3xl border border-terrain/35 bg-white/50 p-6 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-            <div className="space-y-1">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-terrain">
-                Select Commissions
-              </span>
-              <h2 className="text-xl sm:text-2xl font-space font-medium text-carbon">
-                Need a web platform, mobile app, or local-first tool?
-              </h2>
-              <p className="text-xs font-mono text-terrain">
-                Direct collaboration with senior engineering — zero agency layers.
-              </p>
+          <Reveal delay={60}>
+            <div className="rounded-3xl border border-terrain/35 bg-white/50 p-6 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+              <div className="space-y-1">
+                <span className="text-[11px] font-mono uppercase tracking-widest text-terrain">
+                  Select Commissions
+                </span>
+                <h2 className="text-xl sm:text-2xl font-space font-medium text-carbon">
+                  Need a web platform, mobile app, or local-first tool?
+                </h2>
+                <p className="text-xs font-mono text-terrain">
+                  Direct collaboration with senior engineering — zero agency layers.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 rounded-full bg-carbon text-paper px-5 py-3 text-xs font-mono font-semibold hover:opacity-90 transition-opacity"
+                >
+                  <span>Inquire Now</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-signal-lime" />
+                </Link>
+                <a
+                  href={COMMUNITY_LINKS.email}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-terrain/35 bg-paper px-4 py-3 text-xs font-mono text-carbon hover:border-carbon transition-colors"
+                >
+                  <Mail className="w-3.5 h-3.5" />
+                  <span>hello@xweet.in</span>
+                </a>
+              </div>
             </div>
-            <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-carbon text-paper px-5 py-3 text-xs font-mono font-semibold hover:opacity-90 transition-opacity"
-              >
-                <span>Inquire Now</span>
-                <ArrowRight className="w-3.5 h-3.5 text-signal-lime" />
-              </Link>
-              <a
-                href={COMMUNITY_LINKS.email}
-                className="inline-flex items-center gap-1.5 rounded-full border border-terrain/35 bg-paper px-4 py-3 text-xs font-mono text-carbon hover:border-carbon transition-colors"
-              >
-                <Mail className="w-3.5 h-3.5" />
-                <span>contact@xweet.in</span>
-              </a>
-            </div>
-          </div>
+          </Reveal>
         </section>
       </main>
 

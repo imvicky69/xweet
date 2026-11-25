@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import StudioNavbar from "@/components/StudioNavbar";
 import StudioFooter from "@/components/StudioFooter";
+import { Reveal } from "@/components/Reveal";
 import { ECOSYSTEM_APPS, COMMUNITY_LINKS } from "@/data/ecosystem";
 import {
   ArrowRight,
@@ -148,31 +149,30 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {TIMELINE.map((step) => {
+            {TIMELINE.map((step, idx) => {
               const Icon = step.icon;
               return (
-                <div
-                  key={step.title}
-                  className="rounded-3xl border border-terrain/35 bg-white/65 p-6 sm:p-8 space-y-4 flex flex-col justify-between"
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="w-10 h-10 rounded-2xl bg-signal-lime/35 border border-carbon/15 flex items-center justify-center">
-                        <Icon className="w-5 h-5 text-carbon" />
+                <Reveal key={step.title} delay={idx * 70} className="h-full">
+                  <div className="h-full rounded-3xl border border-terrain/35 bg-white/65 p-6 sm:p-8 space-y-4 flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="w-10 h-10 rounded-2xl bg-signal-lime/35 border border-carbon/15 flex items-center justify-center">
+                          <Icon className="w-5 h-5 text-carbon" />
+                        </div>
+                        <span className="text-[11px] font-mono text-terrain bg-paper px-3 py-1 rounded-full border border-terrain/25">
+                          {step.period}
+                        </span>
                       </div>
-                      <span className="text-[11px] font-mono text-terrain bg-paper px-3 py-1 rounded-full border border-terrain/25">
-                        {step.period}
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-terrain block">
+                        {step.label}
                       </span>
+                      <h3 className="text-xl font-space font-medium text-carbon">{step.title}</h3>
+                      <p className="text-xs sm:text-sm text-carbon/80 font-light leading-relaxed">
+                        {step.description}
+                      </p>
                     </div>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-terrain block">
-                      {step.label}
-                    </span>
-                    <h3 className="text-xl font-space font-medium text-carbon">{step.title}</h3>
-                    <p className="text-xs sm:text-sm text-carbon/80 font-light leading-relaxed">
-                      {step.description}
-                    </p>
                   </div>
-                </div>
+                </Reveal>
               );
             })}
           </div>

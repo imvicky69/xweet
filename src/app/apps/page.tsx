@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import StudioNavbar from "@/components/StudioNavbar";
 import StudioFooter from "@/components/StudioFooter";
+import { Reveal } from "@/components/Reveal";
 import {
   ECOSYSTEM_APPS,
   COMMUNITY_LINKS,
@@ -421,7 +422,11 @@ export default function AppsCatalogPage() {
               </button>
             </div>
           ) : (
-            filteredApps.map((app) => <AppCatalogCard key={app.id} app={app} />)
+            filteredApps.map((app, idx) => (
+              <Reveal key={app.id} delay={idx * 40}>
+                <AppCatalogCard app={app} />
+              </Reveal>
+            ))
           )}
         </section>
       </main>

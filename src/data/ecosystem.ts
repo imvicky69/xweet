@@ -33,9 +33,9 @@ export interface EcosystemApp {
 export const COMMUNITY_LINKS = {
   github: "https://github.com/imvicky69",
   instagram: "https://instagram.com/xweet_69",
-  email: "mailto:contact@xweet.in",
+  email: "mailto:hello@xweet.in",
   playTestingEmail:
-    "mailto:contact@xweet.in?subject=Join%20Xweet%20Play%20Store%20Closed%20Testing&body=Hi%20Vikky%2C%20please%20add%20my%20Google%20Play%20email%20to%20the%20Xweet%20Closed%20Testing%20track%3A%20",
+    "mailto:hello@xweet.in?subject=Join%20Xweet%20Play%20Store%20Closed%20Testing&body=Hi%20Vikky%2C%20please%20add%20my%20Google%20Play%20email%20to%20the%20Xweet%20Closed%20Testing%20track%3A%20",
 };
 
 export const ECOSYSTEM_APPS: EcosystemApp[] = [

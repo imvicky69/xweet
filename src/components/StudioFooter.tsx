@@ -104,10 +104,10 @@ export default function StudioFooter() {
             </a>
             <span className="text-terrain/40">•</span>
             <a
-              href="mailto:contact@xweet.in"
+              href="mailto:hello@xweet.in"
               className="hover:text-carbon transition-colors"
             >
-              contact@xweet.in
+              hello@xweet.in
             </a>
             <span className="text-terrain/40">•</span>
             <Link href="/games/privacy" className="hover:text-carbon transition-colors">
