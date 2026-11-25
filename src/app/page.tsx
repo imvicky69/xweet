@@ -222,13 +222,13 @@ export default function StudioHomePage() {
               </div>
 
               <div className="flex flex-wrap gap-2.5">
-                <a
-                  href={COMMUNITY_LINKS.playTestingEmail}
+                <Link
+                  href="/join-as-tester"
                   className="inline-flex items-center gap-1.5 rounded-full bg-signal-lime text-carbon px-4 py-2 text-xs font-semibold hover:bg-[#cbf056] transition-colors"
                 >
                   <FlaskConical className="w-3.5 h-3.5" />
                   <span>Join Play Closed Testing</span>
-                </a>
+                </Link>
                 <a
                   href={COMMUNITY_LINKS.github}
                   target="_blank"

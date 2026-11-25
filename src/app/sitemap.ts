@@ -6,6 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: "https://xweet.in", lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: "https://xweet.in/apps", lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: "https://xweet.in/about", lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: "https://xweet.in/join-as-tester", lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: "https://xweet.in/games", lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: "https://xweet.in/unkn", lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: "https://xweet.in/wordle", lastModified: now, changeFrequency: "weekly", priority: 0.8 },

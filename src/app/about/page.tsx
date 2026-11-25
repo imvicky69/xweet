@@ -239,13 +239,13 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="flex flex-wrap gap-2.5">
-              <a
-                href={COMMUNITY_LINKS.playTestingEmail}
+              <Link
+                href="/join-as-tester"
                 className="inline-flex items-center gap-1.5 rounded-full bg-signal-lime text-carbon px-4 py-2.5 text-xs font-semibold hover:bg-[#cbf056]"
               >
                 <FlaskConical className="w-3.5 h-3.5" />
                 <span>Join Play Closed Testing</span>
-              </a>
+              </Link>
               <Link
                 href="/contact"
                 className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 text-paper px-4 py-2.5 text-xs font-mono"

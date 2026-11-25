@@ -8,7 +8,6 @@ import StudioFooter from "@/components/StudioFooter";
 import { Reveal } from "@/components/Reveal";
 import {
   ECOSYSTEM_APPS,
-  COMMUNITY_LINKS,
   type AppCategory,
   type EcosystemApp,
   type ReleaseStatus,
@@ -218,13 +217,13 @@ function AppCatalogCard({ app }: { app: EcosystemApp }) {
             )}
 
             {app.playTestingNote && (
-              <a
-                href={COMMUNITY_LINKS.playTestingEmail}
+              <Link
+                href={`/join-as-tester?appName=${encodeURIComponent(app.id)}`}
                 className="inline-flex items-center gap-1.5 rounded-full border border-amber-400 bg-amber-50 text-amber-950 font-mono text-xs font-semibold px-4 py-2.5 hover:bg-amber-100 transition-colors"
               >
                 <FlaskConical className="w-3.5 h-3.5" />
                 <span>Join Closed Testing</span>
-              </a>
+              </Link>
             )}
 
             {app.githubRepo && (
