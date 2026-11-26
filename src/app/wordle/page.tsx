@@ -951,7 +951,7 @@ export default function WordlePage() {
       </div>
 
       {/* Studio Architectural Footer (Hidden in Fullscreen) */}
-      {!isFullscreen && <StudioFooter />}
+      {/* {!isFullscreen && <StudioFooter />} */}
 
       {/* ========================================================================= */}
       {/* ROUND OUTCOME MODAL (DAILY WORD OR FREE PLAY) */}
