@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import StudioNavbar from "@/components/StudioNavbar";
 import StudioFooter from "@/components/StudioFooter";
 import { COMMUNITY_LINKS } from "@/data/ecosystem";
@@ -23,6 +23,9 @@ const BUDGET_PRESETS = [
   { label: "Custom", hint: "Enter INR" },
 ];
 
+const CONTACT_ENDPOINT =
+  process.env.NEXT_PUBLIC_CONTACT_URL || "https://api.xweet.in/contact";
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -32,17 +35,56 @@ export default function ContactPage() {
     budget: "₹25,000+",
     customBudget: "",
     message: "",
+    website: "",
   });
+  const formLoadedAtRef = useRef<number>(0);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    formLoadedAtRef.current = Date.now();
+  }, []);
 
   const effectiveBudget =
     formData.budget === "Custom"
       ? formData.customBudget.trim() || "Flexible / Custom"
       : formData.budget;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    if (submitting) return;
+    setSubmitting(true);
+    setErrorMsg(null);
+
+    try {
+      const res = await fetch(CONTACT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          projectType: formData.projectType,
+          budget: effectiveBudget,
+          message: formData.message,
+          website: formData.website,
+          _formLoadedAt: formLoadedAtRef.current,
+        }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.ok) {
+        setErrorMsg(data?.error || "Could not submit your inquiry. Please try again.");
+        return;
+      }
+
+      setIsSubmitted(true);
+    } catch {
+      setErrorMsg("Network error while submitting. Please email vikky@xweet.in.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -87,7 +129,11 @@ export default function ContactPage() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => setIsSubmitted(false)}
+                  onClick={() => {
+                    setIsSubmitted(false);
+                    setErrorMsg(null);
+                    formLoadedAtRef.current = Date.now();
+                  }}
                   className="text-xs font-mono underline text-carbon cursor-pointer pt-1"
                 >
                   Send another message
@@ -216,6 +262,24 @@ export default function ContactPage() {
                   />
                 </label>
 
+                {/* Honeypot */}
+                <div className="hidden" aria-hidden="true">
+                  <input
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={formData.website}
+                    onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                  />
+                </div>
+
+                {errorMsg && (
+                  <div className="rounded-xl border border-red-300 bg-red-50 px-4 py-2.5 text-xs text-red-700">
+                    {errorMsg}
+                  </div>
+                )}
+
                 <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
                   <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-terrain">
                     <Lock className="w-3 h-3" />
@@ -223,9 +287,10 @@ export default function ContactPage() {
                   </span>
                   <button
                     type="submit"
-                    className="cursor-pointer rounded-full bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs sm:text-sm px-6 py-2.5 border border-carbon/15 inline-flex items-center gap-2 transition-colors"
+                    disabled={submitting}
+                    className="cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed rounded-full bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs sm:text-sm px-6 py-2.5 border border-carbon/15 inline-flex items-center gap-2 transition-colors"
                   >
-                    <span>Send Inquiry</span>
+                    <span>{submitting ? "Sending..." : "Send Inquiry"}</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
