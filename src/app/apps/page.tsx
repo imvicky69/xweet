@@ -25,6 +25,7 @@ import {
   Package,
   FlaskConical,
   Tag,
+  IdCard,
 } from "lucide-react";
 import { GithubIcon } from "@/components/GithubIcon";
 
@@ -203,6 +204,19 @@ function AppCatalogCard({ app }: { app: EcosystemApp }) {
                 </a>
               ))}
 
+            {app.secondaryWebUrl && (
+              <a
+                href={app.secondaryWebUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full bg-carbon text-signal-lime font-semibold text-xs px-4 py-2.5 hover:opacity-90 transition-opacity"
+              >
+                <IdCard className="w-3.5 h-3.5" />
+                <span>{app.secondaryWebLabel ?? "Open Tool"}</span>
+                <ArrowUpRight className="w-3 h-3" />
+              </a>
+            )}
+
             {app.playStoreUrl && (
               <a
                 href={app.playStoreUrl}
@@ -326,7 +340,8 @@ export default function AppsCatalogPage() {
         app.tagline.toLowerCase().includes(q) ||
         app.description.toLowerCase().includes(q) ||
         app.domain.toLowerCase().includes(q) ||
-        app.tags.some((t) => t.toLowerCase().includes(q));
+        app.tags.some((t) => t.toLowerCase().includes(q)) ||
+        app.highlights.some((h) => h.toLowerCase().includes(q));
       return catMatch && textMatch;
     });
   }, [selectedCategory, searchQuery]);

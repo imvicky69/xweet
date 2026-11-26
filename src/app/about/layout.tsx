@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     "Xweet",
     "free web tools",
     "bg.xweet.in",
+    "bg.xweet.in/passport",
+    "Passport Size Photo Maker",
+    "Free AI Background Remover",
     "Infyn software",
     "Infyn DL",
     "Smiley PDF",
@@ -71,6 +74,14 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: [
+      {
+        "@type": "Question",
+        name: "How does Xweet's free Passport Size Photo Maker and Background Remover work?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "At bg.xweet.in and bg.xweet.in/passport, local browser AI removes backgrounds with zero server uploads, applies studio light backdrops, auto-crops 35×45mm or 2×2 inch portraits, and outputs zero-waste 300 DPI PDF or JPG sheets for 4×6, A4, or Letter printing.",
+        },
+      },
       {
         "@type": "Question",
         name: "Who builds Xweet?",

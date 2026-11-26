@@ -21,6 +21,8 @@ export interface EcosystemApp {
   highlights: string[];
   tags: string[];
   webUrl?: string;
+  secondaryWebUrl?: string;
+  secondaryWebLabel?: string;
   detailsUrl?: string;
   playStoreUrl?: string;
   playTestingNote?: string;
@@ -43,22 +45,25 @@ export const ECOSYSTEM_APPS: EcosystemApp[] = [
     id: "xweet-bg",
     name: "xweet bg",
     category: "web",
-    categoryLabel: "ON-DEVICE AI STUDIO",
+    categoryLabel: "ON-DEVICE AI STUDIO · PASSPORT MAKER",
     domain: "bg.xweet.in",
     iconPath: "/apps/xweet-bg.png",
-    tagline: "Free on-device AI background remover with zero uploads and zero watermarks.",
+    tagline:
+      "Free on-device AI background remover & fast passport size photo maker with zero uploads.",
     description:
-      "Runs quantized BRIA RMBG-1.4 directly inside your browser via WebGPU and WebAssembly. Includes an interactive before/after compare slider, solid/gradient/blurred backdrops, de-fringe edge cleanup, trim-to-subject padding, and manual brush touch-up.",
+      "Runs quantized BRIA RMBG-1.4 locally in your browser via WebGPU & WebAssembly. Remove backgrounds in a compact side-by-side Studio Editor, or launch the dedicated Passport Size Photo Maker (bg.xweet.in/passport) to auto-apply clean light backdrops, crop head & shoulders, and pack any photo count onto 4×6, A4, or Letter sheets without wasting paper.",
     status: "Live",
-    platforms: ["Web", "Offline PWA"],
+    platforms: ["Web", "Passport Studio", "Offline PWA"],
     highlights: [
-      "100% local WebGPU + WASM inference — photos never leave your device",
-      "De-fringe edge decontamination, studio drop shadow, and trim-to-subject",
-      "Passport, Avatar, and Product presets with PNG, WEBP & JPG export",
-      "Works offline after first visit with HEIC/iPhone photo support",
+      "100% local WebGPU + WASM inference — photos & IDs never leave your device",
+      "Easy & fast Passport Photo Maker: auto light backdrop, biometric head crop & 300 DPI PDF/JPG export",
+      "Zero-waste sheet packing on 4×6, A4, Letter, 5×7 & A5 for 35×45mm, 2×2 in & custom sizes",
+      "Compact Studio Editor with solid/gradient/blur backdrops, de-fringe cleanup, trim & brush touch-up",
     ],
-    tags: ["Next.js", "WebGPU", "Transformers.js", "WASM", "Offline PWA"],
+    tags: ["Next.js", "WebGPU", "WASM", "Passport Maker", "300 DPI PDF", "Offline PWA"],
     webUrl: "https://bg.xweet.in",
+    secondaryWebUrl: "https://bg.xweet.in/passport",
+    secondaryWebLabel: "Passport Maker",
     githubRepo: "https://github.com/imvicky69/bg-remover",
     featured: true,
   },

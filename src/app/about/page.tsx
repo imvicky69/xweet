@@ -102,7 +102,16 @@ export default function AboutPage() {
                 >
                   bg.xweet.in
                 </a>{" "}
-                and{" "}
+                (AI background remover &amp;{" "}
+                <a
+                  href="https://bg.xweet.in/passport"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-carbon underline underline-offset-4"
+                >
+                  passport photo maker
+                </a>
+                ) and{" "}
                 <a
                   href="https://infyn.software"
                   target="_blank"
@@ -277,6 +286,32 @@ export default function AboutPage() {
               Common Questions
             </h2>
             <div className="space-y-4 text-xs sm:text-sm">
+              <div className="border-b border-terrain/20 pb-3">
+                <p className="font-semibold text-carbon">
+                  How does the free Passport Size Photo Maker &amp; BG Remover work?
+                </p>
+                <p className="text-carbon/80 font-light mt-1">
+                  Live at{" "}
+                  <a
+                    href="https://bg.xweet.in"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline font-medium text-carbon"
+                  >
+                    bg.xweet.in
+                  </a>{" "}
+                  and{" "}
+                  <a
+                    href="https://bg.xweet.in/passport"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline font-medium text-carbon"
+                  >
+                    bg.xweet.in/passport
+                  </a>
+                  , it removes photo backgrounds 100% locally in your browser with zero uploads, applies customizable light studio backdrops, auto-crops head and shoulders (35×45 mm, 2×2 in, or custom), and packs any photo count onto 4×6, A4, or Letter print sheets as 300 DPI PDF or JPG without wasting paper.
+                </p>
+              </div>
               <div className="border-b border-terrain/20 pb-3">
                 <p className="font-semibold text-carbon">
                   Why make so many tools free?
