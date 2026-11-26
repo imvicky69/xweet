@@ -55,8 +55,7 @@ export default function StudioHomePage() {
             </h1>
 
             <p className="text-base sm:text-lg text-carbon/75 max-w-2xl font-light leading-relaxed">
-              Xweet is our parent ecosystem for on-device web tools, ad-free Android apps, browser games, and{" "}
-              <strong className="font-medium text-carbon">Indivio</strong> food delivery — zero trackers, zero clutter.
+              Free, local-first web utilities, ad-free Android apps, personalization tools, and browser games — built for everyday work without trackers or clutter.
             </p>
 
             {/* Exactly 2 Clean Primary Actions */}
@@ -182,9 +181,7 @@ export default function StudioHomePage() {
                   Vikky Raja
                 </h2>
                 <p className="text-xs sm:text-sm text-carbon/80 leading-relaxed font-light">
-                  Started in 2025 as <strong>Indivio Studio</strong> crafting SaaS and web tools. As our products grew,{" "}
-                  <strong>Indivio</strong> became our dedicated hyperlocal food delivery app, and{" "}
-                  <strong>Xweet</strong> became the root ecosystem housing all our utilities, apps, and games.
+                  I started shipping apps in 2025 for daily productivity, work, and personalization — aiming to provide as many genuinely free web and mobile tools as possible. Today <strong>Xweet</strong> brings all of those utilities, apps, games, and products like Indivio together under one roof.
                 </p>
                 <div className="flex flex-wrap items-center gap-2.5 pt-1">
                   <Link
@@ -194,6 +191,13 @@ export default function StudioHomePage() {
                     <span>Read Full Story</span>
                     <ArrowRight className="w-3.5 h-3.5 text-signal-lime" />
                   </Link>
+                  <a
+                    href="mailto:vikky@xweet.in"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-terrain/35 bg-paper px-4 py-2 text-xs font-mono text-carbon hover:border-carbon transition-colors"
+                  >
+                    <Mail className="w-3.5 h-3.5" />
+                    <span>vikky@xweet.in</span>
+                  </a>
                   <Link
                     href="/unkn"
                     className="inline-flex items-center gap-1.5 rounded-full border border-terrain/35 bg-paper px-4 py-2 text-xs font-mono text-carbon hover:border-carbon transition-colors"
@@ -277,11 +281,11 @@ export default function StudioHomePage() {
                   <ArrowRight className="w-3.5 h-3.5 text-signal-lime" />
                 </Link>
                 <a
-                  href={COMMUNITY_LINKS.email}
+                  href="mailto:vikky@xweet.in"
                   className="inline-flex items-center gap-1.5 rounded-full border border-terrain/35 bg-paper px-4 py-3 text-xs font-mono text-carbon hover:border-carbon transition-colors"
                 >
                   <Mail className="w-3.5 h-3.5" />
-                  <span>hello@xweet.in</span>
+                  <span>vikky@xweet.in</span>
                 </a>
               </div>
             </div>

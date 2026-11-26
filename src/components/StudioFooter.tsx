@@ -26,7 +26,7 @@ export default function StudioFooter() {
                 Crafted with precision &amp; restraint.
               </h2>
               <p className="text-xs sm:text-sm text-terrain font-light leading-relaxed">
-                Sovereign browser tools, ad-free Android apps, games, and Indivio food delivery — built independently.
+                Free browser tools, ad-free Android apps, personalization utilities, and games — built independently.
               </p>
             </div>
 
@@ -104,10 +104,10 @@ export default function StudioFooter() {
             </a>
             <span className="text-terrain/40">•</span>
             <a
-              href="mailto:hello@xweet.in"
+              href="mailto:vikky@xweet.in"
               className="hover:text-carbon transition-colors"
             >
-              hello@xweet.in
+              vikky@xweet.in
             </a>
             <span className="text-terrain/40">•</span>
             <Link href="/games/privacy" className="hover:text-carbon transition-colors">

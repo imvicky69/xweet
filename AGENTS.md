@@ -19,16 +19,22 @@
 
 ---
 
-## 🎨 Design Tokens & Palette System (Locked Light Mode)
-The application operates in **Strict Light Mode** using custom tokens defined in `src/app/globals.css`:
+## 🎨 Design Tokens & Palette System (Adaptive Light & Dark Mode)
+The application supports **both Light and Dark Mode** (`html.dark` toggled via `StudioNavbar` and persisted in `localStorage["xweet-theme"]`) using CSS-variable-backed tokens in `src/app/globals.css` (`@theme inline`):
 
-| Token | Hex | Usage | Tailwind Class | CSS Variable |
+| Token | Light | Dark (`html.dark`) | Usage | Tailwind Class |
 |---|---|---|---|---|
-| **Carbon** | `#171815` | Main dark background, contrast surfaces, primary text | `bg-carbon`, `text-carbon`, `border-carbon` | `var(--carbon)` |
-| **Paper** | `#F0EFE6` | Default light canvas, light surfaces, text on dark cards | `bg-paper`, `text-paper`, `border-paper` | `var(--paper)` |
-| **Signal Lime** | `#D7F36A` | Primary actions ("Start Expedition", "Submit Guess", active state) | `bg-signal-lime`, `text-signal-lime` | `var(--signal-lime)` |
-| **Terrain** | `#858779` | Secondary text, subtle borders, telemetry, coordinate grids | `bg-terrain`, `text-terrain`, `border-terrain` | `var(--terrain)` |
-| **Mist** | `#B7A7D9` | Rare secondary accent, clue badges, soft highlights | `bg-mist`, `text-mist`, `border-mist` | `var(--mist)` |
+| **Carbon** | `#171815` | `#F0EFE6` | Primary text, high-contrast surfaces | `bg-carbon`, `text-carbon`, `border-carbon` |
+| **Paper** | `#F0EFE6` | `#111210` | Page canvas, light/dark base surface | `bg-paper`, `text-paper`, `border-paper` |
+| **Signal Lime** | `#D7F36A` | `#D7F36A` | Primary actions, active highlights | `bg-signal-lime`, `text-signal-lime` |
+| **Terrain** | `#858779` | `#9D9F92` | Secondary text, subtle borders, labels | `bg-terrain`, `text-terrain`, `border-terrain` |
+| **Mist** | `#B7A7D9` | `#B7A7D9` | Rare secondary accent, soft badges | `bg-mist`, `text-mist`, `border-mist` |
+
+### Dark Mode Rules for All Future Extensions
+1. **Always use `@theme inline` in `globals.css`**: Never hardcode static hex values in `@theme` for semantic palette tokens—always bind them to `var(--paper)`, `var(--carbon)`, `var(--terrain)`, etc., so Tailwind utilities adapt automatically.
+2. **Never hardcode light-only colors without dark support**: Avoid raw `text-black`, `bg-[#...]`, or light pastel badges without `dark:` variants or `html.dark` rules. Prefer `bg-paper`, `text-carbon`, `text-terrain`, and `border-terrain/*`.
+3. **Verify contrast on `bg-carbon` surfaces**: In dark mode, `bg-carbon` stays dark (`#1c1e1a`) for contrast cards and buttons, so ensure any text inside `bg-carbon` remains readable (`#f0efe6` / `text-signal-lime`).
+4. **Test both themes**: Every new page, modal, and component must look clean and legible in both Light Mode and Dark Mode.
 
 ---
 

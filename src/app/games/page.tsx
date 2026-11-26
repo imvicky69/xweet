@@ -6,50 +6,21 @@ import Image from "next/image";
 import StudioNavbar from "@/components/StudioNavbar";
 import StudioFooter from "@/components/StudioFooter";
 import HowToPlayModal from "@/components/HowToPlayModal";
+import { ECOSYSTEM_APPS } from "@/data/ecosystem";
 import {
   Compass,
   ArrowRight,
   Sparkles,
-  MapPin,
-  Crosshair,
   ArrowUpRight,
-  RotateCcw,
-  ShieldCheck,
-  Zap,
-  EyeOff,
   HelpCircle,
+  FlaskConical,
+  Smartphone,
 } from "lucide-react";
+
+const XWEET_GAMES_APP = ECOSYSTEM_APPS.find((app) => app.id === "xweet-games");
 
 export default function GamesHubPage() {
   const [isHowToPlayOpen, setIsHowToPlayOpen] = useState(false);
-  const [activePreviewLocation, setActivePreviewLocation] = useState(0);
-
-  const PREVIEWS = [
-    {
-      title: "Kyoto Forest Sanctuary",
-      country: "Japan",
-      flag: "🇯🇵",
-      coords: "35.0163° N, 135.6713° E",
-      image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1600&q=80",
-      clue: "Left-hand traffic • Japanese flora & signage",
-    },
-    {
-      title: "Southern Alps Glacial Pass",
-      country: "New Zealand",
-      flag: "🇳🇿",
-      coords: "44.9858° S, 168.8524° E",
-      image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1600&q=80",
-      clue: "Sun in the north • Alpine tussock grassland",
-    },
-    {
-      title: "Vík Basalt Coastline",
-      country: "Iceland",
-      flag: "🇮🇸",
-      coords: "63.4186° N, 19.0060° W",
-      image: "https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&w=1600&q=80",
-      clue: "Treeless volcanic tundra • Distinctive road markers",
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-paper text-carbon font-geist selection:bg-signal-lime selection:text-carbon flex flex-col justify-between">
@@ -71,11 +42,107 @@ export default function GamesHubPage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* THE GAMES ROSTER (unkn & wordle) */}
+        {/* THE GAMES ROSTER (wordle first, then unkn) */}
         {/* ========================================================================= */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-          {/* GAME 01: unkn (Geo-01) */}
+          {/* GAME 01: Wordle */}
           <article className="border border-carbon rounded-3xl p-6 sm:p-10 bg-white/70 shadow-sm ring-1 ring-carbon/10 flex flex-col justify-between space-y-6">
+            <div className="space-y-5">
+              {/* Header row */}
+              <div className="flex items-center justify-between border-b border-terrain/20 pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-mist/30 border border-mist flex items-center justify-center text-carbon">
+                    <Sparkles className="w-5 h-5 text-carbon" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-terrain block">
+                      WORD DEDUCTION
+                    </span>
+                    <span className="text-xs font-mono text-carbon font-semibold">
+                      WORD OF THE DAY · FREE PLAY
+                    </span>
+                  </div>
+                </div>
+
+                <span className="text-xs font-mono text-carbon font-semibold bg-signal-lime/30 border border-signal-lime px-2.5 py-1 rounded-full">
+                  Flagship · Free
+                </span>
+              </div>
+
+              <div>
+                <h2 className="text-3xl sm:text-4xl font-space font-medium text-carbon tracking-tight flex items-center gap-2">
+                  <span className="font-playwrite">wordle</span>
+                </h2>
+                <p className="text-sm sm:text-base font-medium text-carbon/90 mt-1 leading-snug">
+                  Minimalist daily 5-letter word puzzle + endless free play.
+                </p>
+              </div>
+
+              <p className="text-xs sm:text-sm text-carbon/80 font-light leading-relaxed">
+                Play today&apos;s shared Word of the Day with everyone else, or switch to Free Play to run as many random rounds as you want — 6 attempts per word, instant keyboard input, and shareable grids.
+              </p>
+
+              {/* Sample Tiles Visual */}
+              <div className="pt-2 border-t border-terrain/15 space-y-2">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-terrain block">
+                  Tactile Palette Feedback:
+                </span>
+                <div className="flex items-center gap-1.5 font-mono text-xs font-bold">
+                  <div className="w-8 h-8 rounded-lg bg-signal-lime text-carbon flex items-center justify-center border border-signal-lime">
+                    W
+                  </div>
+                  <div className="w-8 h-8 rounded-lg bg-mist/80 text-carbon flex items-center justify-center border border-mist">
+                    O
+                  </div>
+                  <div className="w-8 h-8 rounded-lg bg-terrain/20 text-terrain/70 flex items-center justify-center border border-terrain/30">
+                    R
+                  </div>
+                  <div className="w-8 h-8 rounded-lg bg-signal-lime text-carbon flex items-center justify-center border border-signal-lime">
+                    D
+                  </div>
+                  <div className="w-8 h-8 rounded-lg bg-white/70 text-carbon border border-carbon flex items-center justify-center">
+                    S
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2 pt-2 border-t border-terrain/15 font-mono text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span>Word of the Day: same global puzzle for everyone</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span>Free Play: play 1 or endless random rounds, exit anytime</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
+                  <span>One-click clipboard score sharing (🟩🟪⬛)</span>
+                </div>
+              </div>
+            </div>
+
+            {/* CTAs */}
+            <div className="pt-4 border-t border-terrain/20 flex flex-wrap items-center gap-3">
+              <Link
+                href="/wordle"
+                className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs sm:text-sm px-6 py-3.5 rounded-2xl transition-all shadow-sm flex items-center gap-2 hover:scale-102 active:scale-98 border border-signal-lime/90 group"
+              >
+                <span>Play Wordle Now</span>
+                <ArrowRight className="w-4 h-4 text-carbon group-hover:translate-x-1 transition-transform" />
+              </Link>
+
+              <Link
+                href="/wordle?mode=free"
+                className="cursor-pointer border border-terrain/35 hover:border-carbon text-carbon font-mono text-xs px-4 py-3.5 rounded-2xl bg-white/40 hover:bg-white transition-colors"
+              >
+                <span>Free Play</span>
+              </Link>
+            </div>
+          </article>
+
+          {/* GAME 02: unkn (Geo-01) */}
+          <article className="border border-terrain/35 rounded-3xl p-6 sm:p-10 bg-white/50 hover:bg-white/70 hover:border-carbon/70 transition-all shadow-2xs flex flex-col justify-between space-y-6">
             <div className="space-y-5">
               {/* Header row */}
               <div className="flex items-center justify-between border-b border-terrain/20 pb-4">
@@ -94,7 +161,7 @@ export default function GamesHubPage() {
                 </div>
 
                 <span className="text-xs font-mono text-carbon font-semibold bg-signal-lime/30 border border-signal-lime px-2.5 py-1 rounded-full">
-                  Flagship · Live
+                  Live
                 </span>
               </div>
 
@@ -132,11 +199,11 @@ export default function GamesHubPage() {
             <div className="pt-4 border-t border-terrain/20 flex flex-wrap items-center gap-3">
               <Link
                 href="/unkn"
-                className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs sm:text-sm px-6 py-3.5 rounded-2xl transition-all shadow-sm flex items-center gap-2 hover:scale-102 active:scale-98 border border-signal-lime/90 group"
+                className="cursor-pointer bg-carbon hover:bg-carbon/85 text-paper font-semibold text-xs sm:text-sm px-6 py-3.5 rounded-2xl transition-all shadow-sm flex items-center gap-2 hover:scale-102 active:scale-98 group"
               >
-                <Compass className="w-4 h-4 text-carbon" />
+                <Compass className="w-4 h-4 text-signal-lime" />
                 <span>Play Expedition (10 Rounds)</span>
-                <ArrowRight className="w-4 h-4 text-carbon group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 text-signal-lime group-hover:translate-x-1 transition-transform" />
               </Link>
 
               <button
@@ -148,186 +215,87 @@ export default function GamesHubPage() {
               </button>
             </div>
           </article>
-
-          {/* GAME 02: Wordle */}
-          <article className="border border-terrain/35 rounded-3xl p-6 sm:p-10 bg-white/50 hover:bg-white/70 hover:border-carbon/70 transition-all shadow-2xs flex flex-col justify-between space-y-6">
-            <div className="space-y-5">
-              {/* Header row */}
-              <div className="flex items-center justify-between border-b border-terrain/20 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-mist/30 border border-mist flex items-center justify-center text-carbon">
-                    <Sparkles className="w-5 h-5 text-carbon" />
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-terrain block">
-                      WORD DEDUCTION
-                    </span>
-                    <span className="text-xs font-mono text-carbon font-semibold">
-                      DAILY PUZZLE · 6 ATTEMPTS
-                    </span>
-                  </div>
-                </div>
-
-                <span className="text-xs font-mono text-carbon font-semibold bg-mist/30 border border-mist px-2.5 py-1 rounded-full">
-                  New Release · Free
-                </span>
-              </div>
-
-              <div>
-                <h2 className="text-3xl sm:text-4xl font-space font-medium text-carbon tracking-tight flex items-center gap-2">
-                  <span className="font-playwrite">wordle</span>
-                </h2>
-                <p className="text-sm sm:text-base font-medium text-carbon/90 mt-1 leading-snug">
-                  Minimalist, tactile daily 5-letter vocabulary deduction puzzle.
-                </p>
-              </div>
-
-              <p className="text-xs sm:text-sm text-carbon/80 font-light leading-relaxed">
-                A clean, distraction-free Wordle alternative engineered in strict light mode. 6 attempts to deduce the secret word, accompanied by responsive physical &amp; touch keyboard input, shareable emoji results, and persistent win streaks.
-              </p>
-
-              {/* Sample Tiles Visual */}
-              <div className="pt-2 border-t border-terrain/15 space-y-2">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-terrain block">
-                  Tactile Palette Feedback:
-                </span>
-                <div className="flex items-center gap-1.5 font-mono text-xs font-bold">
-                  <div className="w-8 h-8 rounded-lg bg-signal-lime text-carbon flex items-center justify-center border border-signal-lime">
-                    W
-                  </div>
-                  <div className="w-8 h-8 rounded-lg bg-mist/80 text-carbon flex items-center justify-center border border-mist">
-                    O
-                  </div>
-                  <div className="w-8 h-8 rounded-lg bg-terrain/20 text-terrain/70 flex items-center justify-center border border-terrain/30">
-                    R
-                  </div>
-                  <div className="w-8 h-8 rounded-lg bg-signal-lime text-carbon flex items-center justify-center border border-signal-lime">
-                    D
-                  </div>
-                  <div className="w-8 h-8 rounded-lg bg-white/70 text-carbon border border-carbon flex items-center justify-center">
-                    S
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2 pt-2 border-t border-terrain/15 font-mono text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
-                  <span>Sub-100ms keyboard interaction on phone and desktop</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
-                  <span>Win streak telemetry stored locally on your device</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0" />
-                  <span>One-click clipboard score sharing (🟩🟪⬛)</span>
-                </div>
-              </div>
-            </div>
-
-            {/* CTAs */}
-            <div className="pt-4 border-t border-terrain/20 flex flex-wrap items-center gap-3">
-              <Link
-                href="/wordle"
-                className="cursor-pointer bg-carbon hover:bg-carbon/85 text-paper font-semibold text-xs sm:text-sm px-6 py-3.5 rounded-2xl transition-all shadow-sm flex items-center gap-2 hover:scale-102 active:scale-98 group"
-              >
-                <span>Play Wordle Now</span>
-                <ArrowRight className="w-4 h-4 text-signal-lime group-hover:translate-x-1 transition-transform" />
-              </Link>
-
-              <Link
-                href="/wordle"
-                className="cursor-pointer border border-terrain/35 hover:border-carbon text-carbon font-mono text-xs px-4 py-3.5 rounded-2xl bg-white/40 hover:bg-white transition-colors"
-              >
-                <span>Quick Play</span>
-              </Link>
-            </div>
-          </article>
         </section>
 
         {/* ========================================================================= */}
-        {/* INTERACTIVE RECONNAISSANCE VIEWPORT (for unkn) */}
+        {/* XWEET GAMES ANDROID APP INTRO & CLOSED TESTING */}
         {/* ========================================================================= */}
-        <section id="preview" className="border border-terrain/30 rounded-3xl p-6 sm:p-10 bg-white/40 backdrop-blur-xs space-y-8 shadow-sm">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-terrain/20 pb-4">
-            <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-terrain">
-                Field Intel &amp; Reconnaissance
-              </span>
-              <h3 className="text-2xl sm:text-3xl font-space font-medium tracking-tight text-carbon mt-0.5">
-                Observation Viewport Preview
-              </h3>
-            </div>
-
-            {/* Territory Switcher Chips */}
-            <div className="flex items-center gap-2">
-              {PREVIEWS.map((p, idx) => (
-                <button
-                  key={p.country}
-                  onClick={() => setActivePreviewLocation(idx)}
-                  className={`cursor-pointer px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 ${activePreviewLocation === idx
-                      ? "bg-carbon text-paper font-medium shadow-xs"
-                      : "bg-paper text-terrain hover:text-carbon border border-terrain/30"
-                    }`}
-                >
-                  <span>{p.flag}</span>
-                  <span className="hidden sm:inline">{p.country}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Active Preview Viewport */}
-          <div className="relative rounded-2xl overflow-hidden border border-terrain/40 aspect-video max-h-[460px] w-full bg-carbon">
-            {/* Background Image */}
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-all duration-700 scale-100 hover:scale-105"
-              style={{
-                backgroundImage: `url('${PREVIEWS[activePreviewLocation].image}')`,
-              }}
-            />
-
-            {/* Viewport UI Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-carbon/80 via-transparent to-carbon/40 pointer-events-none" />
-
-            {/* Top Bar Telemetry */}
-            <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
-              <div className="px-3 py-1 rounded-lg bg-carbon/75 backdrop-blur-md border border-white/20 text-paper font-mono text-xs flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-signal-lime" />
-                <span>{PREVIEWS[activePreviewLocation].coords}</span>
+        <section
+          id="android"
+          className="border border-terrain/35 rounded-3xl p-6 sm:p-10 bg-white/65 space-y-6 shadow-2xs"
+        >
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div className="flex items-start gap-4 sm:gap-5 max-w-2xl">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border border-terrain/25 bg-paper p-2 shrink-0 overflow-hidden flex items-center justify-center">
+                <Image
+                  src={XWEET_GAMES_APP?.iconPath ?? "/apps/xweet-games.png"}
+                  alt={XWEET_GAMES_APP?.name ?? "Xweet Games"}
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-contain rounded-xl"
+                />
               </div>
 
-              <div className="px-3 py-1 rounded-lg bg-carbon/75 backdrop-blur-md border border-white/20 text-signal-lime font-mono text-xs font-semibold">
-                TARGET TERRITORY: UNKNOWN
-              </div>
-            </div>
-
-            {/* Bottom Intel Card */}
-            <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-paper/95 backdrop-blur-md border border-terrain/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-carbon pointer-events-auto">
-              <div className="space-y-0.5">
-                <div className="flex items-center gap-2">
-                  <span className="font-space font-medium text-base">
-                    {PREVIEWS[activePreviewLocation].title}
+              <div className="space-y-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-[11px] font-mono uppercase tracking-widest text-terrain">
+                    {XWEET_GAMES_APP?.categoryLabel ?? "WEB & ANDROID GAMES"}
                   </span>
-                  <span className="text-xs font-mono text-terrain">
-                    ({PREVIEWS[activePreviewLocation].flag} {PREVIEWS[activePreviewLocation].country})
+                  <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-amber-100/80 border border-amber-300 text-amber-900">
+                    {XWEET_GAMES_APP?.status ?? "Closed Testing"}
                   </span>
                 </div>
-                <p className="text-xs font-mono text-terrain">
-                  Clue: {PREVIEWS[activePreviewLocation].clue}
+
+                <h3 className="text-2xl sm:text-3xl font-space font-medium tracking-tight text-carbon">
+                  {XWEET_GAMES_APP?.name ?? "Xweet Games"} for Android
+                </h3>
+
+                <p className="text-xs sm:text-sm text-carbon/80 font-light leading-relaxed">
+                  {XWEET_GAMES_APP?.description ??
+                    "Ad-free collection of arcade & reflex mini-games built in Flutter with persistent high scores and haptics."}
                 </p>
               </div>
+            </div>
 
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
               <Link
-                href="/unkn"
-                className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs px-5 py-2.5 rounded-full transition-all shrink-0 flex items-center justify-center gap-1.5 shadow-2xs border border-signal-lime"
+                href="/join-as-tester?app=xweet-games"
+                className="cursor-pointer bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs sm:text-sm px-5 py-3 rounded-full transition-colors inline-flex items-center gap-2 border border-carbon/15"
               >
-                <span>Launch Live Session</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <FlaskConical className="w-4 h-4" />
+                <span>Join Closed Testing</span>
+                <ArrowRight className="w-4 h-4" />
               </Link>
+
+              <a
+                href={
+                  XWEET_GAMES_APP?.playStoreUrl ??
+                  "https://play.google.com/store/apps/details?id=in.xweet.games"
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cursor-pointer border border-terrain/35 hover:border-carbon bg-paper text-carbon font-mono text-xs px-5 py-3 rounded-full transition-colors inline-flex items-center gap-2"
+              >
+                <Smartphone className="w-3.5 h-3.5" />
+                <span>Get on Play Store</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-terrain" />
+              </a>
             </div>
           </div>
+
+          {XWEET_GAMES_APP?.highlights && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-5 border-t border-terrain/20">
+              {XWEET_GAMES_APP.highlights.map((item) => (
+                <div
+                  key={item}
+                  className="rounded-2xl border border-terrain/20 bg-paper/70 px-4 py-3 text-xs text-carbon/85 font-light flex items-start gap-2"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-signal-lime shrink-0 mt-1.5" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* ========================================================================= */}

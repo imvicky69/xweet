@@ -26,6 +26,8 @@ import {
 import {
   isValidWord,
   getRandomTargetWord,
+  getDailyTargetWord,
+  getTodayDateKey,
   getRecentWords,
   recordRecentWord,
   getDifficultyPreference,
@@ -34,6 +36,13 @@ import {
 } from "@/lib/wordle-words";
 
 type TileState = "empty" | "tbd" | "correct" | "present" | "absent";
+type WordleMode = "daily" | "free";
+
+interface DailySavedState {
+  dateKey: string;
+  guesses: string[];
+  gameStatus: "playing" | "won" | "lost";
+}
 
 interface Stats {
   played: number;
@@ -50,7 +59,7 @@ export interface RoundAudit {
   attemptsUsed: number;
 }
 
-const TOTAL_ROUNDS = 5;
+const DAILY_STORAGE_KEY = "wordle_daily_state";
 
 // Pure tile evaluation for any guess against a target word
 function getTileStateForWord(guess: string, index: number, target: string): TileState {
@@ -103,7 +112,11 @@ function evaluateGuess(guess: string, target: string) {
 }
 
 export default function WordlePage() {
-  // 5-Round Series State
+  // Game Mode: "daily" (Word of the Day) or "free" (Endless Random Rounds, exit anytime)
+  const [mode, setMode] = useState<WordleMode>("daily");
+  const [dailyDateKey, setDailyDateKey] = useState<string>("");
+
+  // Free-Play Session State
   const [currentRound, setCurrentRound] = useState<number>(1);
   const [roundHistory, setRoundHistory] = useState<RoundAudit[]>([]);
   const [lastRoundResult, setLastRoundResult] = useState<RoundAudit | null>(null);
@@ -206,16 +219,63 @@ export default function WordlePage() {
     }
   }, []);
 
-  // Initialize first target word with saved difficulty preference on mount
+  const loadDailyWordState = useCallback((dateKey: string) => {
+    const dailyWord = getDailyTargetWord(dateKey);
+    setTargetWord(dailyWord);
+    setDailyDateKey(dateKey);
+    setShowRoundModal(false);
+    setShowSeriesSummary(false);
+
+    try {
+      const raw = localStorage.getItem(DAILY_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as DailySavedState;
+        if (parsed.dateKey === dateKey && Array.isArray(parsed.guesses)) {
+          setGuesses(parsed.guesses);
+          setCurrentGuess("");
+          const status = parsed.gameStatus || "playing";
+          setGameStatus(status);
+          if (status !== "playing") {
+            setLastRoundResult({
+              roundNumber: 1,
+              targetWord: dailyWord,
+              guesses: parsed.guesses,
+              isWon: status === "won",
+              attemptsUsed: status === "won" ? parsed.guesses.length : 6,
+            });
+            setShowRoundModal(true);
+          }
+          return;
+        }
+      }
+    } catch {}
+
+    setGuesses([]);
+    setCurrentGuess("");
+    setGameStatus("playing");
+    setLastRoundResult(null);
+  }, []);
+
+  // Initialize mode & target word on mount
   useEffect(() => {
     const savedDiff = getDifficultyPreference();
     setDifficulty(savedDiff);
     setPendingDifficulty(savedDiff);
-    const recents = getRecentWords();
-    const initialWord = getRandomTargetWord(recents, savedDiff, 1);
-    setTargetWord(initialWord);
-    recordRecentWord(initialWord);
-  }, []);
+
+    const params = new URLSearchParams(window.location.search);
+    const requestedFree = params.get("mode") === "free";
+
+    if (requestedFree) {
+      setMode("free");
+      const recents = getRecentWords();
+      const initialWord = getRandomTargetWord(recents, savedDiff, 1);
+      setTargetWord(initialWord);
+      recordRecentWord(initialWord);
+    } else {
+      setMode("daily");
+      loadDailyWordState(getTodayDateKey());
+    }
+  }, [loadDailyWordState]);
 
   const playSound = useCallback(
     (sound: "boom" | "close" | "correct") => {
@@ -261,16 +321,28 @@ export default function WordlePage() {
   const finishRound = useCallback(
     (won: boolean, finalGuesses: string[]) => {
       const result: RoundAudit = {
-        roundNumber: currentRound,
+        roundNumber: mode === "daily" ? 1 : currentRound,
         targetWord,
         guesses: finalGuesses,
         isWon: won,
         attemptsUsed: won ? finalGuesses.length : 6,
       };
 
-      setRoundHistory((prev) => [...prev, result]);
       setLastRoundResult(result);
       setGameStatus(won ? "won" : "lost");
+
+      if (mode === "daily") {
+        try {
+          const payload: DailySavedState = {
+            dateKey: dailyDateKey,
+            guesses: finalGuesses,
+            gameStatus: won ? "won" : "lost",
+          };
+          localStorage.setItem(DAILY_STORAGE_KEY, JSON.stringify(payload));
+        } catch {}
+      } else {
+        setRoundHistory((prev) => [...prev, result]);
+      }
 
       // Update lifetime stats
       setStats((prev) => {
@@ -286,34 +358,29 @@ export default function WordlePage() {
         return updated;
       });
 
-      // Show series summary if last round, else show round verdict
-      if (currentRound >= TOTAL_ROUNDS) {
-        setTimeout(() => setShowSeriesSummary(true), 900);
-      } else {
-        setTimeout(() => setShowRoundModal(true), 900);
-      }
+      setTimeout(() => setShowRoundModal(true), 700);
     },
-    [currentRound, targetWord]
+    [mode, currentRound, targetWord, dailyDateKey]
   );
 
-  // Transition to next round (e.g. Round 2 of 5)
+  // Transition to next random round in Free Play
   const proceedToNextRound = () => {
     setShowRoundModal(false);
     const nextRoundIndex = currentRound + 1;
     setCurrentRound(nextRoundIndex);
 
     const recents = getRecentWords();
-    const nextWord = getRandomTargetWord(recents, difficulty, nextRoundIndex);
+    const nextWord = getRandomTargetWord(recents, difficulty, Math.min(nextRoundIndex, 5));
     setTargetWord(nextWord);
     recordRecentWord(nextWord);
 
     setGuesses([]);
     setCurrentGuess("");
     setGameStatus("playing");
-    triggerToast(`Round 0${nextRoundIndex} Ready`);
+    triggerToast(`Round ${String(nextRoundIndex).padStart(2, "0")} Ready`);
   };
 
-  // Start a fresh 5-round series with optional difficulty override
+  // Start a fresh Free Play session
   const startNewSeries = (diffOverride?: WordleDifficulty) => {
     try {
       Object.values(audioRef.current).forEach((audio) => {
@@ -330,6 +397,7 @@ export default function WordlePage() {
       setDifficultyPreference(diffOverride);
     }
 
+    setMode("free");
     setShowRoundModal(false);
     setShowSeriesSummary(false);
     setShowStats(false);
@@ -346,7 +414,23 @@ export default function WordlePage() {
     setGuesses([]);
     setCurrentGuess("");
     setGameStatus("playing");
-    triggerToast(`New Series Started · ${activeDiff.toUpperCase()}`);
+    triggerToast(`Free Play Started · ${activeDiff.toUpperCase()}`);
+  };
+
+  const switchMode = (nextMode: WordleMode) => {
+    if (nextMode === mode) return;
+    if (nextMode === "daily") {
+      setMode("daily");
+      loadDailyWordState(getTodayDateKey());
+      triggerToast("Word of the Day");
+    } else {
+      startNewSeries();
+    }
+  };
+
+  const finishFreePlaySession = () => {
+    setShowRoundModal(false);
+    setShowSeriesSummary(true);
   };
 
   const openDifficultyModal = () => {
@@ -480,7 +564,12 @@ export default function WordlePage() {
         .join("");
     });
 
-    const shareText = `Wordle Round 0${currentRound}/05 ${
+    const label =
+      mode === "daily"
+        ? `Wordle Daily (${dailyDateKey})`
+        : `Wordle Round ${String(currentRound).padStart(2, "0")}`;
+
+    const shareText = `${label} ${
       gameStatus === "won" ? `${guesses.length}/6` : "X/6"
     }\n\n${rows.join("\n")}\n\nhttps://xweet.in/wordle`;
 
@@ -491,10 +580,11 @@ export default function WordlePage() {
     }
   };
 
-  // Share full 5-round series generator
+  // Share full Free Play session generator
   const shareSeriesResult = () => {
+    const totalPlayed = roundHistory.length;
     const solvedCount = roundHistory.filter((r) => r.isWon).length;
-    const header = `Wordle 5-Round Series: ${solvedCount}/05 Solved\n`;
+    const header = `Wordle Free Play: ${solvedCount}/${totalPlayed} Solved\n`;
     const roundsText = roundHistory
       .map((r) => {
         const verdict = r.isWon ? `${r.attemptsUsed}/6` : "X/6";
@@ -511,7 +601,7 @@ export default function WordlePage() {
               .join("")
           )
           .join("\n");
-        return `Round 0${r.roundNumber} (${verdict}):\n${grid}`;
+        return `Round ${String(r.roundNumber).padStart(2, "0")} (${verdict}):\n${grid}`;
       })
       .join("\n\n");
 
@@ -524,17 +614,18 @@ export default function WordlePage() {
     }
   };
 
-  // Rating descriptor for series score
-  const getRating = (solved: number) => {
-    if (solved === 5) return { title: "Grandmaster Lexicographer", badge: "Flawless Deductions" };
-    if (solved === 4) return { title: "Master Cryptic Solver", badge: "80% Precision" };
-    if (solved === 3) return { title: "Seasoned Wordsmith", badge: "60% Accuracy" };
-    if (solved >= 1) return { title: "Apprentice Explorer", badge: "Keep Honing" };
-    return { title: "Field Observer", badge: "Try Another Series" };
+  // Rating descriptor for dynamic session score
+  const getRating = (solved: number, total: number) => {
+    if (total === 0) return { title: "Quick Break", badge: "No rounds completed" };
+    const ratio = solved / total;
+    if (ratio === 1) return { title: "Flawless Run", badge: "100% Precision" };
+    if (ratio >= 0.75) return { title: "Sharp Solver", badge: `${Math.round(ratio * 100)}% Accuracy` };
+    if (ratio >= 0.5) return { title: "Wordsmith", badge: `${Math.round(ratio * 100)}% Accuracy` };
+    return { title: "Keep Exploring", badge: `${solved}/${total} Solved` };
   };
 
   const seriesSolvedCount = roundHistory.filter((r) => r.isWon).length;
-  const ratingInfo = getRating(seriesSolvedCount);
+  const ratingInfo = getRating(seriesSolvedCount, roundHistory.length);
 
   // On-screen keyboard rows
   const KEYBOARD_ROWS = [
@@ -560,12 +651,12 @@ export default function WordlePage() {
         }`}
       >
         {/* ========================================================================= */}
-        {/* DEDICATED 5-ROUND SERIES CONTROL BAR */}
+        {/* WORDLE MODE & CONTROL BAR */}
         {/* ========================================================================= */}
         <div className="w-full border-b border-terrain/20 bg-paper/60 backdrop-blur-xs shrink-0">
-          <div className="max-w-4xl mx-auto px-4 sm:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-4">
-            {/* Left: Back Link & Series Round Badge */}
-            <div className="flex items-center gap-3 shrink-0">
+          <div className="max-w-5xl mx-auto px-4 sm:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-3">
+            {/* Left: Back Link & Title */}
+            <div className="flex items-center gap-2.5 shrink-0">
               <Link
                 href="/games"
                 className="flex items-center gap-1.5 text-xs font-mono text-terrain hover:text-carbon transition-colors"
@@ -577,52 +668,54 @@ export default function WordlePage() {
 
               <span className="text-terrain/30 hidden sm:inline">•</span>
 
-              <div className="flex items-center gap-2">
-                <span className="font-playwrite text-2xl tracking-tight text-carbon">wordle</span>
-                <span className="text-[11px] font-mono uppercase bg-carbon text-paper px-2.5 py-0.5 rounded-full font-medium whitespace-nowrap shrink-0">
-                  Round 0{currentRound} / 0{TOTAL_ROUNDS}
+              <span className="font-playwrite text-xl sm:text-2xl tracking-tight text-carbon">wordle</span>
+
+              {mode === "free" && (
+                <span className="hidden md:inline-flex text-[11px] font-mono uppercase bg-carbon text-paper px-2.5 py-0.5 rounded-full font-medium whitespace-nowrap">
+                  Round {String(currentRound).padStart(2, "0")} · {seriesSolvedCount} Won
                 </span>
-                <button
-                  onClick={openDifficultyModal}
-                  className="hidden sm:inline-flex items-center gap-1.5 text-[10px] font-mono uppercase border border-terrain/35 hover:border-carbon text-terrain hover:text-carbon px-2.5 py-0.5 rounded-full font-medium transition-colors cursor-pointer shrink-0"
-                  title="Configure Word Difficulty Level"
-                >
-                  <SlidersHorizontal className="w-3 h-3 text-terrain" />
-                  <span className="capitalize">{difficulty}</span>
-                </button>
-              </div>
+              )}
             </div>
 
-            {/* Center: Progress Segments & Score (Desktop) */}
-            <div className="hidden md:flex flex-col items-center gap-1 shrink-0">
-              <span className="text-[11px] font-mono text-terrain">
-                Series Score: <strong className="text-carbon font-semibold">{seriesSolvedCount}</strong> of {TOTAL_ROUNDS} Solved
-              </span>
-
-              {/* 5 Progress Segments */}
-              <div className="flex items-center gap-1.5">
-                {Array.from({ length: TOTAL_ROUNDS }).map((_, i) => {
-                  const isPast = i < roundHistory.length;
-                  const isCurrent = i === currentRound - 1;
-                  const pastRound = roundHistory[i];
-                  const isCorrect = pastRound?.isWon === true;
-
-                  let pillClass = "h-1.5 rounded-full transition-all duration-300 ";
-                  if (isPast) {
-                    pillClass += isCorrect ? "w-6 bg-signal-lime" : "w-6 bg-carbon/35";
-                  } else if (isCurrent) {
-                    pillClass += "w-8 bg-carbon";
-                  } else {
-                    pillClass += "w-4 bg-terrain/25";
-                  }
-
-                  return <div key={i} className={pillClass} />;
-                })}
-              </div>
+            {/* Center: Mode Switcher (Word of the Day vs Free Play) */}
+            <div className="flex items-center gap-1 rounded-full border border-terrain/30 bg-white/60 p-0.5 shrink-0">
+              <button
+                type="button"
+                onClick={() => switchMode("daily")}
+                className={`cursor-pointer px-3 py-1 rounded-full text-[11px] font-mono transition-all ${
+                  mode === "daily"
+                    ? "bg-carbon text-signal-lime font-semibold"
+                    : "text-terrain hover:text-carbon"
+                }`}
+              >
+                Daily Word
+              </button>
+              <button
+                type="button"
+                onClick={() => switchMode("free")}
+                className={`cursor-pointer px-3 py-1 rounded-full text-[11px] font-mono transition-all ${
+                  mode === "free"
+                    ? "bg-carbon text-signal-lime font-semibold"
+                    : "text-terrain hover:text-carbon"
+                }`}
+              >
+                Free Play
+              </button>
             </div>
 
             {/* Right Toolbar Controls */}
             <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+              {/* Finish & Score / Exit in between (Free Play) */}
+              {mode === "free" && roundHistory.length > 0 && (
+                <button
+                  onClick={finishFreePlaySession}
+                  className="px-2.5 py-1.5 rounded-xl bg-signal-lime text-carbon font-mono text-[11px] font-semibold hover:bg-[#cbf056] transition-colors cursor-pointer"
+                  title="Finish session and view score"
+                >
+                  Finish ({roundHistory.length})
+                </button>
+              )}
+
               {/* Audio Toggle */}
               <button
                 onClick={toggleMute}
@@ -651,18 +744,20 @@ export default function WordlePage() {
                 )}
               </button>
 
-              {/* Difficulty Level Selector */}
-              <button
-                onClick={openDifficultyModal}
-                className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer flex items-center gap-1.5"
-                title={`Word Difficulty: ${difficulty.toUpperCase()} (Click to change)`}
-                aria-label="Select Word Difficulty Level"
-              >
-                <SlidersHorizontal className="w-4 h-4 text-terrain" />
-                <span className="hidden xl:inline text-[11px] font-mono uppercase font-semibold text-carbon">
-                  {difficulty}
-                </span>
-              </button>
+              {/* Difficulty Level Selector (Free Play) */}
+              {mode === "free" && (
+                <button
+                  onClick={openDifficultyModal}
+                  className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer flex items-center gap-1.5"
+                  title={`Word Difficulty: ${difficulty.toUpperCase()} (Click to change)`}
+                  aria-label="Select Word Difficulty Level"
+                >
+                  <SlidersHorizontal className="w-4 h-4 text-terrain" />
+                  <span className="hidden xl:inline text-[11px] font-mono uppercase font-semibold text-carbon">
+                    {difficulty}
+                  </span>
+                </button>
+              )}
 
               {/* How to Play */}
               <button
@@ -684,40 +779,36 @@ export default function WordlePage() {
                 <BarChart2 className="w-4 h-4" />
               </button>
 
-              {/* Reset 5-Round Series */}
-              <button
-                onClick={() => startNewSeries()}
-                className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer"
-                title="Restart 5-Round Series"
-                aria-label="Restart 5-Round Series"
-              >
-                <RotateCcw className="w-4 h-4" />
-              </button>
+              {/* New Random Word (Free Play) */}
+              {mode === "free" && (
+                <button
+                  onClick={() => startNewSeries()}
+                  className="p-1.5 sm:p-2 rounded-xl border border-terrain/30 hover:border-carbon text-terrain hover:text-carbon transition-colors touch-manipulation cursor-pointer"
+                  title="Start New Free Play Session"
+                  aria-label="Start New Free Play Session"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                </button>
+              )}
             </div>
           </div>
 
-          {/* Mobile Series Progress Bar */}
+          {/* Mobile Mode Status Strip */}
           <div className="flex md:hidden items-center justify-between max-w-sm mx-auto px-4 pb-2 text-[11px] font-mono text-terrain">
-            <span>Round 0{currentRound} / 0{TOTAL_ROUNDS}</span>
-            <div className="flex items-center gap-1">
-              {Array.from({ length: TOTAL_ROUNDS }).map((_, i) => {
-                const isPast = i < roundHistory.length;
-                const isCurrent = i === currentRound - 1;
-                const pastRound = roundHistory[i];
-                const isCorrect = pastRound?.isWon === true;
-
-                let pillClass = "h-1.5 rounded-full transition-all ";
-                if (isPast) {
-                  pillClass += isCorrect ? "w-4 bg-signal-lime" : "w-4 bg-carbon/30";
-                } else if (isCurrent) {
-                  pillClass += "w-6 bg-carbon";
-                } else {
-                  pillClass += "w-3 bg-terrain/25";
-                }
-                return <div key={i} className={pillClass} />;
-              })}
-            </div>
-            <span>{seriesSolvedCount} Solved</span>
+            <span>
+              {mode === "daily"
+                ? `Daily · ${dailyDateKey}`
+                : `Free Play · Round ${String(currentRound).padStart(2, "0")}`}
+            </span>
+            <span>
+              {mode === "daily"
+                ? gameStatus === "playing"
+                  ? "1 shared word today"
+                  : gameStatus === "won"
+                  ? "Solved today"
+                  : "Completed today"
+                : `${seriesSolvedCount} / ${roundHistory.length} Solved`}
+            </span>
           </div>
         </div>
 
@@ -863,7 +954,7 @@ export default function WordlePage() {
       {!isFullscreen && <StudioFooter />}
 
       {/* ========================================================================= */}
-      {/* ROUND OUTCOME MODAL (BETWEEN ROUNDS 1-4) */}
+      {/* ROUND OUTCOME MODAL (DAILY WORD OR FREE PLAY) */}
       {/* ========================================================================= */}
       {showRoundModal && lastRoundResult && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
@@ -871,7 +962,9 @@ export default function WordlePage() {
             <div className="flex items-center justify-between border-b border-terrain/20 pb-3">
               <div className="space-y-0.5">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-terrain">
-                  ROUND 0{lastRoundResult.roundNumber} OF 0{TOTAL_ROUNDS}
+                  {mode === "daily"
+                    ? `WORD OF THE DAY · ${dailyDateKey}`
+                    : `FREE PLAY · ROUND ${String(lastRoundResult.roundNumber).padStart(2, "0")}`}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-space font-medium text-carbon">
                   {lastRoundResult.isWon ? "Splendid Deduction!" : "Round Missed"}
@@ -886,7 +979,7 @@ export default function WordlePage() {
               >
                 {lastRoundResult.isWon
                   ? `${lastRoundResult.attemptsUsed}/6 Solved`
-                  : "0/1 Pts"}
+                  : "X/6"}
               </span>
             </div>
 
@@ -935,23 +1028,49 @@ export default function WordlePage() {
               </div>
             )}
 
-            {/* Series Standing Telemetry */}
-            <div className="p-3.5 rounded-2xl bg-white/40 border border-terrain/20 flex items-center justify-between text-xs font-mono">
-              <span className="text-terrain">5-Round Series Standing:</span>
-              <span className="font-bold text-carbon">
-                {seriesSolvedCount} / {currentRound} Rounds Won
-              </span>
-            </div>
+            {/* Standing Telemetry */}
+            {mode === "free" ? (
+              <div className="p-3.5 rounded-2xl bg-white/40 border border-terrain/20 flex items-center justify-between text-xs font-mono">
+                <span className="text-terrain">Free Play Session:</span>
+                <span className="font-bold text-carbon">
+                  {seriesSolvedCount} / {roundHistory.length} Won
+                </span>
+              </div>
+            ) : (
+              <div className="p-3.5 rounded-2xl bg-white/40 border border-terrain/20 flex items-center justify-between text-xs font-mono">
+                <span className="text-terrain">Shared Daily Puzzle:</span>
+                <span className="font-bold text-carbon">New word every day</span>
+              </div>
+            )}
 
             {/* Actions */}
             <div className="space-y-2 pt-2">
-              <button
-                onClick={proceedToNextRound}
-                className="w-full py-3.5 rounded-full bg-carbon text-paper font-mono text-xs font-semibold hover:bg-carbon/90 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
-              >
-                <span>Proceed to Round 0{currentRound + 1} / 0{TOTAL_ROUNDS}</span>
-                <ArrowRight className="w-3.5 h-3.5 text-signal-lime" />
-              </button>
+              {mode === "free" ? (
+                <>
+                  <button
+                    onClick={proceedToNextRound}
+                    className="w-full py-3.5 rounded-full bg-carbon text-paper font-mono text-xs font-semibold hover:bg-carbon/90 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                  >
+                    <span>Next Random Word (Round {String(currentRound + 1).padStart(2, "0")})</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-signal-lime" />
+                  </button>
+
+                  <button
+                    onClick={finishFreePlaySession}
+                    className="w-full py-2.5 rounded-full bg-signal-lime hover:bg-[#cbf056] text-carbon font-mono text-xs font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <span>Finish &amp; View Score ({roundHistory.length} Played)</span>
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => switchMode("free")}
+                  className="w-full py-3.5 rounded-full bg-signal-lime hover:bg-[#cbf056] text-carbon font-mono text-xs font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                >
+                  <span>Play Unlimited Random Words (Free Play)</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-carbon" />
+                </button>
+              )}
 
               <button
                 onClick={shareSingleRound}
@@ -960,12 +1079,12 @@ export default function WordlePage() {
                 {copiedShare ? (
                   <>
                     <Check className="w-3.5 h-3.5 text-carbon" />
-                    <span>Copied Round Grid!</span>
+                    <span>Copied Grid!</span>
                   </>
                 ) : (
                   <>
                     <Share2 className="w-3.5 h-3.5 text-terrain" />
-                    <span>Share This Round</span>
+                    <span>{mode === "daily" ? "Share Daily Wordle" : "Share This Round"}</span>
                   </>
                 )}
               </button>
@@ -975,7 +1094,7 @@ export default function WordlePage() {
       )}
 
       {/* ========================================================================= */}
-      {/* FINAL 5-ROUND SERIES SCORING SCREEN */}
+      {/* FREE PLAY SESSION SCORING SCREEN */}
       {/* ========================================================================= */}
       {showSeriesSummary && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
@@ -984,13 +1103,13 @@ export default function WordlePage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-terrain/25 pb-4">
               <div className="space-y-1">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-signal-lime bg-carbon px-2.5 py-0.5 rounded-full inline-block">
-                  Series Complete
+                  Session Complete
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-space font-medium text-carbon">
-                  5-Round Series Audit
+                  Free Play Audit ({roundHistory.length} {roundHistory.length === 1 ? "Round" : "Rounds"})
                 </h2>
                 <p className="text-xs text-terrain font-light">
-                  Complete debrief across your 5 deductive word challenges.
+                  Your breakdown across {roundHistory.length} random word {roundHistory.length === 1 ? "challenge" : "challenges"}.
                 </p>
               </div>
 
@@ -1005,14 +1124,16 @@ export default function WordlePage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center font-mono">
               <div className="p-3.5 rounded-2xl bg-white/60 border border-terrain/25">
                 <span className="text-2xl sm:text-3xl font-bold text-carbon block">
-                  {seriesSolvedCount} / {TOTAL_ROUNDS}
+                  {seriesSolvedCount} / {roundHistory.length}
                 </span>
                 <span className="text-[10px] text-terrain uppercase">Solved</span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-white/60 border border-terrain/25">
                 <span className="text-2xl sm:text-3xl font-bold text-carbon block">
-                  {Math.round((seriesSolvedCount / TOTAL_ROUNDS) * 100)}%
+                  {roundHistory.length > 0
+                    ? `${Math.round((seriesSolvedCount / roundHistory.length) * 100)}%`
+                    : "0%"}
                 </span>
                 <span className="text-[10px] text-terrain uppercase">Accuracy</span>
               </div>
@@ -1097,7 +1218,7 @@ export default function WordlePage() {
                 className="w-full py-3.5 rounded-full bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs font-mono transition-all flex items-center justify-center gap-2 border border-signal-lime/80 shadow-xs cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5 text-carbon" />
-                <span>Start New 5-Round Series</span>
+                <span>Start New Free Play</span>
               </button>
 
               <div className="flex gap-2">
@@ -1108,12 +1229,12 @@ export default function WordlePage() {
                   {copiedSeriesShare ? (
                     <>
                       <Check className="w-3.5 h-3.5 text-signal-lime" />
-                      <span>Copied Series Grid!</span>
+                      <span>Copied Session Grid!</span>
                     </>
                   ) : (
                     <>
                       <Share2 className="w-3.5 h-3.5 text-signal-lime" />
-                      <span>Share 5-Round Series</span>
+                      <span>Share Session</span>
                     </>
                   )}
                 </button>
@@ -1224,11 +1345,15 @@ export default function WordlePage() {
               </button>
             </div>
 
-            {/* Current Series Standing */}
+            {/* Current Mode Standing */}
             <div className="p-3.5 rounded-2xl bg-black/5 border border-terrain/20 flex items-center justify-between text-xs font-mono">
-              <span className="text-terrain">Active 5-Game Series:</span>
+              <span className="text-terrain">
+                {mode === "daily" ? "Word of the Day:" : "Active Free Play:"}
+              </span>
               <span className="font-bold text-carbon">
-                Round 0{currentRound} / 0{TOTAL_ROUNDS} ({seriesSolvedCount} Solved)
+                {mode === "daily"
+                  ? `${dailyDateKey} (${gameStatus === "playing" ? "In Progress" : gameStatus === "won" ? "Solved" : "Missed"})`
+                  : `Round ${String(currentRound).padStart(2, "0")} (${seriesSolvedCount} Solved)`}
               </span>
             </div>
 

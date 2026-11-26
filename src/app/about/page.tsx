@@ -8,7 +8,7 @@ import {
   ArrowRight,
   ArrowUpRight,
   Code2,
-  Rocket,
+  Smartphone,
   Layers,
   MapPin,
   FlaskConical,
@@ -19,27 +19,27 @@ import { GithubIcon } from "@/components/GithubIcon";
 const TIMELINE = [
   {
     period: "Early 2025",
-    label: "Genesis",
-    title: "Indivio Studio",
+    label: "First Builds",
+    title: "Shipping Everyday Utilities",
     icon: Code2,
     description:
-      "Started by Vikky Raja in Nirmali, Bihar as an independent software engineering and SaaS lab—building fast web platforms, developer utilities, and mobile prototypes.",
+      "Started building small, fast web tools and mobile apps from Nirmali, Bihar — focused on daily productivity, file workflows, and clean personalization.",
   },
   {
     period: "Mid 2025",
-    label: "Consumer Pivot",
-    title: "Indivio Becomes Hyperlocal Food Delivery",
-    icon: Rocket,
+    label: "Free Tools",
+    title: "Browser & Android Apps",
+    icon: Smartphone,
     description:
-      "Seeing Tier-2 and Tier-3 towns overlooked by mega-aggregators, Indivio transformed into a dedicated hyperlocal food delivery platform (indivio.xweet.in) with 0% menu markup and live GPS tracking.",
+      "Expanded into on-device web tools like bg.xweet.in and Infyn, 4K wallpapers, ad-free Android utilities, and browser games — keeping core tools free and tracker-free.",
   },
   {
-    period: "2026 & Beyond",
-    label: "Root Ecosystem",
-    title: "Xweet — The Parent Ecosystem",
+    period: "2026",
+    label: "Xweet",
+    title: "Everything Under xweet.in",
     icon: Layers,
     description:
-      "Just like Eternal serves as the parent house for Zomato, Xweet (xweet.in) became the root ecosystem uniting every branch: bg.xweet.in, Xweet Wallpapers, Xweet Games, Infyn, Smiley PDF, and Indivio.",
+      "Brought all web utilities, mobile apps, open-source releases, and products like Indivio together under one simple home at xweet.in.",
   },
 ];
 
@@ -52,21 +52,21 @@ export default function AboutPage() {
         {/* ── FOUNDER HERO ────────────────────────────────────────────────── */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center border-b border-terrain/25 pb-14">
           <div className="lg:col-span-5 flex justify-center lg:justify-start">
-            <div className="relative w-full max-w-sm aspect-[4/5] rounded-3xl overflow-hidden border border-carbon bg-white shadow-sm">
+            <div className="relative w-full max-w-sm aspect-[4/5] rounded-3xl overflow-hidden border border-carbon/20 bg-paper shadow-sm">
               <Image
                 src="/vikky.jpg"
-                alt="Vikky Raja — Founder of Xweet & Indivio"
+                alt="Vikky Raja — Builder of Xweet"
                 fill
                 sizes="(max-width: 1024px) 100vw, 384px"
                 className="object-cover object-top"
                 priority
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon/90 via-carbon/45 to-transparent p-6 text-paper">
-                <span className="inline-block px-2.5 py-0.5 rounded-full bg-signal-lime text-carbon text-[10px] font-mono font-bold uppercase tracking-wider">
-                  Founder &amp; Architect
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#171815]/90 via-[#171815]/45 to-transparent p-6 text-[#f0efe6]">
+                <span className="inline-block px-2.5 py-0.5 rounded-full bg-signal-lime text-[#171815] text-[10px] font-mono font-bold uppercase tracking-wider">
+                  Builder · Xweet
                 </span>
                 <p className="font-space text-2xl font-medium mt-1.5">Vikky Raja</p>
-                <p className="text-xs font-mono text-paper/80 flex items-center gap-1 mt-0.5">
+                <p className="text-xs font-mono text-[#f0efe6]/80 flex items-center gap-1 mt-0.5">
                   <MapPin className="w-3 h-3 text-signal-lime" />
                   Nirmali, Bihar · India
                 </p>
@@ -77,32 +77,41 @@ export default function AboutPage() {
           <div className="lg:col-span-7 space-y-5">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/75 border border-terrain/30 text-[11px] font-mono text-carbon">
               <span className="w-2 h-2 rounded-full bg-signal-lime" />
-              <span>About Me &amp; The Xweet Ecosystem</span>
+              <span>About · Vikky Raja</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-thin tracking-tight leading-[1.06] text-carbon">
-              From <span className="font-space font-medium">Indivio Studio</span> to the{" "}
+              Shipping free apps for{" "}
               <span className="font-space font-medium underline decoration-signal-lime decoration-4 underline-offset-4">
-                Xweet
+                daily work
               </span>{" "}
-              ecosystem.
+              and personalization.
             </h1>
 
             <div className="space-y-3.5 text-sm sm:text-base text-carbon/85 font-light leading-relaxed">
               <p>
-                I&apos;m <strong>Vikky Raja</strong>, an independent full-stack and mobile engineer building local-first web utilities, ad-free Android apps, and hyperlocal software from Nirmali, Bihar.
+                I&apos;m <strong>Vikky Raja</strong>, an independent developer from Nirmali, Bihar. I started shipping apps for daily productivity, practical work, and clean personalization — with a simple goal of providing as many genuinely free web and mobile tools as possible.
               </p>
               <p>
-                Everything started in early 2025 under <strong>Indivio Studio</strong>. As our products expanded, <strong>Indivio</strong> grew into our dedicated hyperlocal food delivery platform (currently building for Android &amp; web at{" "}
+                From local-first browser utilities like{" "}
                 <a
-                  href="https://indivio.xweet.in"
+                  href="https://bg.xweet.in"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-medium text-carbon underline underline-offset-4"
                 >
-                  indivio.xweet.in
-                </a>
-                ), while <strong>Xweet</strong> became the parent root ecosystem—much like <strong>Eternal</strong> for Zomato—uniting our independent tools, apps, and games under one roof.
+                  bg.xweet.in
+                </a>{" "}
+                and{" "}
+                <a
+                  href="https://infyn.software"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-carbon underline underline-offset-4"
+                >
+                  Infyn
+                </a>{" "}
+                to Android apps like Xweet Wallpapers, Smiley PDF, and Indivio, <strong>Xweet</strong> is where I keep everything organized and ad-free.
               </p>
             </div>
 
@@ -114,6 +123,13 @@ export default function AboutPage() {
                 <span>Browse All {ECOSYSTEM_APPS.length} Apps</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
+              <a
+                href="mailto:vikky@xweet.in"
+                className="inline-flex items-center gap-1.5 rounded-full border border-terrain/35 bg-white px-5 py-3 text-xs font-mono text-carbon hover:border-carbon transition-colors"
+              >
+                <Mail className="w-3.5 h-3.5" />
+                <span>vikky@xweet.in</span>
+              </a>
               <a
                 href={COMMUNITY_LINKS.github}
                 target="_blank"
@@ -137,14 +153,14 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── EVOLUTION TIMELINE ──────────────────────────────────────────── */}
+        {/* ── TIMELINE ────────────────────────────────────────────────────── */}
         <section className="space-y-8">
           <div>
             <span className="text-xs font-mono uppercase tracking-widest text-terrain">
-              Evolution
+              Timeline
             </span>
             <h2 className="text-2xl sm:text-4xl font-space font-medium text-carbon mt-1">
-              How Indivio Studio Became Xweet
+              How Xweet Came Together
             </h2>
           </div>
 
@@ -183,7 +199,7 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
             <div>
               <span className="text-xs font-mono uppercase tracking-widest text-terrain">
-                Ecosystem Architecture
+                Apps &amp; Tools
               </span>
               <h2 className="text-2xl sm:text-4xl font-space font-medium text-carbon mt-1">
                 Everything Under Xweet
@@ -229,13 +245,13 @@ export default function AboutPage() {
           <div className="lg:col-span-5 rounded-3xl border border-carbon bg-carbon text-paper p-7 sm:p-9 space-y-5 flex flex-col justify-between">
             <div className="space-y-3">
               <span className="text-[11px] font-mono uppercase tracking-widest text-signal-lime">
-                Xweet Community
+                Closed Testing &amp; Feedback
               </span>
               <h2 className="text-2xl sm:text-3xl font-space font-medium">
-                Join Closed Testing &amp; Follow Builds
+                Try New Builds Early
               </h2>
               <p className="text-xs sm:text-sm text-terrain leading-relaxed">
-                Help test Xweet Wallpapers and Xweet Games on Google Play, try open-source APKs like Infyn DL, or reach out directly for collaborations.
+                Join Google Play closed testing for Xweet Wallpapers and Xweet Games, grab open-source APKs like Infyn DL, or write directly if you have feedback.
               </p>
             </div>
             <div className="flex flex-wrap gap-2.5">
@@ -246,27 +262,27 @@ export default function AboutPage() {
                 <FlaskConical className="w-3.5 h-3.5" />
                 <span>Join Play Closed Testing</span>
               </Link>
-              <Link
-                href="/contact"
+              <a
+                href="mailto:vikky@xweet.in"
                 className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 text-paper px-4 py-2.5 text-xs font-mono"
               >
                 <Mail className="w-3.5 h-3.5" />
-                <span>Contact</span>
-              </Link>
+                <span>vikky@xweet.in</span>
+              </a>
             </div>
           </div>
 
           <div className="lg:col-span-7 rounded-3xl border border-terrain/35 bg-white/65 p-7 sm:p-9 space-y-5">
             <h2 className="text-xl sm:text-2xl font-space font-medium text-carbon">
-              Frequently Asked Questions
+              Common Questions
             </h2>
             <div className="space-y-4 text-xs sm:text-sm">
               <div className="border-b border-terrain/20 pb-3">
                 <p className="font-semibold text-carbon">
-                  What is the relationship between Xweet and Indivio?
+                  Why make so many tools free?
                 </p>
                 <p className="text-carbon/80 font-light mt-1">
-                  Xweet (`xweet.in`) is the parent root ecosystem—similar to Eternal for Zomato—while Indivio (`indivio.xweet.in`) is our dedicated hyperlocal food delivery app.
+                  Everyday utilities — removing a background, editing PDFs, setting a wallpaper, or playing a quick puzzle — shouldn&apos;t need subscriptions or ad trackers. Running web tools locally in your browser also keeps hosting lightweight.
                 </p>
               </div>
               <div className="border-b border-terrain/20 pb-3">
@@ -278,15 +294,23 @@ export default function AboutPage() {
                   <Link href="/apps" className="underline font-medium text-carbon">
                     Apps Directory
                   </Link>{" "}
-                  fetches their latest release APK/ZIP downloads automatically.
+                  links directly to their latest release downloads.
                 </p>
               </div>
               <div>
                 <p className="font-semibold text-carbon">
-                  Are Xweet tools free and privacy-first?
+                  How can I reach you for feedback or work?
                 </p>
                 <p className="text-carbon/80 font-light mt-1">
-                  Yes. Web tools like `bg.xweet.in` and `infyn.software` run 100% locally in your browser with zero server uploads, and our mobile apps contain zero ad trackers.
+                  Email me directly at{" "}
+                  <a href="mailto:vikky@xweet.in" className="underline font-medium text-carbon">
+                    vikky@xweet.in
+                  </a>{" "}
+                  or use the{" "}
+                  <Link href="/contact" className="underline font-medium text-carbon">
+                    contact page
+                  </Link>
+                  .
                 </p>
               </div>
             </div>

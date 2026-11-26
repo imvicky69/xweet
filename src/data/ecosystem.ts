@@ -33,9 +33,9 @@ export interface EcosystemApp {
 export const COMMUNITY_LINKS = {
   github: "https://github.com/imvicky69",
   instagram: "https://instagram.com/xweet_69",
-  email: "mailto:hello@xweet.in",
+  email: "mailto:vikky@xweet.in",
   playTestingEmail:
-    "mailto:hello@xweet.in?subject=Join%20Xweet%20Play%20Store%20Closed%20Testing&body=Hi%20Vikky%2C%20please%20add%20my%20Google%20Play%20email%20to%20the%20Xweet%20Closed%20Testing%20track%3A%20",
+    "mailto:vikky@xweet.in?subject=Join%20Xweet%20Play%20Store%20Closed%20Testing&body=Hi%20Vikky%2C%20please%20add%20my%20Google%20Play%20email%20to%20the%20Xweet%20Closed%20Testing%20track%3A%20",
 };
 
 export const ECOSYSTEM_APPS: EcosystemApp[] = [
@@ -210,7 +210,7 @@ export const ECOSYSTEM_APPS: EcosystemApp[] = [
     iconPath: "/apps/indivio.png",
     tagline: "Hyperlocal food delivery app for Tier-2 & Tier-3 Bharat — Android coming soon.",
     description:
-      "What originally began as Indivio Studio in 2025 has grown into a dedicated food delivery platform under the Xweet parent ecosystem. Built for hometowns with 0% menu markup, fair restaurant terms, and live GPS rider tracking.",
+      "A hyperlocal food delivery platform under Xweet, built for hometowns with 0% menu markup, fair restaurant terms, and live GPS rider tracking.",
     status: "Coming Soon",
     platforms: ["Web (indivio.xweet.in)", "Android (Coming Soon)"],
     highlights: [

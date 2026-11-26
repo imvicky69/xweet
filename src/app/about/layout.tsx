@@ -1,31 +1,31 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Vikky Raja & Xweet — From Indivio Studio to Complete Ecosystem",
+  title: "About Vikky Raja — Xweet",
   description:
-    "Meet Vikky Raja, founder of Xweet and Indivio. Learn how Indivio Studio evolved into Xweet — the parent ecosystem housing bg.xweet.in, Xweet Wallpapers, Xweet Games, Infyn, Smiley PDF, and Indivio food delivery.",
+    "Meet Vikky Raja, builder of Xweet. Free web utilities, ad-free Android apps, personalization tools, and games built for daily productivity and work.",
   keywords: [
     "Vikky Raja",
-    "Xweet founder",
-    "Indivio Studio",
-    "Xweet ecosystem",
-    "Indivio food delivery",
+    "Xweet",
+    "free web tools",
     "bg.xweet.in",
     "Infyn software",
     "Infyn DL",
     "Smiley PDF",
+    "Xweet Wallpapers",
+    "Indivio",
     "Nirmali Bihar developer",
   ],
   alternates: {
     canonical: "https://xweet.in/about",
   },
   openGraph: {
-    title: "About Vikky Raja & Xweet — Independent Software Ecosystem",
+    title: "About Vikky Raja — Xweet",
     description:
-      "How Indivio Studio grew into Xweet (parent ecosystem) and Indivio (hyperlocal food delivery). Explore the story, timeline, and 8 ecosystem apps.",
+      "Shipping free apps for daily productivity, work, and personalization under xweet.in.",
     url: "https://xweet.in/about",
     siteName: "Xweet",
-    images: [{ url: "/vikky.jpg", width: 800, height: 1000, alt: "Vikky Raja — Founder of Xweet" }],
+    images: [{ url: "/vikky.jpg", width: 800, height: 1000, alt: "Vikky Raja — Xweet" }],
     type: "profile",
   },
 };
@@ -35,7 +35,8 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Vikky Raja",
-    jobTitle: "Founder & Lead Software Architect",
+    email: "mailto:vikky@xweet.in",
+    jobTitle: "Independent Software Developer",
     url: "https://xweet.in/about",
     image: "https://xweet.in/vikky.jpg",
     homeLocation: {
@@ -51,7 +52,6 @@ const jsonLd = [
       "https://github.com/imvicky69",
       "https://instagram.com/xweet_69",
       "https://xweet.in",
-      "https://indivio.xweet.in",
     ],
   },
   {
@@ -65,14 +65,7 @@ const jsonLd = [
       name: "Vikky Raja",
     },
     description:
-      "Root ecosystem for privacy-first web utilities, open-source Android apps, games, and Indivio hyperlocal food delivery.",
-    subOrganization: [
-      { "@type": "Organization", name: "xweet bg", url: "https://bg.xweet.in" },
-      { "@type": "Organization", name: "Xweet Wallpapers", url: "https://wallpaper.xweet.in" },
-      { "@type": "Organization", name: "Infyn", url: "https://infyn.software" },
-      { "@type": "Organization", name: "Smiley PDF", url: "https://smiley.xweet.in" },
-      { "@type": "Organization", name: "Indivio", url: "https://indivio.xweet.in" },
-    ],
+      "Free, privacy-first web utilities, ad-free Android apps, personalization tools, and games.",
   },
   {
     "@context": "https://schema.org",
@@ -80,18 +73,10 @@ const jsonLd = [
     mainEntity: [
       {
         "@type": "Question",
-        name: "Who founded Xweet and Indivio?",
+        name: "Who builds Xweet?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Both Xweet and Indivio were founded by Vikky Raja. What began in early 2025 as Indivio Studio evolved into two complementary pillars: Xweet as the root software ecosystem, and Indivio as a dedicated hyperlocal food delivery platform.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How are Xweet and Indivio related?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Xweet (xweet.in) acts as the parent ecosystem—similar to how Eternal serves as the parent brand for Zomato—housing xweet bg, Xweet Wallpapers, Xweet Games, Infyn, Smiley PDF, and Indivio.",
+          text: "Xweet is built by Vikky Raja in Nirmali, Bihar — focusing on free, fast web utilities, ad-free Android apps, and personalization tools for daily work.",
         },
       },
       {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import StudioNavbar from "@/components/StudioNavbar";
@@ -35,6 +35,10 @@ function matchAppFromQuery(raw: string | null): string {
   return TESTABLE_APPS[0]?.id ?? "wallpapers";
 }
 
+const JOIN_AS_TESTER_ENDPOINT =
+  process.env.NEXT_PUBLIC_JOIN_AS_TESTER_URL ||
+  "https://api.xweet.in/join-as-tester";
+
 export default function JoinAsTesterPage() {
   const [selectedAppId, setSelectedAppId] = useState<string>(
     TESTABLE_APPS[0]?.id ?? "wallpapers"
@@ -42,9 +46,15 @@ export default function JoinAsTesterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [device, setDevice] = useState("");
+  const [website, setWebsite] = useState("");
+  const formLoadedAtRef = useRef<number>(0);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [alreadyRegistered, setAlreadyRegistered] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
+    formLoadedAtRef.current = Date.now();
     const params = new URLSearchParams(window.location.search);
     const qApp = params.get("appName") ?? params.get("app");
     if (qApp) {
@@ -56,9 +66,44 @@ export default function JoinAsTesterPage() {
   const selectedApp =
     TESTABLE_APPS.find((a) => a.id === selectedAppId) ?? TESTABLE_APPS[0];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (submitting) return;
+
+    setSubmitting(true);
+    setErrorMsg(null);
+
+    try {
+      const res = await fetch(JOIN_AS_TESTER_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          appId: selectedAppId,
+          name,
+          email,
+          device,
+          website,
+          _formLoadedAt: formLoadedAtRef.current,
+        }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.ok) {
+        setErrorMsg(
+          data?.error || "Could not submit your request. Please try again."
+        );
+        return;
+      }
+
+      setAlreadyRegistered(Boolean(data?.alreadyRegistered));
+      setSubmitted(true);
+    } catch {
+      setErrorMsg(
+        "Network error while submitting. Please check your connection and try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const mailtoHref = `mailto:hello@xweet.in?subject=${encodeURIComponent(
@@ -97,7 +142,9 @@ export default function JoinAsTesterPage() {
               </div>
               <div className="space-y-1">
                 <h2 className="text-xl sm:text-2xl font-space font-medium text-carbon">
-                  You&apos;re on the list for {selectedApp?.name}
+                  {alreadyRegistered
+                    ? `You're already on the list for ${selectedApp?.name}`
+                    : `You're on the list for ${selectedApp?.name}`}
                 </h2>
                 <p className="text-xs sm:text-sm text-terrain max-w-md mx-auto">
                   Thanks <strong>{name}</strong>. We&apos;ll add <strong>{email}</strong> to the{" "}
@@ -115,7 +162,12 @@ export default function JoinAsTesterPage() {
                 </a>
                 <button
                   type="button"
-                  onClick={() => setSubmitted(false)}
+                  onClick={() => {
+                    setSubmitted(false);
+                    setAlreadyRegistered(false);
+                    setErrorMsg(null);
+                    formLoadedAtRef.current = Date.now();
+                  }}
                   className="inline-flex items-center gap-1.5 rounded-full border border-terrain/35 bg-paper text-carbon font-mono text-xs px-4 py-2.5 hover:border-carbon cursor-pointer"
                 >
                   Test Another App
@@ -221,6 +273,27 @@ export default function JoinAsTesterPage() {
                 </div>
               </label>
 
+              {/* Honeypot field for spam bots */}
+              <div className="hidden" aria-hidden="true">
+                <label>
+                  Website
+                  <input
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                  />
+                </label>
+              </div>
+
+              {errorMsg && (
+                <div className="rounded-xl border border-red-300 bg-red-50 px-4 py-2.5 text-xs text-red-700">
+                  {errorMsg}
+                </div>
+              )}
+
               {/* Footer Row */}
               <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-terrain/15">
                 <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-terrain">
@@ -237,9 +310,10 @@ export default function JoinAsTesterPage() {
                   </Link>
                   <button
                     type="submit"
-                    className="cursor-pointer rounded-full bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs sm:text-sm px-6 py-2.5 border border-carbon/15 inline-flex items-center gap-2 transition-colors"
+                    disabled={submitting}
+                    className="cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed rounded-full bg-signal-lime hover:bg-[#cbf056] text-carbon font-semibold text-xs sm:text-sm px-6 py-2.5 border border-carbon/15 inline-flex items-center gap-2 transition-colors"
                   >
-                    <span>Request Tester Access</span>
+                    <span>{submitting ? "Submitting..." : "Request Tester Access"}</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>

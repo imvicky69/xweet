@@ -61,11 +61,11 @@ export default function ContactPage() {
             </p>
           </div>
           <a
-            href="mailto:hello@xweet.in"
+            href="mailto:vikky@xweet.in"
             className="inline-flex items-center gap-1.5 rounded-full border border-terrain/35 bg-white/70 px-4 py-2 text-xs font-mono text-carbon hover:border-carbon transition-colors self-start sm:self-auto"
           >
             <Mail className="w-3.5 h-3.5" />
-            <span>hello@xweet.in</span>
+            <span>vikky@xweet.in</span>
           </a>
         </div>
 

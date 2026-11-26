@@ -86,6 +86,27 @@ export function getRandomTargetWord(
   return candidatePool[index];
 }
 
+/**
+ * Returns today's UTC date key (YYYY-MM-DD) so everyone worldwide gets the same Daily Word.
+ */
+export function getTodayDateKey(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+/**
+ * Deterministic Daily Word selector shared between Web (xweet.in) and Flutter (xweet_games).
+ * Uses the top 1,500 words from words.json and a 32-bit polynomial hash of UTC YYYY-MM-DD.
+ */
+export function getDailyTargetWord(dateKey: string = getTodayDateKey()): string {
+  const pool = RAW_WORDS.slice(0, Math.min(1500, RAW_WORDS.length));
+  if (pool.length === 0) return "PLANT";
+  let hash = 5381;
+  for (let i = 0; i < dateKey.length; i++) {
+    hash = ((hash * 33) + dateKey.charCodeAt(i)) >>> 0;
+  }
+  return pool[hash % pool.length];
+}
+
 const RECENT_WORDS_STORAGE_KEY = "wordle_recent_words";
 const DIFFICULTY_STORAGE_KEY = "wordle_difficulty_preference";
 const MAX_RECENT_HISTORY = 50;

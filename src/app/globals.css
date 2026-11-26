@@ -35,13 +35,13 @@
   --font-playwrite: "Playwrite DE Grund", cursive;
 }
 
-@theme {
-  /* Brand Palette Color Tokens */
-  --color-carbon: #171815;
-  --color-paper: #f0efe6;
-  --color-signal-lime: #d7f36a;
-  --color-terrain: #858779;
-  --color-mist: #b7a7d9;
+@theme inline {
+  /* Brand Palette Color Tokens (bound to CSS vars for Light + Dark mode) */
+  --color-carbon: var(--carbon);
+  --color-paper: var(--paper);
+  --color-signal-lime: var(--signal-lime);
+  --color-terrain: var(--terrain);
+  --color-mist: var(--mist);
 
   /* Semantic Theme Colors */
   --color-background: var(--background);
@@ -100,6 +100,38 @@ html.dark .bg-carbon {
   background-color: #1c1e1a !important;
   color: #f0efe6 !important;
   border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+html.dark .bg-carbon.text-paper,
+html.dark .bg-carbon .text-paper {
+  color: #f0efe6 !important;
+}
+
+html.dark .bg-carbon.text-signal-lime,
+html.dark .bg-carbon .text-signal-lime {
+  color: #d7f36a !important;
+}
+
+html.dark .hover\:bg-white:hover {
+  background-color: #242621 !important;
+}
+
+html.dark .bg-amber-100\/80 {
+  background-color: rgba(180, 120, 20, 0.22) !important;
+  border-color: rgba(252, 211, 77, 0.35) !important;
+}
+
+html.dark .text-amber-900 {
+  color: #fcd34d !important;
+}
+
+html.dark .bg-emerald-100\/80 {
+  background-color: rgba(16, 185, 129, 0.2) !important;
+  border-color: rgba(110, 231, 183, 0.35) !important;
+}
+
+html.dark .text-emerald-900 {
+  color: #6ee7b7 !important;
 }
 
 html.dark .bg-signal-lime,
